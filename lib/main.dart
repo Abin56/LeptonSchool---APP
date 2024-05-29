@@ -157,23 +157,6 @@ class MyApp extends StatelessWidget {
                 translations: GetxLanguage(),
                 locale: Locale(languageCode, countryCode),
                 debugShowCheckedModeBanner: false,
-                //     home:        Scaffold(
-                //                 body: Center(
-                //                   child:
-                //                   Container(
-                //                     color: Colors.amber,
-                // width: 200.0,
-                // height: 200.0,
-                // child: Shimmer.fromColors(
-                //   baseColor: Colors.grey.withOpacity(0.3),
-                //   highlightColor: Colors.grey.withOpacity(0.1),
-                //   child: Container(
-                //     color: Colors.white,
-                //   ),
-                // ),)
-
-                //                 ),
-                //               ),
                 home: BlocBuilder<AuthCubit, AuthState>(
                   buildWhen: (oldState, newState) {
                     return oldState is AuthInitialState;

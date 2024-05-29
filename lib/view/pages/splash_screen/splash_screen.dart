@@ -16,6 +16,7 @@ import 'package:lepton_school/model/parent_model/parent_model.dart';
 import 'package:lepton_school/model/student_model/student_model.dart';
 import 'package:lepton_school/model/teacher_model/teacher_model.dart';
 import 'package:lepton_school/utils/utils.dart';
+
 import 'package:lepton_school/view/home/class_teacher_HOme/class_teacher_mainhome.dart';
 import 'package:lepton_school/view/home/parent_home/parent_main_home_screen.dart';
 import 'package:lepton_school/view/home/student_home/students_main_home.dart';
@@ -50,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-
+  
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -71,7 +72,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     width: 220.w,
                     decoration: const BoxDecoration(
                         image: DecorationImage(
-                      image: AssetImage(officialLogo,
+                      image: AssetImage(
+                        officialLogo,
                       ),
                     )),
                   ),
@@ -144,7 +146,7 @@ nextpage(context) async {
       SharedPreferencesHelper.getString(SharedPreferencesHelper.classIdKey);
   UserCredentialsController.userRole =
       SharedPreferencesHelper.getString(SharedPreferencesHelper.userRoleKey);
-        UserCredentialsController.currentUSerID =
+  UserCredentialsController.currentUSerID =
       SharedPreferencesHelper.getString(SharedPreferencesHelper.currenUserKey);
 
   await Future.delayed(const Duration(seconds: 6));
