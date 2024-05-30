@@ -10,9 +10,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lepton_school/controllers/form_controller/form_controller.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
+import 'package:lepton_school/sruthi/Study%20Materials/study_materials_list.dart';
+import 'package:lepton_school/utils/utils.dart';
 import 'package:lepton_school/view/constant/sizes/constant.dart';
 import 'package:lepton_school/view/constant/sizes/sizes.dart';
-import 'package:lepton_school/view/pages/Subject/show_teacher_studymaterials.dart';
 import 'package:lepton_school/view/widgets/fonts/google_monstre.dart';
 import 'package:lepton_school/widgets/textformfield.dart';
 import 'package:uuid/uuid.dart';
@@ -29,12 +30,11 @@ class UploadStudyMaterial extends StatefulWidget {
       required this.chapterID,
       required this.chapterName});
 
- final String subjectID;
- final String subjectName;
- final String chapterName;
- final String chapterID;
+  final String subjectID;
+  final String subjectName;
+  final String chapterName;
+  final String chapterID;
   bool stat = false;
-
 
   @override
   State<UploadStudyMaterial> createState() => _UploadStudyMaterialState();
@@ -135,7 +135,8 @@ class _UploadStudyMaterialState extends State<UploadStudyMaterial> {
     }
   }
 
-  final UploadStudyMaterialsFormController uploadStudyMaterialsFormController = Get.put(UploadStudyMaterialsFormController());
+  final UploadStudyMaterialsFormController uploadStudyMaterialsFormController =
+      Get.put(UploadStudyMaterialsFormController());
   //final _formKey = GlobalKey<FormState>();
 
   @override
@@ -194,7 +195,7 @@ class _UploadStudyMaterialState extends State<UploadStudyMaterial> {
                               filee = file;
                             });
                           } else {
-                            print('No file selected');
+                            log('No file selected');
                           }
                         },
                         child: Container(
@@ -215,7 +216,7 @@ class _UploadStudyMaterialState extends State<UploadStudyMaterial> {
                                 text: (filee == null)
                                     ? 'Upload file here'
                                     : filee!.path.split('/').last,
-                                fontsize: 22,
+                                fontsize: 15,
                                 color: cblue,
                                 fontWeight: FontWeight.bold,
                                 overflow: TextOverflow.ellipsis,
@@ -246,13 +247,19 @@ class _UploadStudyMaterialState extends State<UploadStudyMaterial> {
                             )
                           : GestureDetector(
                               onTap: () async {
-                                if (uploadStudyMaterialsFormController.formKey.currentState!.validate()) {
-                                  await pickAFile(filee);
-                                  await uploadToFirebase().then((value) {
-                                    topicController.clear();
-                                    titleController.clear();
-                                    filee = null;
-                                  });
+                                if (uploadStudyMaterialsFormController
+                                    .formKey.currentState!
+                                    .validate()) {
+                                  if (filee != null) {
+                                    await pickAFile(filee);
+                                    await uploadToFirebase().then((value) {
+                                      topicController.clear();
+                                      titleController.clear();
+                                      filee = null;
+                                    });
+                                  } else {
+                                    showToast(msg: "Select a pdf");
+                                  }
                                 }
 
                                 //check here

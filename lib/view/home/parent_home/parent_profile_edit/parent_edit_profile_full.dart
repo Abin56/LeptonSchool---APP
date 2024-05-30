@@ -1,6 +1,7 @@
 import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lepton_school/view/constant/sizes/constant.dart';
 import 'package:lepton_school/view/home/parent_home/parent_profile_edit/widgets/edit_list_tile_widget.dart';
 import 'package:lepton_school/view/home/parent_home/parent_profile_edit/widgets/parent_email_update_widget.dart';
 
@@ -104,6 +105,7 @@ class ParentEditProfileScreenFull extends StatelessWidget {
                           documentKey: "parentPhoneNumber",
                           textInputType: TextInputType.phone,
                           hint: 'Phone Number',
+                          validator: checkFieldPhoneNumberIsValid,
                         );
                       },
                       icon: const Icon(
@@ -340,15 +342,20 @@ class ParentEditProfileScreenFull extends StatelessWidget {
     required String documentKey,
     required String hint,
     required TextInputType textInputType,
+    String? Function(String?)? validator,
   }) {
     return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => updateTextFormField(
+        validator: validator,
         context: context,
         hintText: hint,
         textEditingController: textEditingController,
         voidCallback: () async {
-          if (textEditingController.text.isNotEmpty) {
+          if (textEditingController.text.isNotEmpty &&
+              (validator == null ||
+                  validator(textEditingController.text) == null)) {
             await parentProfileEditController.updateParentProfile(
               context,
               value: textEditingController.text,

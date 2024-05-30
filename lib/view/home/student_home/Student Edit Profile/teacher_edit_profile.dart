@@ -133,6 +133,7 @@ class TeacherEditProfileScreen extends StatelessWidget {
                                 textEditingController:
                                     teacherProfileEditController
                                         .textEditingController,
+                                validator: checkFieldPhoneNumberIsValid,
                                 documentKey: "teacherPhNo",
                                 textInputType: TextInputType.text,
                                 hint: 'Phone No.',
@@ -191,7 +192,7 @@ class TeacherEditProfileScreen extends StatelessWidget {
                         }
                       }),
                   TeacherEditListileWidget(
-                    icon: Icons.home,
+                    icon: Icons.person,
                     subtitle: Row(
                       children: [
                         GooglePoppinsWidgets(
@@ -266,7 +267,7 @@ class TeacherEditProfileScreen extends StatelessWidget {
                     ),
                   ),
                   TeacherEditListileWidget(
-                    icon: Icons.home,
+                    icon: Icons.place,
                     subtitle: Row(
                       children: [
                         GooglePoppinsWidgets(
@@ -369,15 +370,19 @@ class TeacherEditProfileScreen extends StatelessWidget {
     required String documentKey,
     required String hint,
     required TextInputType textInputType,
+    String? Function(String?)? validator,
   }) {
     return showDialog(
       context: context,
       builder: (context) => updateTextFormField(
+        validator: validator,
         context: context,
         hintText: hint,
         textEditingController: textEditingController,
         voidCallback: () async {
-          if (textEditingController.text.isNotEmpty) {
+          if (textEditingController.text.isNotEmpty &&
+              (validator == null ||
+                  validator(textEditingController.text) == null)) {
             await teacherProfileEditController.updateTeacherProfile(
               context,
               value: textEditingController.text,
@@ -423,8 +428,11 @@ class TeacherEditListileWidgetEmail extends StatelessWidget {
         onTap: () {
           showDialog(
             context: context,
+            barrierDismissible: false,
             builder: (BuildContext context) {
               return AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0)),
                 title: Text("Do you want to change Email ID ?".tr),
                 actions: [
                   TextButton(
@@ -437,7 +445,6 @@ class TeacherEditListileWidgetEmail extends StatelessWidget {
                     child: Text("Ok".tr),
                     onPressed: () {
                       Navigator.pop(context);
-
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -448,6 +455,8 @@ class TeacherEditListileWidgetEmail extends StatelessWidget {
                           return Form(
                             key: teacherProfileEditController.formKey,
                             child: AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0)),
                               title: Text("Update Mail".tr),
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,

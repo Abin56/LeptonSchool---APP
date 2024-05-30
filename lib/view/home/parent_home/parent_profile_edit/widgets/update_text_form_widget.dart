@@ -6,9 +6,12 @@ Widget updateTextFormField({
   required TextEditingController textEditingController,
   required VoidCallback voidCallback,
   required TextInputType textInputType,
+  String? Function(String?)? validator,
 }) {
   return AlertDialog(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
     title: TextFormField(
+      validator: validator,
       keyboardType: textInputType,
       controller: textEditingController,
       decoration: InputDecoration(
