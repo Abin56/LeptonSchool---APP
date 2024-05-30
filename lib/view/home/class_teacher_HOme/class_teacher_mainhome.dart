@@ -189,7 +189,7 @@ viewallMenus() {
 
     const StudentSubjectHome(), //Subject
 
-    const SchoolLevelMeetingPage(), //Meetings
+      SchoolLevelMeetingPage(), //Meetings
 
     const AddTimeTable(), //Exam
 

@@ -241,7 +241,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
               ),
             ),
             StudentEditListileWidget(
-              icon: Icons.home,
+              icon: Icons.place,
               subtitle: Row(
                 children: [
                   GooglePoppinsWidgets(
@@ -268,7 +268,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
               ),
             ),
             StudentEditListileWidget(
-              icon: Icons.home,
+              icon: Icons.person,
               subtitle: Row(
                 children: [
                   GooglePoppinsWidgets(
@@ -295,7 +295,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
               ),
             ),
             StudentEditListileWidget(
-              icon: Icons.home,
+              icon: Icons.calendar_month,
               subtitle: Row(
                 children: [
                   GooglePoppinsWidgets(
@@ -329,7 +329,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
               ),
             ),
             StudentEditListileWidget(
-              icon: Icons.home,
+              icon: Icons.place,
               subtitle: Row(
                 children: [
                   GooglePoppinsWidgets(
@@ -356,7 +356,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
               ),
             ),
             StudentEditListileWidget(
-              icon: Icons.home,
+              icon: Icons.phone,
               subtitle: Row(
                 children: [
                   GooglePoppinsWidgets(

@@ -2,6 +2,7 @@ import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lepton_school/controllers/student_controller/student_meeting_controller.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/view/colors/colors.dart';
 import 'package:lepton_school/view/pages/Meetings/meetings_school_display.dart';
@@ -11,9 +12,9 @@ import '../../../constant/sizes/sizes.dart';
 import '../../../widgets/fonts/google_poppins.dart';
 
 class SchoolLevelMeetingPage extends StatelessWidget {
-  const SchoolLevelMeetingPage({super.key});
-  // final StudentMeetingController studentMeetingController =
-  //     Get.put(StudentMeetingController());
+    SchoolLevelMeetingPage({super.key});
+   final StudentMeetingController studentMeetingController =
+       Get.put(StudentMeetingController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,11 @@ class SchoolLevelMeetingPage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: StreamBuilder(
+            child:studentMeetingController.meetingLists.isEmpty
+            ? const Center(
+                child: Text("Data Not Found"),
+              )
+            : StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('SchoolListCollection')
                     .doc(UserCredentialsController.schoolId!)

@@ -55,7 +55,7 @@ class ClickOnClasss extends StatelessWidget {
           //backgroundColor: adminePrimayColor,
           title: Text("Notices".tr),
         ),
-        body: const SchoolLevelNoticePage(),
+        body:   SchoolLevelNoticePage(),
       ),
 
       // Notice
@@ -66,10 +66,10 @@ class ClickOnClasss extends StatelessWidget {
           backgroundColor: adminePrimayColor,
           title: Text("Events".tr),
         ),
-        body: const SchoolLevelPage(),
+        body:   SchoolLevelPage(),
       ),
       // Events
-      const SchoolLevelMeetingPage(), // Meetings
+        SchoolLevelMeetingPage(), // Meetings
 
       ClassTestPage(),
 
@@ -112,7 +112,7 @@ class ClickOnClasss extends StatelessWidget {
           backgroundColor: adminePrimayColor,
           title: const Text("Notices"),
         ),
-        body: const SchoolLevelNoticePage(),
+        body:   SchoolLevelNoticePage(),
       ),
       // Notice
 
@@ -121,7 +121,7 @@ class ClickOnClasss extends StatelessWidget {
           backgroundColor: adminePrimayColor,
           title: const Text("Events"),
         ),
-        body: const SchoolLevelPage(),
+        body:   SchoolLevelPage(),
       ),
       // Events
       // ViewExamsForProgressreport(
@@ -130,7 +130,7 @@ class ClickOnClasss extends StatelessWidget {
       //     schooilID:
       //         UserCredentialsController.schoolId!), //Progress Report view
       TeacherSubjectHome(), // Subjects
-      const SchoolLevelMeetingPage(),
+        SchoolLevelMeetingPage(),
       // Meetings
       RecordedClassMainPage(), // recorded class
 
