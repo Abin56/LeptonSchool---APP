@@ -309,7 +309,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                           border: Border.all(color: Colors.black),
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: TextFormField(
+                        child: TextFormField( 
                           controller: _leaveReasonController,
                           minLines: 1,
                           maxLines: 10,

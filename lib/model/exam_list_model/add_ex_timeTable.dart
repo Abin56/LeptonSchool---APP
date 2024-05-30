@@ -24,8 +24,11 @@ class AddExamTimeTableModel {
   AddExamTimeTableModel copyWith({
     String? docid,
     String? subject,
+    // ignore: unnecessary_question_mark
     dynamic? startingtime,
+    // ignore: unnecessary_question_mark
     dynamic? endingtime,
+    // ignore: unnecessary_question_mark
     dynamic? hours,
     String? examDate,
     String? createDate,
