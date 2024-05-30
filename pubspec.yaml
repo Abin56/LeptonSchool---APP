@@ -123,6 +123,7 @@ flutter:
     - assets/icons/
     - assets/flaticons/
     - assets/excel_karror/
+    - assets/Lepton_school/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
