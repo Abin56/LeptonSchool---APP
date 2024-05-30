@@ -4,6 +4,7 @@ const String nameOfInstitution = "LEPTON SCHOOLS";
 const String nameInSmall = "Schools";
 const String nameInCapital = "LEPTON SCHOOLS";
 const String companyName ="LEPTON ";
+const String companyNameSecond ='SCHOOLS';
 const String companyNameSmall = "Lepton";
 const String chat ='Lepton Schools Chat';
 const String live ='Lepton Schools Live';
