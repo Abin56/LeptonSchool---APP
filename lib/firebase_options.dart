@@ -53,10 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBlYVcGv1AfxVnYN7XkdCoJQE5aNVBzV74',
-    appId: '1:223500738355:android:cd7ef65edc67348ebc6846',
-    messagingSenderId: '223500738355',
-    projectId: 'lepton-school',
-    storageBucket: 'lepton-school.appspot.com',
+    apiKey: 'AIzaSyCNm7KuQcHr2J9gUHpzBa7aJk2xt7zT8DQ',
+    appId: '1:341868646352:android:4434998ca178936c9a33d5',
+    messagingSenderId: '341868646352',
+    projectId: 'vidya-veechi-8-feb-2024',
+    databaseURL: 'https://vidya-veechi-8-feb-2024-default-rtdb.firebaseio.com',
+    storageBucket: 'vidya-veechi-8-feb-2024.appspot.com',
   );
 }

@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "223500738355",
-    "project_id": "lepton-school",
-    "storage_bucket": "lepton-school.appspot.com"
+    "project_number": "341868646352",
+    "firebase_url": "https://vidya-veechi-8-feb-2024-default-rtdb.firebaseio.com",
+    "project_id": "vidya-veechi-8-feb-2024",
+    "storage_bucket": "vidya-veechi-8-feb-2024.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:223500738355:android:cd7ef65edc67348ebc6846",
+        "mobilesdk_app_id": "1:341868646352:android:4434998ca178936c9a33d5",
         "android_client_info": {
           "package_name": "com.leptonschool.com"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBlYVcGv1AfxVnYN7XkdCoJQE5aNVBzV74"
+          "current_key": "AIzaSyCNm7KuQcHr2J9gUHpzBa7aJk2xt7zT8DQ"
         }
       ],
       "services": {

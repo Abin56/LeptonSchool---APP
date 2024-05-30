@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -98,68 +97,64 @@ class AttendanceController extends GetxController {
     }
   }
 
-Future<void> sendPushMessage(String token, String body, String title) async {
-  AccessTokenFirebase accessTokenGetter = AccessTokenFirebase();
-  String keyvalue = await accessTokenGetter.getAccessToken();
+  Future<void> sendPushMessage(String token, String body, String title) async {
+    AccessTokenFirebase accessTokenGetter = AccessTokenFirebase();
+    String apikey = await accessTokenGetter.getAccessToken();
+    log(apikey);
+   
 
-  final Uri url = Uri.parse(
-      'https://fcm.googleapis.com/v1/projects/pushnotification-23-may/messages:send');
+    final Uri url = Uri.parse(
+        'https://fcm.googleapis.com/v1/projects/pushnotification-23-may/messages:send');
 
-  final Map<String, dynamic> message = {
-    'message': {
-      'token': token,
-      'notification': {
-        'title': title,
-        'body': body,
-      },
-      'android': {
+    final Map<String, dynamic> message = {
+      'message': {
+        'token': token,
         'notification': {
           'title': title,
           'body': body,
-          'click_action': 'TOP_STORY_ACTIVITY'
         },
-        'data': {'story_id': 'story_12345'}
-      },
-      'apns': {
-        'payload': {
-          'aps': {'category': 'NEW_MESSAGE_CATEGORY'}
+        'android': {
+          'notification': {
+            'title': 'Breaking News',
+            'body': 'Check out the Top Story.',
+            'click_action': 'TOP_STORY_ACTIVITY'
+          },
+          'data': {'story_id': 'story_12345'}
+        },
+        'apns': {
+          'payload': {
+            'aps': {'category': 'NEW_MESSAGE_CATEGORY'}
+          },
+        },
+        'data': {
+          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+          'status': 'done',
+          'body': body,
+          'title': title,
         },
       },
-      'data': {
-        'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-        'status': 'done',
-        'body': body,
-        'title': title,
-      },
-    },
-  };
+    };
 
-  try {
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $keyvalue',
-      },
-      body: jsonEncode(message),
-    );
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $apikey',
+        },
+        body: jsonEncode(message),
+      );
 
-    if (response.statusCode == 200) {
-      if (kDebugMode) {
+      if (response.statusCode == 200) {
         print('Notification sent successfully!');
-      }
-    } else {
-      if (kDebugMode) {
+      } else {
         print('Failed to send notification: ${response.statusCode}');
         print('Response body: ${response.body}');
       }
-    }
-  } catch (e) {
-    if (kDebugMode) {
+    } catch (e) {
       print('Exception caught sending notification: $e');
     }
   }
-}
 
   Future<void> getNotificationTimer() async {
     var vari = await FirebaseFirestore.instance

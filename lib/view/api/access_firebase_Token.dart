@@ -24,21 +24,23 @@ class AccessTokenFirebase {
   Future<String> getAccessToken() async {
     final client = await clientViaServiceAccount(
         ServiceAccountCredentials.fromJson({
-          "type": "service_account",
-          "project_id": "lepton-school",
-          "private_key_id": "a1e168051564303d6997b68edef11e2fab1db0f1",
-          "private_key":
-              "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCwi66nt4HzHHHl\n8skyovVxOprAxMKyYBU2iKrv50mqFapG5YfZjLyxp08xHMjiE3Ndk8ywC2ikdzNw\nGoiWhiKWhVpSB8ab/LcoeM4NpT//uwB1GoyX58X1yeQd02OgO6x+AuvjZE96fhMz\n/RfOGmKWjn5+8A87861q/Lcfrz5hlYKGncIt6tQLkOdlKxhdAEkoa676NhMsqSVb\nCFvDO3sUuG16lRofPVq6r9tVjjBfeTxKsiyUWLyAbqlmkKzMe8g8SOMPUf/M6KZ/\nNu4SF2uuIHrf3/aPrZDUYodZchfNE+5qZvKuriGqutnieJJN8oTpnoE5MlZ2pNpa\n9W85bfNJAgMBAAECggEAFDlUHyNe8A4UoB5hXPsc+cUYYDfKA+wM0gvy5PuOTT0h\nHfECUHIWVZWQdVRSUM+gmhopywrriFedXVy0w+WGxc5t69K3NjxLcQfxts901uNB\nqKiLbYVgAImJp78E/SCI4ICOLCTcE/CoW37FQNd17sBRDlKKtDf0aDqd8bO+BiiN\nKkL9/oEsrsLKdlTMugqoaDS8ElHNQqLb8f7c+19Q09pmvhkbYl4wYv7QZualfuzT\nqMUe8or/S2kfjNqdRsD2AVl6QYHPDpWGDmEMRYl4cGrMNdZ79xrrcHfES4vNLi42\nrG6NYHVFGhjpW/GVrshCTjmVnrFBTNjJuwz4H7FmRwKBgQDa+EluHKHtv0xvTVpG\nTBzUxkHKRcsgASucjJ/PVwZGujsbhPGa50IeVnaVGH83w83tim6lMvXgax9FIlgL\n4Z8mVP8us9FEBBeFhy/kz1Bq3I4KMl2nYEgnNPHpLmB7fYv6HXTPkspR3RR+8J2o\nuHRNWyXWaEVHFmq+RelCI8kyvwKBgQDOZsB7gN5mvCGCgZUlGl88kVFsBpWN3PkJ\n/wX8RvYY2MBOCcMon+EXFKV1KzS0mD+NGSJGUEDRMRHYCL8cjHeSDcT8mOEYhV2p\n+58UW3T6cieAJ3mwXWq/Yt9ltM8x0cJ5O0H4UGXQIbzyjgxv8IGBLWUDq1X70QY1\nQMGG5XpD9wKBgQCqIqqjVLn4iV+xR2/yGOd554VszafS+TXSkG0HY/2rbL3KVxSG\noFL+UX4XwI3wXUIe5CWuVBc5ROJqDBJPQQIwfXA88FiTuX4xMOXkqbQ5I591isa7\n6xKE7B1eabtrmBPvxX1iXxK2YsmvC/PkCVXMWRrgKepSHrfXmWhxDG8i7wKBgCkT\nBacORDQJqFmCVB3oG5/AA4YN4WEz4lN87sH/lSXorIxbIP1Ko86mCy9AA+MUkUER\nCWMYwW1f6H8nbnDN+1WTa+ogulrY34TeUBALC0JzySyVrn/Md1vS30YsLzdo2Nyr\nUDuMNFaxABr87bixEfSVBg8u35OXSzb5xgmETUqNAoGBANZ6Wp/PIk/XKkS+OGch\nGNJqwJda+POBRzngran4ZnURbgYDgnGtn5++YJUMUkSSlu56Cg9DnoPWjagaLirv\nQpB7S91zubvI9bclu51NYhT1UNr/wmajFyB+WlqA8nVS4lWXqCxA2ufUK1FtbxCX\nM5JrzsMepptXQ3h45/j+7xfg\n-----END PRIVATE KEY-----\n",
-          "client_email":
-              "firebase-adminsdk-uos1f@lepton-school.iam.gserviceaccount.com",
-          "client_id": "117342624530769424733",
-          "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-          "token_uri": "https://oauth2.googleapis.com/token",
-          "auth_provider_x509_cert_url":
-              "https://www.googleapis.com/oauth2/v1/certs",
-          "client_x509_cert_url":
-              "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-uos1f%40lepton-school.iam.gserviceaccount.com",
-          "universe_domain": "googleapis.com"
+          {
+            "type": "service_account",
+            "project_id": "lepton-school",
+            "private_key_id": "4807cedacb38db92a0ed536a4a37d0a11441677d",
+            "private_key":
+                "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDUKvBxZQ2wA6Pd\n1cmjSEnIEXl0FloheQueC0YeRpK+LNhEy5l6IojiaMH6fpcKJH1MkwedYS/d4XzN\nTwaFnH9dEjSZ5eIyTvPyt6oci5HjWkkEAyiQgDpM7uYBUKcFM7EPzQj0JN0es07j\nPpyQsv1YCwTGssOWJhHBkKsCoU+eaIk12vTt43/Q9Nqubpxzf+EkG2xYne8sd0pp\nABW2EE0MntovwIsWAk64WfuOBthTptSIXIah87GTyMLCs7tBbycdbDZ0m6JhEST4\ni9UYvQPyIzJaMzZ6nr191aSJB9UzSe60/IXfUnHTFzsPCI5h1Al7m8qi0u8I/xYj\n7dSESaivAgMBAAECggEAREKQWxs0/SUeqndmySavvjOJDMVIOC62gyGDbKgt/At3\nhSKv/TBxM86aYhoqQ/Qbb/B56bNj8BHk0jUTlxcTjwEVdVIVpTPrnnJiw45P4IKi\nrSzK9zqaBzhxPYkSQ0UvOTMxJ0NY9NChl9EEFDXR9mqNHdRTwtH6snj13AHEGOVY\nlnTPZs9aJPAFxw6ew86+OlsCLIEpi2Z1oibryXfjt5N4ltOg5gh0I7CnUA3uedLj\nQnvNTUo636jrPJeRiCGYEqFp+B8sExtd9ONPuRiOIOhedYKTv7KH2/OP95QHalLj\nzT/J99xv6xyOLPi+SZ1F/nFMrBEmotoSShN2bYusSQKBgQD8dbM3qb8sd0Kxi1Qi\nS/IWAX0gDnK74LUQyZocM5zbBfuKPJB+Q5+tD8ysqGHMnQsMP1z1x3f1Thg5A9oy\nyVgClxAnR98S7zFT6Ti3aiuLo5AfGout4auTYBkmBmGP0VEi+pQa+U5f9W6xIqnf\nIR74aGwNq7mXJpGMlUE6VWnwlQKBgQDXJJh8RzqRrjKVQTWHvEdvHWgnQ7rR0Ygn\nFmnAV+x+BBLmusOn1ZYYs9JYAbAvYBjcghLvEa77ZXdK/i5pYPjGVGRhhd1HYfOe\nTlW+Qhs5CGdZjGY7/pThXAQnP7bhZQDkfqpUidV/kXpWZrgT/Cy/omPStLZbzlyf\nbAzXKz4PMwKBgGtu5vpMCSeyBLarNP13VijZL1ch7t9Wy5a+RA+2QwzNqfJ0vYSN\n4Hh0HcRnz16UgewPVs7cuIayWgqBQiyUlBheEqi0pBBZq6Mqv1EGJEvDKgSidkhj\nnXEU1v7gfkoGaEG7YqVr7FdXiWhl+OYUISrSvRDAQDU7W3r41Q4u5OtVAoGBAMeG\n3RSFSsBI+giKTYbxCp72et3PZreox8jYdIM6B85nINBzbXl+EJIgU3fjOO73BJec\n2sp1b/8e/x/B1HFOyenF4sK/T5UgNrwekk69KFogfRkDqN0DIjhPClsMMCOhdM50\n2qtEmYiR9w+ifB2sxiOEC2giyO0j2arQnqf/JrMZAoGAC07q5Iq+isOnA6PjPa6V\nIDjHSk85csx7ifjJDiy9FwHI62tA+2veEquXXMsxTRDwDYPK4A1uFtmC41B+GXoH\nNkat/tndkXa1gfc3bbVqqlO3MpNx4pdJRpDbabzmY4bViMaFwRgPR40jwwgiRvnX\nloQH+hkqz16GtmNQvIdN0FQ=\n-----END PRIVATE KEY-----\n",
+            "client_email":
+                "firebase-cloud-messaging-api@lepton-school.iam.gserviceaccount.com",
+            "client_id": "100202019203129957017",
+            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+            "token_uri": "https://oauth2.googleapis.com/token",
+            "auth_provider_x509_cert_url":
+                "https://www.googleapis.com/oauth2/v1/certs",
+            "client_x509_cert_url":
+                "https://www.googleapis.com/robot/v1/metadata/x509/firebase-cloud-messaging-api%40lepton-school.iam.gserviceaccount.com",
+            "universe_domain": "googleapis.com"
+          }
         }),
         [firebaseMessagingScope]);
     final String accessToken = client.credentials.accessToken.data;
