@@ -12,7 +12,7 @@ import 'package:lepton_school/utils/utils.dart';
 import 'package:lepton_school/view/constant/sizes/constant.dart';
 
 class PushNotificationController extends GetxController {
-  final currentUID =UserCredentialsController.currentUSerID!;
+  final currentUID =UserCredentialsController.currentUSerID??"";
 
 
   RxString deviceID = ''.obs;
