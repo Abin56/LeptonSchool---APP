@@ -7,7 +7,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:lepton_school/controllers/application_controller/application_controller.dart';
 import 'package:lepton_school/info/info.dart';
 import 'package:lepton_school/view/colors/colors.dart';
-import 'package:lepton_school/view/dummy_screen/dummy_screen.dart';
+import 'package:lepton_school/view/home/parent_home/parent_home_screen.dart';
 import 'package:lepton_school/view/home/parent_home/parent_profile_edit/parent_edit_profile_full.dart';
 import 'package:lepton_school/view/widgets/appbar_color/appbar_clr.dart';
 import 'package:line_icons/line_icons.dart';
@@ -41,6 +41,9 @@ class _ParentMainHomeScreenState extends State<ParentMainHomeScreen> {
   
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     Get.find<ApplicationController>().checkParentProfile(context);
@@ -48,10 +51,9 @@ class _ParentMainHomeScreenState extends State<ParentMainHomeScreen> {
     log("Stundent IDD :::: ${UserCredentialsController.parentModel!.studentID}");
     checkingSchoolActivate(context);
     List<Widget> pages = [
-      DummyScreen(), 
-      // ParentHomeScreen(
-      //   studentName: UserCredentialsController.parentModel!.studentID!,
-      // ),
+      ParentHomeScreen(
+        studentName: UserCredentialsController.parentModel!.studentID!,
+      ),
       RecSelectSubjectScreen(
         batchId: UserCredentialsController.batchId!,
         classID: UserCredentialsController.classId!,
