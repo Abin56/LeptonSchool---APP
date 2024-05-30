@@ -34,91 +34,12 @@ class _ParentMainHomeScreenState extends State<ParentMainHomeScreen> {
     });
   }
 
-  // Timer? _profileCheckTimer;
-  // bool _isDialogShowing = false;
 
   @override
   void initState() {
     super.initState();
-    // _profileCheckTimer = Timer.periodic(const Duration(seconds: 15), (timer) {
-    //   checkProfile();
-    // });
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   checkProfile();
-    // });
+  
   }
-
-//   @override
-//   void dispose() {
-//     // Cancel the timer when the widget is disposed
-//     _profileCheckTimer?.cancel();
-//     super.dispose();
-//   }
-
-//   checkProfile() {
-//     if (UserCredentialsController.parentModel?.profileImageURL?.trim().isEmpty == true ||
-//         UserCredentialsController.parentModel?.parentName?.trim().isEmpty == true ||
-//         UserCredentialsController.parentModel?.parentPhoneNumber?.trim().isEmpty == true ||
-//         UserCredentialsController.parentModel?.houseName?.trim().isEmpty == true ||
-//         UserCredentialsController.parentModel?.district?.trim().isEmpty == true ||
-//         UserCredentialsController.parentModel?.gender?.trim().isEmpty == true ||
-//         UserCredentialsController.parentModel?.pincode?.trim().isEmpty == true ||
-//         UserCredentialsController.parentModel?.place?.trim().isEmpty == true ||
-//         UserCredentialsController.parentModel?.state?.trim().isEmpty == true) {
-//       log("Incomplete profile");
-//       if (!_isDialogShowing) {
-//         _isDialogShowing = true;
-//         WidgetsBinding.instance.addPostFrameCallback((_) {
-//           if (mounted) {
-//             showProfileAlert();
-//           }
-//         });
-//       }
-//     }
-//   }
-
-// void showProfileAlert() {
-//     showDialogeBox(
-//       context: context,
-//       children: [],
-//       headerchild: Text(
-//         "Please complete Your Profile".tr,
-//         textAlign: TextAlign.center,
-//         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-//       ),
-//       actions: [
-//         Container(
-//           color: adminePrimayColor,
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               TextButton(
-//                 child: Text(
-//                   "OK".tr,
-//                   style: const TextStyle(
-//                       color: cWhite, fontSize: 16, fontWeight: FontWeight.bold),
-//                 ),
-//                 onPressed: () {
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                       builder: (context) =>   ParentEditProfileScreenFull(),
-//                     ),
-//                   ).then((value) {
-//                     Navigator.pop(context);
-//                     _isDialogShowing = false;
-//                     checkProfile();
-//                   });
-//                 },
-//               ),
-//             ],
-//           ),
-//         ),
-//       ],
-//     ).then((_) {
-//       _isDialogShowing = false;
-//     });
-//   }
 
   @override
   Widget build(BuildContext context) {

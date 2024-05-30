@@ -26,7 +26,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -50,19 +53,10 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA38kX86DNGNCVWj60jeL0ToRvDVYj6aZc',
-    appId: '1:858210445017:android:c455f2f5b1482c1cd700c8',
-    messagingSenderId: '858210445017',
-    projectId: 'lepton-school-28---may',
-    storageBucket: 'lepton-school-28---may.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCvbNuJ4gXeEUUfptHiezyDMLk4PBUvkk8',
-    appId: '1:858210445017:ios:5aff4fe19cde9f6ad700c8',
-    messagingSenderId: '858210445017',
-    projectId: 'lepton-school-28---may',
-    storageBucket: 'lepton-school-28---may.appspot.com',
-    iosBundleId: 'com.example.leptonSchool',
+    apiKey: 'AIzaSyBlYVcGv1AfxVnYN7XkdCoJQE5aNVBzV74',
+    appId: '1:223500738355:android:cd7ef65edc67348ebc6846',
+    messagingSenderId: '223500738355',
+    projectId: 'lepton-school',
+    storageBucket: 'lepton-school.appspot.com',
   );
 }

@@ -6,16 +6,19 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:lepton_school/controllers/application_controller/application_controller.dart';
 import 'package:lepton_school/controllers/push_notification_controller/push_notification_controller.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/model/attendence_model/attendence-model.dart';
 import 'package:lepton_school/model/student_attendence_model/student_attendece_model.dart';
 import 'package:lepton_school/model/student_model/student_model.dart';
 import 'package:lepton_school/utils/utils.dart';
+import 'package:lepton_school/view/api/access_firebase_Token.dart';
 import 'package:lepton_school/view/constant/sizes/constant.dart';
 import 'package:lepton_school/widgets/notification_color/notification_color_widget.dart';
 
 class AttendanceController extends GetxController {
+  final key = Get.put(ApplicationController());
   RxInt notificationTimer = 0.obs;
   List<AttendanceStudentModel> abStudentUIDList = [];
   List<StudentModel> abStsParentUIDList = [];
@@ -95,41 +98,68 @@ class AttendanceController extends GetxController {
     }
   }
 
-  Future<void> sendPushMessage(String token, String body, String title) async {
-    log("messageOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-    try {
-      final reponse = await http.post(
-        Uri.parse('https://fcm.googleapis.com/fcm/send'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization':
-              'key=AAAAT5j1j9A:APA91bEDY97KTVTB5CH_4YTnLZEol4Z5fxF0fmO654V7YJO6dL9TV_PyIfv64-pVDx477rONsIl8d63VjxT793_Tj4zuGg32JTy_wUNQ4OhGNbr0KOS2i4z7JaG-ZtENTBpYnEGh-ZLg'
+Future<void> sendPushMessage(String token, String body, String title) async {
+  AccessTokenFirebase accessTokenGetter = AccessTokenFirebase();
+  String keyvalue = await accessTokenGetter.getAccessToken();
+
+  final Uri url = Uri.parse(
+      'https://fcm.googleapis.com/v1/projects/pushnotification-23-may/messages:send');
+
+  final Map<String, dynamic> message = {
+    'message': {
+      'token': token,
+      'notification': {
+        'title': title,
+        'body': body,
+      },
+      'android': {
+        'notification': {
+          'title': title,
+          'body': body,
+          'click_action': 'TOP_STORY_ACTIVITY'
         },
-        body: jsonEncode(
-          <String, dynamic>{
-            'priority': 'high',
-            'data': <String, dynamic>{
-              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-              'status': 'done',
-              'body': body,
-              'title': title,
-            },
-            "notification": <String, dynamic>{
-              'title': title,
-              'body': body,
-              'android_channel_id': 'high_importance_channel'
-            },
-            'to': token,
-          },
-        ),
-      );
-      log(reponse.body.toString());
-    } catch (e) {
+        'data': {'story_id': 'story_12345'}
+      },
+      'apns': {
+        'payload': {
+          'aps': {'category': 'NEW_MESSAGE_CATEGORY'}
+        },
+      },
+      'data': {
+        'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+        'status': 'done',
+        'body': body,
+        'title': title,
+      },
+    },
+  };
+
+  try {
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $keyvalue',
+      },
+      body: jsonEncode(message),
+    );
+
+    if (response.statusCode == 200) {
       if (kDebugMode) {
-        log("error push Notification");
+        print('Notification sent successfully!');
+      }
+    } else {
+      if (kDebugMode) {
+        print('Failed to send notification: ${response.statusCode}');
+        print('Response body: ${response.body}');
       }
     }
+  } catch (e) {
+    if (kDebugMode) {
+      print('Exception caught sending notification: $e');
+    }
   }
+}
 
   Future<void> getNotificationTimer() async {
     var vari = await FirebaseFirestore.instance
@@ -139,7 +169,7 @@ class AttendanceController extends GetxController {
         .doc('Attendance')
         .get();
     notificationTimer.value =
-        int.parse(vari.data()!['timeToDeliverAbsenceNotification']);
+        int.parse(vari.data()?['timeToDeliverAbsenceNotification']);
   }
 
   Future<void> sendAbNotificationToParent(String subject) async {
@@ -359,7 +389,7 @@ class AttendanceController extends GetxController {
 
   @override
   void onInit() async {
-    await getNotificationTimer();
+    // await getNotificationTimer();
 
     super.onInit();
   }
