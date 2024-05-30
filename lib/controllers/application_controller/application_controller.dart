@@ -95,7 +95,7 @@ class ApplicationController extends GetxController {
   Future<void> checkStudentProfile(BuildContext context) async {
     List<String> studentProfileList = [];
     studentProfileList.clear();
-    Future.delayed(const Duration(seconds: 5)).then((value) async {
+    Future.delayed(const Duration(seconds: 0)).then((value) async {
       await server
           .collection('AllStudents')
           .doc(UserCredentialsController.studentModel?.docid)
@@ -140,6 +140,7 @@ class ApplicationController extends GetxController {
               doyouwantCancelButton: false,
               title: "Profile",
               actiononTapfuction: () {
+                     Navigator.pop(context);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -178,7 +179,7 @@ class ApplicationController extends GetxController {
   Future<void> checkParentProfile(BuildContext context) async {
     List<String> parentProfileList = [];
     parentProfileList.clear();
-    Future.delayed(const Duration(seconds: 5)).then((value) async {
+    Future.delayed(const Duration(seconds: 0)).then((value) async {
       await server
           .collection('AllParents')
           .doc(UserCredentialsController.parentModel?.docid)
@@ -221,6 +222,7 @@ class ApplicationController extends GetxController {
               doyouwantCancelButton: false,
               title: "Profile",
               actiononTapfuction: () {
+                Navigator.pop(context);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -259,7 +261,7 @@ class ApplicationController extends GetxController {
   Future<void> checkTeacherProfile(BuildContext context) async {
     List<String> teacherProfileList = [];
     teacherProfileList.clear();
-    Future.delayed(const Duration(seconds: 5)).then((value) async {
+    Future.delayed(const Duration(seconds: 0)).then((value) async {
       await server
           .collection('Teachers')
           .doc(UserCredentialsController.teacherModel?.docid)
@@ -296,6 +298,7 @@ class ApplicationController extends GetxController {
               doyouwantCancelButton: false,
               title: "Profile",
               actiononTapfuction: () {
+                     Navigator.pop(context);
                 Navigator.push(
                     context,
                     MaterialPageRoute(

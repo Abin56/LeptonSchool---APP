@@ -46,6 +46,7 @@ class _StudentsMainHomeScreenState extends State<StudentsMainHomeScreen> {
 
   @override
   void initState() {
+      Get.find<ApplicationController>().checkStudentProfile(context);
     super.initState();
     // _profileCheckTimer = Timer.periodic(const Duration(seconds: 30), (timer) {
     //   checkProfile();
@@ -126,7 +127,7 @@ class _StudentsMainHomeScreenState extends State<StudentsMainHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<ApplicationController>().checkStudentProfile(context);
+  
     checkingSchoolActivate(context);
     List<Widget> pages = [
       NewStdHomePage(),
