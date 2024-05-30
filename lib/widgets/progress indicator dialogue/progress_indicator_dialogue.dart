@@ -11,7 +11,7 @@ class ProgressDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: 700,
+        height: 100,
         width: 200,
         color: Colors.white30,
         child: Obx(() => SfRadialGauge(
