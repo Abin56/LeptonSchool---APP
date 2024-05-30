@@ -58,35 +58,15 @@ Future<void> main() async {
   );
   await FirebaseMessaging.instance.getInitialMessage();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-// try {
-//       await FirebaseAppCheck.instance
-//       // Your personal reCaptcha public key goes here:
-//       .activate(
-//     androidProvider:kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
-//     appleProvider: AppleProvider.debug,
-//     webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),);
-// } catch (e) {
-//   log(e.toString());
-
-// }
-  //creating shared preference
   await SharedPreferencesHelper.initPrefs();
   // await PlayVideoRender.init();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  ///////////////////////////////Push notification Command
-  //initialize firebase messaging
   await pushNotification.init();
-
-  //initialize local notification
   await pushNotification.localnotiInit();
-
-//litsen background notification
   FirebaseMessaging.onBackgroundMessage(_firebasebackgrounMessage);
-
-//onbackground notification tapped
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     if (message.notification != null) {
       log("Backgroundnitfication tapped");
@@ -203,7 +183,7 @@ checkingSchoolActivate(BuildContext context) async {
   if (checking.data()!['deactive'] == true) {
     Navigator.pushReplacement(context, MaterialPageRoute(
       builder: (context) {
-        return  const DujoLoginScren();
+        return const DujoLoginScren();
       },
     ));
     // Get.offAll(() => const DujoLoginScren());

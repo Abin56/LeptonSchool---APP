@@ -41,6 +41,9 @@ class _ParentMainHomeScreenState extends State<ParentMainHomeScreen> {
   
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     Get.find<ApplicationController>().checkParentProfile(context);
