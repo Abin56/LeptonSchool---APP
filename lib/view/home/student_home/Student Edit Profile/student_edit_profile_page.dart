@@ -96,12 +96,10 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         studentProfileEditController.editvalueController.text =
                             UserCredentialsController.studentModel?.studentName ?? "";
 
-                        await changeStudentData(context, 'Name', 'studentName');
-                        setState(() {
-                          
-                        });
+                        await changeStudentData(
+                            context: context, hintText: 'Name', updateValue: 'studentName');
+                        setState(() {});
                       },
-
                       icon: const Icon(
                         Icons.edit,
                         color: Colors.green,
@@ -126,10 +124,12 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         studentProfileEditController.editvalueController.text =
                             UserCredentialsController.studentModel?.parentPhoneNumber ?? "";
 
-                        await changeStudentData(context, 'Phone Number', 'parentPhoneNumber');
-                        setState(() {
-                          
-                        });
+                        await changeStudentData(
+                            context: context,
+                            hintText: 'Phone Number',
+                            updateValue: 'parentPhoneNumber',
+                            textInputType: TextInputType.number);
+                        setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -201,10 +201,9 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         studentProfileEditController.editvalueController.text =
                             UserCredentialsController.studentModel?.bloodgroup ?? "";
 
-                        await changeStudentData(context, 'Blood Group', 'bloodgroup');
-                        setState(() {
-                          
-                        });
+                        await changeStudentData(
+                            context: context, hintText: 'Blood Group', updateValue: 'bloodgroup');
+                        setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -230,10 +229,9 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         studentProfileEditController.editvalueController.text =
                             UserCredentialsController.studentModel?.houseName ?? "";
 
-                        await changeStudentData(context, 'Address', 'houseName');
-                        setState(() {
-                          
-                        });
+                        await changeStudentData(
+                            context: context, hintText: 'Address', updateValue: 'houseName');
+                        setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -243,7 +241,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
               ),
             ),
             StudentEditListileWidget(
-              icon: Icons.home,
+              icon: Icons.place,
               subtitle: Row(
                 children: [
                   GooglePoppinsWidgets(
@@ -258,10 +256,9 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         studentProfileEditController.editvalueController.text =
                             UserCredentialsController.studentModel?.place ?? "";
 
-                        await changeStudentData(context, 'place', 'place');
-                        setState(() {
-                          
-                        });
+                        await changeStudentData(
+                            context: context, hintText: 'place', updateValue: 'place');
+                        setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -271,7 +268,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
               ),
             ),
             StudentEditListileWidget(
-              icon: Icons.home,
+              icon: Icons.person,
               subtitle: Row(
                 children: [
                   GooglePoppinsWidgets(
@@ -286,10 +283,9 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         studentProfileEditController.editvalueController.text =
                             UserCredentialsController.studentModel?.gender ?? "";
 
-                        await changeStudentData(context, 'Gender', 'gender');
-                        setState(() {
-                          
-                        });
+                        await changeStudentData(
+                            context: context, hintText: 'Gender', updateValue: 'gender');
+                        setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -299,7 +295,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
               ),
             ),
             StudentEditListileWidget(
-              icon: Icons.home,
+              icon: Icons.calendar_month,
               subtitle: Row(
                 children: [
                   GooglePoppinsWidgets(
@@ -315,10 +311,15 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         studentProfileEditController.editvalueController.text =
                             UserCredentialsController.studentModel?.dateofBirth ?? "";
 
-                        await changeStudentData(context, 'DOB', 'dateofBirth');
-                        setState(() {
-                          
-                        });
+                        await changeStudentData(
+                            onTapFunction: () async {
+                              studentProfileEditController.editvalueController.text =
+                                  await dateTimePicker(context);
+                            },
+                            context: context,
+                            hintText: 'DOB',
+                            updateValue: 'dateofBirth');
+                        setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -328,7 +329,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
               ),
             ),
             StudentEditListileWidget(
-              icon: Icons.home,
+              icon: Icons.place,
               subtitle: Row(
                 children: [
                   GooglePoppinsWidgets(
@@ -343,10 +344,9 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         studentProfileEditController.editvalueController.text =
                             UserCredentialsController.studentModel?.district ?? "";
 
-                        await changeStudentData(context, 'District', 'district');
-                        setState(() {
-                          
-                        });
+                        await changeStudentData(
+                            context: context, hintText: 'District', updateValue: 'district');
+                        setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -356,7 +356,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
               ),
             ),
             StudentEditListileWidget(
-              icon: Icons.home,
+              icon: Icons.phone,
               subtitle: Row(
                 children: [
                   GooglePoppinsWidgets(
@@ -372,10 +372,13 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         studentProfileEditController.editvalueController.text =
                             UserCredentialsController.studentModel?.alPhoneNumber ?? "";
 
-                        await changeStudentData(context, 'Alternate PhoneNumber', 'alPhoneNumber');
-                        setState(() {
-                          
-                        });
+                        await changeStudentData(
+                            context: context,
+                            hintText: 'Alternate PhoneNumber',
+                            updateValue: 'alPhoneNumber',
+                            textInputType: TextInputType.number);
+
+                        setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -484,7 +487,12 @@ class StudentCircleAvatarImgeWidget extends StatelessWidget {
   }
 }
 
-changeStudentData(BuildContext context, String hintText, String updateValue) {
+changeStudentData(
+    {required BuildContext context,
+    required String hintText,
+    required String updateValue,
+    TextInputType? textInputType,
+    void Function()? onTapFunction}) {
   // final formkey = GlobalKey<FormState>();
   return showDialog(
     context: context,
@@ -493,14 +501,17 @@ changeStudentData(BuildContext context, String hintText, String updateValue) {
       return Form(
         key: studentProfileEditController.formKey,
         child: AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
           title: Text('Edit $hintText'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 TextFormField(
+                  onTap: onTapFunction,
                   validator: checkFieldEmpty,
                   controller: studentProfileEditController.editvalueController,
                   decoration: InputDecoration(hintText: "Enter your $hintText"),
+                  keyboardType: textInputType,
                 )
               ],
             ),
