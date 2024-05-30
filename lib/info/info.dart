@@ -1,5 +1,5 @@
 const  String  appLogo= "assets/Lepton_school/lepton_school_app.png";
-const String  officialLogo ="assets/images/leptonlogo5.png";
+const String  officialLogo ="assets/images/leptonlogo4.png";
 const String nameOfInstitution = "LEPTON SCHOOLS";
 const String nameInSmall = "Schools";
 const String nameInCapital = "LEPTON SCHOOLS";
