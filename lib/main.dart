@@ -203,7 +203,7 @@ checkingSchoolActivate(BuildContext context) async {
   if (checking.data()!['deactive'] == true) {
     Navigator.pushReplacement(context, MaterialPageRoute(
       builder: (context) {
-        return const DujoLoginScren();
+        return  const DujoLoginScren();
       },
     ));
     // Get.offAll(() => const DujoLoginScren());

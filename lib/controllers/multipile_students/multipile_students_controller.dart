@@ -257,7 +257,7 @@ class MultipileStudentsController extends GetxController {
           await SharedPreferencesHelper.setString(
                   SharedPreferencesHelper.userRoleKey, 'parent')
               .then((value) {
-            Get.offAll(() => const ParentMainHomeScreen());
+            Get.offAll(() =>  ParentMainHomeScreen());
           });
 
           //  Get.offAll(const ParentMainHomeScreen());

@@ -13,6 +13,7 @@ import 'package:lepton_school/model/attendence_model/attendence-model.dart';
 import 'package:lepton_school/model/student_attendence_model/student_attendece_model.dart';
 import 'package:lepton_school/model/student_model/student_model.dart';
 import 'package:lepton_school/utils/utils.dart';
+import 'package:lepton_school/view/api/access_firebase_Token.dart';
 import 'package:lepton_school/view/constant/sizes/constant.dart';
 import 'package:lepton_school/widgets/notification_color/notification_color_widget.dart';
 
@@ -97,65 +98,68 @@ class AttendanceController extends GetxController {
     }
   }
 
-  Future<void> sendPushMessage(String token, String body, String title) async {
-    final Uri url = Uri.parse(
-        'https://fcm.googleapis.com/v1/projects/pushnotification-23-may/messages:send');
+Future<void> sendPushMessage(String token, String body, String title) async {
+  AccessTokenFirebase accessTokenGetter = AccessTokenFirebase();
+  String keyvalue = await accessTokenGetter.getAccessToken();
 
-    final Map<String, dynamic> message = {
-      'message': {
-        'token': token,
+  final Uri url = Uri.parse(
+      'https://fcm.googleapis.com/v1/projects/pushnotification-23-may/messages:send');
+
+  final Map<String, dynamic> message = {
+    'message': {
+      'token': token,
+      'notification': {
+        'title': title,
+        'body': body,
+      },
+      'android': {
         'notification': {
           'title': title,
           'body': body,
+          'click_action': 'TOP_STORY_ACTIVITY'
         },
-        'android': {
-          'notification': {
-            'title': title,
-            'body': body,
-            'click_action': 'TOP_STORY_ACTIVITY'
-          },
-          'data': {'story_id': 'story_12345'}
-        },
-        'apns': {
-          'payload': {
-            'aps': {'category': 'NEW_MESSAGE_CATEGORY'}
-          },
-        },
-        'data': {
-          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-          'status': 'done',
-          'body': body,
-          'title': title,
+        'data': {'story_id': 'story_12345'}
+      },
+      'apns': {
+        'payload': {
+          'aps': {'category': 'NEW_MESSAGE_CATEGORY'}
         },
       },
-    };
+      'data': {
+        'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+        'status': 'done',
+        'body': body,
+        'title': title,
+      },
+    },
+  };
 
-    try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${await key.getpushNotificationKey()}',
-        },
-        body: jsonEncode(message),
-      );
+  try {
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $keyvalue',
+      },
+      body: jsonEncode(message),
+    );
 
-      if (response.statusCode == 200) {
-        if (kDebugMode) {
-          print('Notification sent successfully!');
-        }
-      } else {
-        if (kDebugMode) {
-          print('Failed to send notification: ${response.statusCode}');
-          print('Response body: ${response.body}');
-        }
-      }
-    } catch (e) {
+    if (response.statusCode == 200) {
       if (kDebugMode) {
-        print('Exception caught sending notification: $e');
+        print('Notification sent successfully!');
+      }
+    } else {
+      if (kDebugMode) {
+        print('Failed to send notification: ${response.statusCode}');
+        print('Response body: ${response.body}');
       }
     }
+  } catch (e) {
+    if (kDebugMode) {
+      print('Exception caught sending notification: $e');
+    }
   }
+}
 
   Future<void> getNotificationTimer() async {
     var vari = await FirebaseFirestore.instance
@@ -165,7 +169,7 @@ class AttendanceController extends GetxController {
         .doc('Attendance')
         .get();
     notificationTimer.value =
-        int.parse(vari.data()!['timeToDeliverAbsenceNotification']);
+        int.parse(vari.data()?['timeToDeliverAbsenceNotification']);
   }
 
   Future<void> sendAbNotificationToParent(String subject) async {
@@ -385,7 +389,7 @@ class AttendanceController extends GetxController {
 
   @override
   void onInit() async {
-    await getNotificationTimer();
+    // await getNotificationTimer();
 
     super.onInit();
   }
