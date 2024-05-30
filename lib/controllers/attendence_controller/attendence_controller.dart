@@ -98,68 +98,41 @@ class AttendanceController extends GetxController {
     }
   }
 
-Future<void> sendPushMessage(String token, String body, String title) async {
-  AccessTokenFirebase accessTokenGetter = AccessTokenFirebase();
-  String keyvalue = await accessTokenGetter.getAccessToken();
-
-  final Uri url = Uri.parse(
-      'https://fcm.googleapis.com/v1/projects/pushnotification-23-may/messages:send');
-
-  final Map<String, dynamic> message = {
-    'message': {
-      'token': token,
-      'notification': {
-        'title': title,
-        'body': body,
-      },
-      'android': {
-        'notification': {
-          'title': title,
-          'body': body,
-          'click_action': 'TOP_STORY_ACTIVITY'
+  Future<void> sendPushMessage(String token, String body, String title) async {
+    log("messageOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+    try {
+      final reponse = await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization':
+              'key=AAAAT5j1j9A:APA91bEDY97KTVTB5CH_4YTnLZEol4Z5fxF0fmO654V7YJO6dL9TV_PyIfv64-pVDx477rONsIl8d63VjxT793_Tj4zuGg32JTy_wUNQ4OhGNbr0KOS2i4z7JaG-ZtENTBpYnEGh-ZLg'
         },
-        'data': {'story_id': 'story_12345'}
-      },
-      'apns': {
-        'payload': {
-          'aps': {'category': 'NEW_MESSAGE_CATEGORY'}
-        },
-      },
-      'data': {
-        'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-        'status': 'done',
-        'body': body,
-        'title': title,
-      },
-    },
-  };
-
-  try {
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $keyvalue',
-      },
-      body: jsonEncode(message),
-    );
-
-    if (response.statusCode == 200) {
+        body: jsonEncode(
+          <String, dynamic>{
+            'priority': 'high',
+            'data': <String, dynamic>{
+              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+              'status': 'done',
+              'body': body,
+              'title': title,
+            },
+            "notification": <String, dynamic>{
+              'title': title,
+              'body': body,
+              'android_channel_id': 'high_importance_channel'
+            },
+            'to': token,
+          },
+        ),
+      );
+      log(reponse.body.toString());
+    } catch (e) {
       if (kDebugMode) {
-        print('Notification sent successfully!');
+        log("error push Notification");
       }
-    } else {
-      if (kDebugMode) {
-        print('Failed to send notification: ${response.statusCode}');
-        print('Response body: ${response.body}');
-      }
-    }
-  } catch (e) {
-    if (kDebugMode) {
-      print('Exception caught sending notification: $e');
     }
   }
-}
 
   Future<void> getNotificationTimer() async {
     var vari = await FirebaseFirestore.instance
