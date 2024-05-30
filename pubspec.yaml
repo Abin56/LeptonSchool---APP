@@ -93,7 +93,7 @@ dependencies:
 flutter_icons:
   android: true
   ios: false
-  image_path: "assets/excel_karror/excel_karoor_logo.png"
+  image_path: "assets/images/leptonlogo5.png"
 
 dev_dependencies:
   flutter_test:
