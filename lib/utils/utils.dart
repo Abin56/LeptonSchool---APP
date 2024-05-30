@@ -172,40 +172,7 @@ String translateString(String key) {
   return key.tr;
 }
 
-Future<void> sendPushMessage(String token, String body, String title) async {
-  try {
-    final reponse = await http.post(
-      Uri.parse('https://fcm.googleapis.com/fcm/send'),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Authorization':
-            'key=AAAAT5j1j9A:APA91bEDY97KTVTB5CH_4YTnLZEol4Z5fxF0fmO654V7YJO6dL9TV_PyIfv64-pVDx477rONsIl8d63VjxT793_Tj4zuGg32JTy_wUNQ4OhGNbr0KOS2i4z7JaG-ZtENTBpYnEGh-ZLg'
-      },
-      body: jsonEncode(
-        <String, dynamic>{
-          'priority': 'high',
-          'data': <String, dynamic>{
-            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-            'status': 'done',
-            'body': body,
-            'title': title,
-          },
-          "notification": <String, dynamic>{
-            'title': title,
-            'body': body,
-            'android_channel_id': 'high_importance_channel'
-          },
-          'to': token,
-        },
-      ),
-    );
-    log(reponse.body.toString());
-  } catch (e) {
-    if (kDebugMode) {
-      log("error push Notification");
-    }
-  }
-}
+
 
 final   server = FirebaseFirestore.instance
     .collection("SchoolListCollection")

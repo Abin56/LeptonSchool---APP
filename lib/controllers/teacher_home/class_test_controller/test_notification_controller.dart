@@ -31,7 +31,7 @@ class TestNotificationController {
     }
     for (var element in tokenId) {
       log(element);
-      await sendPushMessage(element, body, title);
+ 
     }
   }
 

@@ -39,6 +39,18 @@ class ApplicationController extends GetxController {
     latestVersion.value = firebase.data()!['version'];
   }
 
+  Future<String> getpushNotificationKey() async {
+    String key = '';
+    await FirebaseFirestore.instance
+        .collection('Pushnotificationkey')
+        .doc('key')
+        .get()
+        .then((keyvalue) async {
+      key = keyvalue.data()?['key'];
+    });
+    return key;
+  }
+
   checkingLatestVersion(BuildContext context) async {
     if (currentversion.value == latestVersion.value) {
       nextpage(context);

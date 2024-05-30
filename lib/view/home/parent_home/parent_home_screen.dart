@@ -1,13 +1,12 @@
 // ignore_for_file: use_key_in_widget_constructors, must_call_super, annotate_overrides, non_constant_identifier_names
-import 'dart:async';
-import 'dart:convert';
+
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:lepton_school/controllers/push_notification_controller/push_notification_controller.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/local_database/parent_login_database.dart';
@@ -51,40 +50,7 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
   MultipileStudentsController multipileStudentsController =
       Get.put(MultipileStudentsController());
 
-  Future<void> sendPushMessage(String token, String body, String title) async {
-    try {
-      final reponse = await http.post(
-        Uri.parse('https://fcm.googleapis.com/fcm/send'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization':
-              'key=AAAAT5j1j9A:APA91bEDY97KTVTB5CH_4YTnLZEol4Z5fxF0fmO654V7YJO6dL9TV_PyIfv64-pVDx477rONsIl8d63VjxT793_Tj4zuGg32JTy_wUNQ4OhGNbr0KOS2i4z7JaG-ZtENTBpYnEGh-ZLg'
-        },
-        body: jsonEncode(
-          <String, dynamic>{
-            'priority': 'high',
-            'data': <String, dynamic>{
-              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-              'status': 'done',
-              'body': body,
-              'title': title,
-            },
-            "notification": <String, dynamic>{
-              'title': title,
-              'body': body,
-              'android_channel_id': 'high_importance_channel'
-            },
-            'to': token,
-          },
-        ),
-      );
-      log(reponse.body.toString());
-    } catch (e) {
-      if (kDebugMode) {
-        log("error push Notification");
-      }
-    }
-  }
+
 
   @override
   void initState() {
@@ -95,7 +61,6 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
     });
     super.initState();
 
-    //   sendPushMessage( deviceToken, 'Hello Everyone', 'DUJO APP');
   }
 
   Widget build(BuildContext context) {
