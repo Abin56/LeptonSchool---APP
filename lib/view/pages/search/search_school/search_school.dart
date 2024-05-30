@@ -33,7 +33,7 @@ class SearchSchoolScreen extends StatelessWidget {
                     ContainerImage(
                         height: 180.h,
                         width: 180.w,
-                        imagePath: 'assets/excel_karror/excel_karoor_logo.png'),
+                        imagePath:officialLogo),
                   ],
                 ),
               ),
