@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "858210445017",
-    "project_id": "lepton-school-28---may",
-    "storage_bucket": "lepton-school-28---may.appspot.com"
+    "project_number": "223500738355",
+    "project_id": "lepton-school",
+    "storage_bucket": "lepton-school.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:858210445017:android:c455f2f5b1482c1cd700c8",
+        "mobilesdk_app_id": "1:223500738355:android:cd7ef65edc67348ebc6846",
         "android_client_info": {
           "package_name": "com.leptonschool.com"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyA38kX86DNGNCVWj60jeL0ToRvDVYj6aZc"
+          "current_key": "AIzaSyBlYVcGv1AfxVnYN7XkdCoJQE5aNVBzV74"
         }
       ],
       "services": {

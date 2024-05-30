@@ -3,10 +3,9 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:lepton_school/controllers/attendence_controller/attendence_controller.dart';
 import 'package:lepton_school/controllers/push_notification_controller/push_notification_controller.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/local_database/parent_login_database.dart';
@@ -39,7 +38,8 @@ class ParentHomeScreen extends StatefulWidget {
   @override
   // ignore: override_on_non_overriding_member
   final String studentName;
-
+  final AttendanceController attendanceController =
+      Get.put(AttendanceController());
   final PushNotificationController pushNotCntrl =
       Get.put(PushNotificationController());
 
@@ -64,6 +64,10 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
   }
 
   Widget build(BuildContext context) {
+        widget.attendanceController.sendPushMessage(
+        'dh58vdKjRMeMntGmf6iIZr:APA91bHciVSAjDKzpCV9gY91Pfok9FBd8qgD-gI0RLYMPkBV2UYbBRXQ2Gvk-LwEWX_F-yLPHUfw8Rx5cDXzpFgJd7H2q3jSu-A2Gq5r8BqNdJHcLJwmsfZ2NQ4M5t7x-OhS7fOzaOuS',
+        "body",
+        "title");
     log("Parent DOCID :::::::::::::::::::  ${UserCredentialsController.parentModel?.docid}");
     log("Firebase Auth DOCID :::::::::::::::::::  ${FirebaseAuth.instance.currentUser?.uid}");
     final parentAuth = DBParentLogin(
