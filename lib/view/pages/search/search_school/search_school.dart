@@ -1,6 +1,7 @@
 import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lepton_school/info/info.dart';
 import 'package:lepton_school/view/constant/sizes/sizes.dart';
 import 'package:lepton_school/view/pages/search/search_school/search_school_searchdeligate.dart';
 import 'package:lepton_school/view/widgets/container_image.dart';
@@ -45,13 +46,13 @@ class SearchSchoolScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GoogleMonstserratWidgets(
-                    text: 'EXCEL ',
+                    text: companyName,
                     fontsize: 20,
                     color: const Color.fromARGB(255, 230, 18, 3),
                     fontWeight: FontWeight.bold,
                   ),
                   GoogleMonstserratWidgets(
-                    text: ' KAROOR',
+                    text: companyNameSecond,
                     fontsize: 20,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
