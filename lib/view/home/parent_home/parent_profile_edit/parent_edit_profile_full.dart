@@ -13,8 +13,14 @@ import '../../../widgets/fonts/google_poppins.dart';
 import 'widgets/circle_avatar_image_widget.dart';
 import 'widgets/update_text_form_widget.dart';
 
-class ParentEditProfileScreenFull extends StatelessWidget {
+class ParentEditProfileScreenFull extends StatefulWidget {
   ParentEditProfileScreenFull({super.key});
+
+  @override
+  State<ParentEditProfileScreenFull> createState() => _ParentEditProfileScreenFullState();
+}
+
+class _ParentEditProfileScreenFullState extends State<ParentEditProfileScreenFull> {
   final ParentProfileEditController parentProfileEditController =
       Get.put(ParentProfileEditController());
 
@@ -68,6 +74,7 @@ class ParentEditProfileScreenFull extends StatelessWidget {
                           textInputType: TextInputType.text,
                           hint: 'Name',
                         );
+                          setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -107,6 +114,7 @@ class ParentEditProfileScreenFull extends StatelessWidget {
                           hint: 'Phone Number',
                           validator: checkFieldPhoneNumberIsValid,
                         );
+                          setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -151,6 +159,7 @@ class ParentEditProfileScreenFull extends StatelessWidget {
                           textInputType: TextInputType.text,
                           hint: 'Gender',
                         );
+                          setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -186,6 +195,7 @@ class ParentEditProfileScreenFull extends StatelessWidget {
                           textInputType: TextInputType.text,
                           hint: 'House Name',
                         );
+                          setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -219,6 +229,7 @@ class ParentEditProfileScreenFull extends StatelessWidget {
                           textInputType: TextInputType.text,
                           hint: 'Place',
                         );
+                          setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -254,6 +265,7 @@ class ParentEditProfileScreenFull extends StatelessWidget {
                           textInputType: TextInputType.text,
                           hint: 'District',
                         );
+                          setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -287,6 +299,7 @@ class ParentEditProfileScreenFull extends StatelessWidget {
                           textInputType: TextInputType.text,
                           hint: 'State',
                         );
+                          setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -322,6 +335,7 @@ class ParentEditProfileScreenFull extends StatelessWidget {
                           textInputType: TextInputType.number,
                           hint: 'Pincode',
                         );
+                          setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,
