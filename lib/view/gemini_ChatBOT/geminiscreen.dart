@@ -50,53 +50,64 @@ class _GeminiAIBOTState extends State<GeminiAIBOT> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Chat'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView.builder(
-            controller: _scrollController,
-            itemCount: _chatSession.history.length,
-            itemBuilder: (context, index) {
-              var content = _chatSession.history.toList()[index];
-              final message = _getMessageFromContent(content);
-              return MessageWidget(
-                  message: message, isFromUser: content.role == 'user');
-            },
-          ),
-        ),
-        bottomNavigationBar: SafeArea(
-            child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Flexible(
-                flex: 3,
-                child: Form(
-                  key: _formKey,
-                  child: ChatTextFormFiled(
-                      textController: _textController,
-                      // focusNode: _focusNode,
-                      isReadyOnly: _isLoading,
-                      onFieldSubmitted: _sendChatMessage),
+      appBar: AppBar(
+        title: const Text('Chat'),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: _chatSession.history.length,
+                  itemBuilder: (context, index) {
+                    var content = _chatSession.history.toList()[index];
+                    final message = _getMessageFromContent(content);
+                    return MessageWidget(
+                        message: message, isFromUser: content.role == 'user');
+                  },
                 ),
               ),
-              const SizedBox(
-                width: 8.0,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Material(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Form(
+                      key: _formKey,
+                      child: ChatTextFormFiled(
+                          textController: _textController,
+                          focusNode: _focusNode,
+                          isReadyOnly: _isLoading,
+                          onFieldSubmitted: _sendChatMessage),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8.0,
+                  ),
+                  if (!_isLoading) ...[
+                    ElevatedButton(
+                        onPressed: () {
+                          _sendChatMessage(_textController.text);
+                        },
+                        child: const Text('Send'))
+                  ] else ...[
+                    const CircularProgressIndicator.adaptive()
+                  ]
+                ],
               ),
-              if (!_isLoading) ...[
-                ElevatedButton(
-                    onPressed: () {
-                      _sendChatMessage(_textController.text);
-                    },
-                    child: const Text('Send'))
-              ] else ...[
-                const CircularProgressIndicator.adaptive()
-              ]
-            ],
-          ),
-        )));
+            )),
+          ],
+        ),
+      ),
+    );
   }
 
   void _sendChatMessage(String message) async {
@@ -104,13 +115,13 @@ class _GeminiAIBOTState extends State<GeminiAIBOT> {
     if (!isValid) {
       return;
     }
-    _setLoading(true);//
+    _setLoading(true); //
     try {
       var response = await _chatSession.sendMessage(
         Content.text(message),
       );
       final text = response.text;
-      if (text == null ) {
+      if (text == null) {
         _showError("No response was found");
         _setLoading(false);
       } else {
@@ -120,19 +131,16 @@ class _GeminiAIBOTState extends State<GeminiAIBOT> {
     } catch (e) {
       _showError(e.toString());
       _setLoading(false);
-    }
-    finally{
+    } finally {
       _textController.clear();
-      _focusNode.requestFocus ();
+      _focusNode.requestFocus();
       _setLoading(false);
-
     }
-
-
   }
-      String _getMessageFromContent(Content content) {
-      return content.parts.whereType<TextPart>().map((e) => e.text).join('');
-    }
+
+  String _getMessageFromContent(Content content) {
+    return content.parts.whereType<TextPart>().map((e) => e.text).join('');
+  }
 
   void _showError(String message) {
     showDialog(
