@@ -121,7 +121,7 @@ class ParentProfileEditController {
               ParentModel.fromMap(parentData.data()!);
           Navigator.pushReplacement(context, MaterialPageRoute(
             builder: (context) {
-              return  ParentMainHomeScreen();
+              return const ParentMainHomeScreen();
             },
           ));
           // Get.offAll(const ParentMainHomeScreen());

@@ -140,12 +140,12 @@ class ApplicationController extends GetxController {
               doyouwantCancelButton: false,
               title: "Profile",
               actiononTapfuction: () {
-                     Navigator.pop(context);
+                Navigator.pop(context);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const StudentProfileEditPage(),
-                    )).then((value) => Navigator.pop(context));
+                    ));
               },
               children: [
                 const Text(
@@ -298,7 +298,7 @@ class ApplicationController extends GetxController {
               doyouwantCancelButton: false,
               title: "Profile",
               actiononTapfuction: () {
-                     Navigator.pop(context);
+                Navigator.pop(context);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
