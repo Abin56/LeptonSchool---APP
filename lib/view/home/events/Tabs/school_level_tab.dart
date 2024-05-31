@@ -10,18 +10,14 @@ import '../../../widgets/fonts/google_poppins.dart';
 import '../event_display_school_level.dart';
 
 class SchoolLevelPage extends StatelessWidget {
-     SchoolLevelPage({super.key});
-   final StudentEventController studentEventController =
-       Get.put(StudentEventController());
+  SchoolLevelPage({super.key});
+  final StudentEventController studentEventController =
+      Get.put(StudentEventController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.withOpacity(0.2),
-      body:studentEventController.classEventsLists.isEmpty
-            ? const Center(
-                child: Text("Data Not Found"),
-              )
-            : StreamBuilder(
+      body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('SchoolListCollection')
               .doc(UserCredentialsController.schoolId!)
