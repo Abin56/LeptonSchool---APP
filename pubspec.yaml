@@ -90,6 +90,8 @@ dependencies:
   firebase_app_check: ^0.2.2+5
   flutter_launcher_icons:
   googleapis_auth: 
+  wechat_assets_picker: ^9.0.3
+  google_generative_ai: ^0.4.2
 flutter_icons:
   android: true
   ios: false

@@ -8,6 +8,7 @@ import 'package:lepton_school/controllers/log_out/user_logout_controller.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/info/info.dart';
 import 'package:lepton_school/view/colors/colors.dart';
+import 'package:lepton_school/view/gemini_ChatBOT/geminiscreen.dart';
 import 'package:lepton_school/view/home/class_teacher_HOme/class_teacher_home.dart';
 import 'package:lepton_school/view/home/class_teacher_HOme/graph_class_teacher/assignmentGraph.dart';
 import 'package:lepton_school/view/home/class_teacher_HOme/graph_class_teacher/attendenceGraph.dart';
@@ -25,7 +26,6 @@ import 'package:lepton_school/view/pages/Meetings/Tabs/school_level_meetings_tab
 import 'package:lepton_school/view/pages/Notice/notice_list.dart';
 import 'package:lepton_school/view/pages/attendence_book/attendence_book_status_month.dart';
 import 'package:lepton_school/view/pages/chat/teacher_section/teacher_chat-screen.dart';
-import 'package:lepton_school/view/pages/chat_gpt/screens/chat_screen.dart';
 import 'package:lepton_school/view/pages/live_classes/teacher_live_section/create_room.dart';
 import 'package:lepton_school/view/pages/recorded_videos/select_subjects.dart';
 import 'package:lepton_school/view/pages/studentAttendence/select_period.dart';
@@ -69,7 +69,7 @@ class _ClassTeacherMainHomeScreenState
         schoolId: UserCredentialsController.schoolId!,
       ),
       CreateRoomScreen(),
-      const ChatScreen(),
+      const GeminiAIBOT(),
     ];
     return Scaffold(
       appBar: AppBar(
