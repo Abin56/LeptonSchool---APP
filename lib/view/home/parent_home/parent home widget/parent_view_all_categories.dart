@@ -161,8 +161,7 @@ class ParentViewAllCategories extends StatelessWidget {
                                           builder: (context) {
                                             server
                                                 .collection('AllUsersDeviceID')
-                                                .doc(FirebaseAuth
-                                                    .instance.currentUser!.uid)
+                                                .doc(UserCredentialsController.currentUSerID)
                                                 .collection(
                                                     "Notification_Message")
                                                 .doc(data['docid'])
