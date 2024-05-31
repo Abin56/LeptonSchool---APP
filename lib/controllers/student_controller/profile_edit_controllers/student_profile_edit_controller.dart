@@ -165,7 +165,7 @@ class StudentProfileEditController {
           .collection('classes')
           .doc(UserCredentialsController.classId)
           .collection('Students')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .doc(UserCredentialsController.currentUSerID)
           .update({updateValue: valuee}).then((value) async {
         await server
             .collection('AllStudents')

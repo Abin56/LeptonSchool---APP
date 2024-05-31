@@ -25,6 +25,7 @@ class StudentNoticeController extends GetxController {
       //   visiblePerson = "visibleTeacher";
       // }
 
+      // ignore: unused_local_variable
       QuerySnapshot<Map<String, dynamic>> noticeCollection =
           await FirebaseFirestore.instance
               .collection('SchoolListCollection')
