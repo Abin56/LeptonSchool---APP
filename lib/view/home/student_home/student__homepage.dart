@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:lepton_school/controllers/push_notification_controller/push_notification_controller.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/view/colors/colors.dart';
@@ -25,16 +26,18 @@ class NewStdHomePage extends StatefulWidget {
 class _NewStdHomePageState extends State<NewStdHomePage> {
   @override
   void initState() {
-    widget.pushNotificationController.getUserDeviceID().then((value) async => await widget
-        .pushNotificationController
-        .allStudentDeviceID()
-        .then((value) async => await widget.pushNotificationController
-            .allUSerDeviceID(UserCredentialsController.studentModel!.userRole)));
+    widget.pushNotificationController.getUserDeviceID().then((value) async =>
+        await widget.pushNotificationController.allStudentDeviceID().then(
+            (value) async => await widget.pushNotificationController
+                .allUSerDeviceID(
+                    UserCredentialsController.studentModel!.userRole)));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    callCloudFunction();
+
     log(
       UserCredentialsController.studentModel!.docid,
     );
@@ -52,19 +55,22 @@ class _NewStdHomePageState extends State<NewStdHomePage> {
                   color: adminePrimayColor.withOpacity(0.1),
                   // const Color.fromARGB(255, 218, 247, 229),
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15.sp), topRight: Radius.circular(15.sp)),
+                      topLeft: Radius.circular(15.sp),
+                      topRight: Radius.circular(15.sp)),
                 ),
                 child: ListView(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 120.sp, right: 20.sp, left: 20.sp),
+                      padding: EdgeInsets.only(
+                          top: 120.sp, right: 20.sp, left: 20.sp),
                       child:
                           const QuickActionPart(), ////////////////////////////////////////////////////////all tab part
                     ),
                     Padding(
-                        padding: EdgeInsets.only(top: 80.sp, right: 20.sp, left: 20.sp),
+                        padding: EdgeInsets.only(
+                            top: 80.sp, right: 20.sp, left: 20.sp),
                         child:
                             NotificationPartOfStd() ///////////////////////////////////////////////////notification
                         ),
@@ -94,8 +100,9 @@ class _NewStdHomePageState extends State<NewStdHomePage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: CircleAvatar(
-                          backgroundImage:
-                              NetworkImage(UserCredentialsController.studentModel!.profileImageUrl),
+                          backgroundImage: NetworkImage(
+                              UserCredentialsController
+                                  .studentModel!.profileImageUrl),
                           onBackgroundImageError: (exception, stackTrace) {
                             log(exception.toString());
                           },
@@ -110,7 +117,8 @@ class _NewStdHomePageState extends State<NewStdHomePage> {
                         child: SizedBox(
                           width: 200,
                           child: GooglePoppinsEventsWidgets(
-                            text: UserCredentialsController.studentModel!.studentName,
+                            text: UserCredentialsController
+                                .studentModel!.studentName,
                             fontsize: 17.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -128,8 +136,8 @@ class _NewStdHomePageState extends State<NewStdHomePage> {
                               ));
                               // Get.off(() => const StudentProfileEditPage());
                             },
-                            icon: const Icon(
-                                Icons.now_widgets))) ////////////////////////////////edit profile
+                            icon: const Icon(Icons
+                                .now_widgets))) ////////////////////////////////edit profile
                   ],
                 ),
               ),
@@ -150,4 +158,26 @@ class _NewStdHomePageState extends State<NewStdHomePage> {
       )),
     );
   }
+
+
+
+
+void callCloudFunction() async {
+  try {
+    // Replace 'YOUR_CLOUD_FUNCTION_URL' with the URL of your Cloud Function
+    var url = Uri.parse('https://us-central1-vidya-veechi-8-feb-2024.cloudfunctions.net/attendanceListener');
+
+    var response = await http.post(url);
+
+    if (response.statusCode == 200) {
+      log('Cloud Function executed successfully');
+      // log(response.body.toString());
+    } else {
+      log('Failed to execute Cloud Function: ${response.statusCode}');
+    }
+  } catch (error) {
+    log('Error calling Cloud Function: $error');
+  }
 }
+  }
+
