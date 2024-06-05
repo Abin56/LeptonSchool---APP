@@ -83,8 +83,13 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         ],
                       ),
                     ],
-                  ),
-                   GooglePoppinsWidgets(text: "", fontsize: 12)
+                  ),const Spacer(),
+                  GooglePoppinsWidgets(text: "***", fontsize: 18,color: cWhite,),
+                   Padding(
+                     padding: const EdgeInsets.only(left: 60),
+                     child: GooglePoppinsWidgets(text: "   This photo and informations provided may\n be used for enteries in student Id card", fontsize: 12,color: cWhite,),
+                   ),
+                   GooglePoppinsWidgets(text: "***", fontsize: 18,color: cWhite,),
 
                 ],
               ),
