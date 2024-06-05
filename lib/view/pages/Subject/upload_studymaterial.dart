@@ -14,6 +14,8 @@ import 'package:lepton_school/sruthi/Study%20Materials/study_materials_list.dart
 import 'package:lepton_school/utils/utils.dart';
 import 'package:lepton_school/view/constant/sizes/constant.dart';
 import 'package:lepton_school/view/constant/sizes/sizes.dart';
+import 'package:lepton_school/view/pages/Subject/show_teacher_studymaterials.dart';
+import 'package:lepton_school/view/pages/study_materials/study_materials_list.dart';
 import 'package:lepton_school/view/widgets/fonts/google_monstre.dart';
 import 'package:lepton_school/widgets/textformfield.dart';
 import 'package:uuid/uuid.dart';
