@@ -26,7 +26,11 @@ class AttendanceController extends GetxController {
   RxString timeformated = ''.obs;
   final PushNotificationController pushNotificationController =
       Get.put(PushNotificationController());
+    var progress = 0.0.obs;
 
+  void updateProgress(double value) {
+    progress.value = value;
+  }
   dailyAttendanceController(String classID) async {
     final firebase = FirebaseFirestore.instance
         .collection('SchoolListCollection')

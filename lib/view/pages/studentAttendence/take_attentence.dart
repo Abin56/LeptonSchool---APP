@@ -15,6 +15,8 @@ import 'package:lepton_school/model/attendence_model/attendence-model.dart';
 import 'package:lepton_school/utils/utils.dart';
 import 'package:lepton_school/view/colors/colors.dart';
 import 'package:lepton_school/view/constant/sizes/sizes.dart';
+import 'package:lepton_school/view/fonts/text_widget.dart';
+import 'package:lepton_school/widgets/progress_sync_widget/sync_progress_screen.dart';
 
 import '../../widgets/button_container_widget.dart';
 
@@ -489,6 +491,8 @@ class _TakeAttenenceScreenState extends State<TakeAttenenceScreen> {
                         TextButton(
                             child: const Text('Upload Attendance'),
                             onPressed: () async {
+                              getProgressDilogue(context,
+                                  widget.attendanceController.progress);
                               final datetimeNow = DateTime.now();
                               DateTime parseDatee =
                                   DateTime.parse(datetimeNow.toString());
@@ -517,6 +521,9 @@ class _TakeAttenenceScreenState extends State<TakeAttenenceScreen> {
                                   DateFormat.jm().format(DateTime.now());
 
                               for (var i = 0; i < alllist.length; i++) {
+                                double progress = (i + 1) / alllist.length / 2;
+                                widget.attendanceController
+                                    .updateProgress(progress);
                                 await FirebaseFirestore.instance
                                     .collection("SchoolListCollection")
                                     .doc(widget.schoolID)
@@ -647,12 +654,18 @@ class _TakeAttenenceScreenState extends State<TakeAttenenceScreen> {
                                   .doc(widget.periodTokenID)
                                   .delete()
                                   .then((value) async {
+                                double progress = 60 / 100;
+                                widget.attendanceController
+                                    .updateProgress(progress);
                                 await widget.teacherAttendenceController
                                     .workingDaysMark(widget.classID);
                                 await widget.teacherAttendenceController
                                     .addTeacherAttendence(widget.classID,
                                         className, widget.periodNumber)
                                     .then((value) async {
+                                  double progress = 80 / 100;
+                                  widget.attendanceController
+                                      .updateProgress(progress);
                                   widget.teacherAttendenceController
                                       .studentstatusTeacherDayWise(
                                           classID: widget.classID,
@@ -660,12 +673,18 @@ class _TakeAttenenceScreenState extends State<TakeAttenenceScreen> {
                                           date: formatted,
                                           subjectID: widget.periodTokenID)
                                       .then((value) async {
+                                    double progress = 90 / 100;
+                                    widget.attendanceController
+                                        .updateProgress(progress);
                                     widget.teacherAttendenceController
                                         .studentstatusTeacherMonthWise(
                                             classID: widget.classID,
                                             month: monthwise,
                                             date: formatted,
                                             subjectID: widget.periodTokenID);
+
+                                    widget.attendanceController
+                                        .updateProgress(100 / 100);
                                   });
                                 });
                                 await widget.attendanceController.activeClasses(
@@ -750,4 +769,21 @@ class _TakeAttenenceScreenState extends State<TakeAttenenceScreen> {
     });
     return className;
   }
+}
+
+getProgressDilogue(BuildContext context, RxDouble progressValue) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        shape: const BeveledRectangleBorder(),
+        title: const TextFontWidget(text: 'Please wait ...', fontsize: 12,fontWeight: FontWeight.bold,),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[ProgressDialog(progressValue: progressValue)],
+          ),
+        ),
+      );
+    },
+  );
 }

@@ -70,7 +70,7 @@ const fetchParents = async (parentID, studentName) => {
     ).then(() => {
       db.collection("Attendance")
           .doc("MsRK8bvGM7hvpoXAvtbVo3KsB6H2")
-          .update({CardID: ""});
+          .update({CardID: "", AttendanceTaken: "false"});
     });
   } catch (error) {
     console.error("Error fetching parents data:", error);
