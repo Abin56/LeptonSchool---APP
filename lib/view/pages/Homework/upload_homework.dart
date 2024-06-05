@@ -49,7 +49,7 @@ class UploadHomework extends StatelessWidget {
                 .collection("HomeWorks")
                 .doc(homeworkID)
                 .collection('Submit')
-                .doc(UserCredentialsController.studentModel!.docid)
+                .doc(UserCredentialsController.studentModel?.docid)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData || !snapshot.data!.exists) {

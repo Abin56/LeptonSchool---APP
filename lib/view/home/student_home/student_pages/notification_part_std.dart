@@ -1,5 +1,4 @@
 import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lepton_school/controllers/push_notification_controller/push_notification_controller.dart';

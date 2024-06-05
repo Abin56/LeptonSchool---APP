@@ -25,7 +25,14 @@ final StudentProfileEditController studentProfileEditController =
     Get.put(StudentProfileEditController());
 
 class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
+   String? selectedGender;
+     @override
+  void initState() {
+    super.initState();
+    selectedGender = UserCredentialsController.parentModel?.gender;
+  }
   @override
+
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -71,12 +78,14 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                             child: StudentCircleAvatarImgeWidget(),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
                         ],
                       ),
                     ],
-                  )
+                  ),
+                   GooglePoppinsWidgets(text: "", fontsize: 12)
+
                 ],
               ),
             ),
@@ -336,25 +345,53 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                     title: Row(
                       children: [
                         GooglePoppinsWidgets(text: "Gender".tr, fontsize: 13.h),
-                        IconButton(
-                          onPressed: () async {
-                            studentProfileEditController.editvalueController
-                                .text = UserCredentialsController
-                                    .studentModel?.gender ??
-                                "";
-                            await changeStudentData(
-                              context: context,
-                              hintText: 'Gender',
-                              updateValue: 'gender',
-                              validator: checkFieldEmpty,
-                            );
-                            setState(() {});
-                          },
-                          icon: const Icon(
-                            Icons.edit,
-                            color: Colors.green,
-                          ),
-                        ),
+                         DropdownButton<String>(
+                        // value: selectedGender,
+                         icon: const Icon(Icons.edit),
+                         iconSize: 24,
+                         elevation: 16,
+                         style: const TextStyle(color: Colors.black),
+                         underline: const SizedBox.shrink(),  
+                         onChanged: (String? newValue) async {
+                           setState(() {
+                             selectedGender = newValue;
+                           });
+                           studentProfileEditController.editvalueController.text = newValue ?? "";
+                                await changeStudentData(
+                                context: context,
+                                hintText: 'Gender',
+                                updateValue: 'gender',
+                                validator: checkFieldEmpty,
+                                );
+                             setState(() {});
+                         },
+                         items: <String>['Male', 'Female',]
+                             .map<DropdownMenuItem<String>>((String value) {
+                           return DropdownMenuItem<String>(
+                             value: value,
+                             child: Text(value),
+                           );
+                         }).toList(),
+                     ),
+                        // IconButton(
+                        //   onPressed: () async {
+                        //     studentProfileEditController.editvalueController
+                        //         .text = UserCredentialsController
+                        //             .studentModel?.gender ??
+                        //         "";
+                        //     await changeStudentData(
+                        //       context: context,
+                        //       hintText: 'Gender',
+                        //       updateValue: 'gender',
+                        //       validator: checkFieldEmpty,
+                        //     );
+                        //     setState(() {});
+                        //   },
+                        //   icon: const Icon(
+                        //     Icons.edit,
+                        //     color: Colors.green,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

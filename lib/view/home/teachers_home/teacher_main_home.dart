@@ -15,7 +15,6 @@ import 'package:line_icons/line_icons.dart';
 
 import '../../../controllers/userCredentials/user_credentials.dart';
 import '../../../main.dart';
-import '../../pages/chat_gpt/screens/chat_screen.dart';
 import '../../pages/live_classes/teacher_live_section/create_room.dart';
 import '../../pages/recorded_videos/select_subjects.dart';
 import '../../pages/splash_screen/splash_screen.dart';

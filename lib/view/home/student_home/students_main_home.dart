@@ -14,7 +14,6 @@ import 'package:lepton_school/view/widgets/appbar_color/appbar_clr.dart';
 import 'package:line_icons/line_icons.dart';
 
 import '../../../main.dart';
-import '../../pages/chat_gpt/screens/chat_screen.dart';
 import '../../pages/recorded_videos/select_subjects.dart';
 import '../../pages/splash_screen/splash_screen.dart';
 

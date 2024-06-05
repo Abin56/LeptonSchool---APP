@@ -286,14 +286,10 @@ class ViewHomeWorks extends StatelessWidget {
                                                               builder:
                                                                   (context) {
                                                                 return UploadHomework(
-                                                                  homeWorkName: snaps
-                                                                          .data
-                                                                          ?.docs[index]
+                                                                  homeWorkName: snaps .data  ?.docs[index]
                                                                       ['tasks'],
-                                                                  homeworkID: snaps
-                                                                          .data
-                                                                          ?.docs[index]
-                                                                      ['docid'],
+                                                                  homeworkID: snaps .data
+                                                                          ?.docs[index] ['docid'],
                                                                 );
                                                               },
                                                             ),

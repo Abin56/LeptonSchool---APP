@@ -14,7 +14,7 @@ import 'widgets/circle_avatar_image_widget.dart';
 import 'widgets/update_text_form_widget.dart';
 
 class ParentEditProfileScreenFull extends StatefulWidget {
-  ParentEditProfileScreenFull({super.key});
+  const ParentEditProfileScreenFull({super.key});
 
   @override
   State<ParentEditProfileScreenFull> createState() => _ParentEditProfileScreenFullState();
@@ -23,6 +23,14 @@ class ParentEditProfileScreenFull extends StatefulWidget {
 class _ParentEditProfileScreenFullState extends State<ParentEditProfileScreenFull> {
   final ParentProfileEditController parentProfileEditController =
       Get.put(ParentProfileEditController());
+
+       String? selectedGender;
+
+        @override
+  void initState() {
+    super.initState();
+    selectedGender = UserCredentialsController.parentModel?.gender;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,25 +156,55 @@ class _ParentEditProfileScreenFullState extends State<ParentEditProfileScreenFul
               title: Row(
                 children: [
                   GooglePoppinsWidgets(text: "Gender".tr, fontsize: 12.h),
-                  IconButton(
-                      onPressed: () async {
-                        parentProfileEditController.textEditingController.text =
-                            UserCredentialsController.parentModel?.gender ?? "";
-                        await profileUpdate(
-                          context: context,
-                          textEditingController:
-                              parentProfileEditController.textEditingController,
-                          validator: checkFieldEmpty,
-                          documentKey: "gender",
-                          textInputType: TextInputType.text,
-                          hint: 'Gender',
-                        );
-                          setState(() {});
-                      },
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.green,
-                      ))
+                   DropdownButton<String>(
+         // value: selectedGender,
+          icon: const Icon(Icons.edit),
+          iconSize: 24,
+          elevation: 16,
+          style: const TextStyle(color: Colors.black),
+          underline: const SizedBox.shrink(),  
+          onChanged: (String? newValue) async {
+            setState(() {
+              selectedGender = newValue;
+            });
+            parentProfileEditController.textEditingController.text = newValue ?? "";
+            await profileUpdate(
+              context: context,
+              textEditingController: parentProfileEditController.textEditingController,
+              validator: checkFieldEmpty,
+              documentKey: "gender",
+              textInputType: TextInputType.text,
+              hint: 'Gender',
+            );
+              setState(() {});
+          },
+          items: <String>['Male', 'Female',]
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+                  // IconButton(
+                  //     onPressed: () async {
+                  //       parentProfileEditController.textEditingController.text =
+                  //           UserCredentialsController.parentModel?.gender ?? "";
+                  //       await profileUpdate(
+                  //         context: context,
+                  //         textEditingController:
+                  //             parentProfileEditController.textEditingController,
+                  //         validator: checkFieldEmpty,
+                  //         documentKey: "gender",
+                  //         textInputType: TextInputType.text,
+                  //         hint: 'Gender',
+                  //       );
+                  //         setState(() {});
+                  //     },
+                  //     icon: const Icon(
+                  //       Icons.edit,
+                  //       color: Colors.green,
+                  //     ))
                 ],
               ),
             ),
