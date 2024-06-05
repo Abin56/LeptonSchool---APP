@@ -34,9 +34,11 @@ class StudentEditListileWidgetEmail extends StatelessWidget {
         child: Icon(editicon),
         onTap: () {
           showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                 title: Text("Do you want to change Email ID ?".tr),
                 actions: [
                   TextButton(
@@ -58,6 +60,7 @@ class StudentEditListileWidgetEmail extends StatelessWidget {
                           return Form(
                             key: studentProfileEditContrller.formKey,
                             child: AlertDialog(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                               title: Text("Update Mail".tr),
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,

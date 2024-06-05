@@ -6,15 +6,15 @@ import 'package:lepton_school/view/home/events/Tabs/school_level_tab.dart';
 import 'package:lepton_school/view/widgets/appbar_color/appbar_clr.dart';
 
 class EventList extends StatelessWidget {
-   const EventList({super.key,});
+  const EventList({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return 
-    // DefaultTabController(
-    //   length: 2,
-    //   child:
-       Scaffold(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
         appBar: AppBar(
           foregroundColor: cWhite,
           title: Row(
@@ -39,16 +39,15 @@ class EventList extends StatelessWidget {
         ),
 
         //  appBar: AppBar(backgroundColor: adminePrimayColor),
-        body: 
-        const SafeArea(
-          child:
-          //  TabBarView(
-          //   children: [ClassLevelPage(), 
-            SchoolLevelPage()
-          //   ],
-          // ),
+        body: SafeArea(
+          child: TabBarView(
+            children: [
+              // const ClassLevelPage(),
+              SchoolLevelPage(),
+            ],
+          ),
         ),
-     // ),
+      ),
     );
   }
 }

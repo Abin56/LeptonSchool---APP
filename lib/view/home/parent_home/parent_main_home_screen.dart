@@ -37,6 +37,7 @@ class _ParentMainHomeScreenState extends State<ParentMainHomeScreen> {
 
   @override
   void initState() {
+        Get.find<ApplicationController>().checkParentProfile(context);
     super.initState();
   
   }
@@ -46,7 +47,7 @@ class _ParentMainHomeScreenState extends State<ParentMainHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<ApplicationController>().checkParentProfile(context);
+
 
     log("Stundent IDD :::: ${UserCredentialsController.parentModel!.studentID}");
     checkingSchoolActivate(context);

@@ -6,6 +6,7 @@ import 'package:lepton_school/controllers/application_controller/application_con
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/info/info.dart';
 import 'package:lepton_school/view/colors/colors.dart';
+import 'package:lepton_school/view/gemini_ChatBOT/geminiscreen.dart';
 import 'package:lepton_school/view/home/drawer/student_drawer.dart';
 import 'package:lepton_school/view/home/student_home/student__homepage.dart';
 import 'package:lepton_school/view/pages/live_classes/students_room/list_room.dart';
@@ -46,6 +47,7 @@ class _StudentsMainHomeScreenState extends State<StudentsMainHomeScreen> {
 
   @override
   void initState() {
+      Get.find<ApplicationController>().checkStudentProfile(context);
     super.initState();
     // _profileCheckTimer = Timer.periodic(const Duration(seconds: 30), (timer) {
     //   checkProfile();
@@ -126,7 +128,7 @@ class _StudentsMainHomeScreenState extends State<StudentsMainHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<ApplicationController>().checkStudentProfile(context);
+  
     checkingSchoolActivate(context);
     List<Widget> pages = [
       NewStdHomePage(),
@@ -138,7 +140,7 @@ class _StudentsMainHomeScreenState extends State<StudentsMainHomeScreen> {
         schoolId: UserCredentialsController.schoolId!,
       ),
       const StudentsRoomListScreen(),
-      const ChatScreen(),
+      const GeminiAIBOT(),
     ];
     return WillPopScope(
       onWillPop: () => onbackbuttonpressed(context),

@@ -51,7 +51,7 @@ class GuardianAccessories extends StatelessWidget {
 
       const TimeTable(), // Time Table
 
-      const SchoolLevelMeetingPage(), //Meetings
+        SchoolLevelMeetingPage(), //Meetings
 
       const UserExmNotifications(),
       // Exams

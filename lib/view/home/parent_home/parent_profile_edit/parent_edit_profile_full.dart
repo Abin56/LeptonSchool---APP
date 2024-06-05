@@ -70,6 +70,7 @@ class _ParentEditProfileScreenFullState extends State<ParentEditProfileScreenFul
                           context: context,
                           textEditingController:
                               parentProfileEditController.textEditingController,
+                          validator: checkFieldEmpty,
                           documentKey: "parentName",
                           textInputType: TextInputType.text,
                           hint: 'Name',
@@ -155,6 +156,7 @@ class _ParentEditProfileScreenFullState extends State<ParentEditProfileScreenFul
                           context: context,
                           textEditingController:
                               parentProfileEditController.textEditingController,
+                          validator: checkFieldEmpty,
                           documentKey: "gender",
                           textInputType: TextInputType.text,
                           hint: 'Gender',
@@ -191,6 +193,7 @@ class _ParentEditProfileScreenFullState extends State<ParentEditProfileScreenFul
                           context: context,
                           textEditingController:
                               parentProfileEditController.textEditingController,
+                          validator: checkFieldEmpty,
                           documentKey: "houseName",
                           textInputType: TextInputType.text,
                           hint: 'House Name',
@@ -225,6 +228,7 @@ class _ParentEditProfileScreenFullState extends State<ParentEditProfileScreenFul
                           context: context,
                           textEditingController:
                               parentProfileEditController.textEditingController,
+                          validator: checkFieldEmpty,
                           documentKey: "place",
                           textInputType: TextInputType.text,
                           hint: 'Place',
@@ -261,6 +265,7 @@ class _ParentEditProfileScreenFullState extends State<ParentEditProfileScreenFul
                           context: context,
                           textEditingController:
                               parentProfileEditController.textEditingController,
+                          validator: checkFieldEmpty,
                           documentKey: "district",
                           textInputType: TextInputType.text,
                           hint: 'District',
@@ -295,6 +300,7 @@ class _ParentEditProfileScreenFullState extends State<ParentEditProfileScreenFul
                           context: context,
                           textEditingController:
                               parentProfileEditController.textEditingController,
+                          validator: checkFieldEmpty,
                           documentKey: "state",
                           textInputType: TextInputType.text,
                           hint: 'State',
@@ -331,6 +337,7 @@ class _ParentEditProfileScreenFullState extends State<ParentEditProfileScreenFul
                           context: context,
                           textEditingController:
                               parentProfileEditController.textEditingController,
+                          validator: checkFieldEmpty,
                           documentKey: "pincode",
                           textInputType: TextInputType.number,
                           hint: 'Pincode',
@@ -361,25 +368,26 @@ class _ParentEditProfileScreenFullState extends State<ParentEditProfileScreenFul
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => updateTextFormField(
-        validator: validator,
-        context: context,
-        hintText: hint,
-        textEditingController: textEditingController,
-        voidCallback: () async {
-          if (textEditingController.text.isNotEmpty &&
-              (validator == null ||
-                  validator(textEditingController.text) == null)) {
-            await parentProfileEditController.updateParentProfile(
-              context,
-              value: textEditingController.text,
-              documentKey: documentKey,
-            );
-          } else {
-            return showToast(msg: "Please enter a valid data");
-          }
-        },
-        textInputType: textInputType,
+      builder: (context) => Form(
+        key: parentProfileEditController.formKey,
+        child: updateTextFormField(
+          validator: validator,
+          context: context,
+          hintText: hint,
+          textEditingController: textEditingController,
+          voidCallback: () async {
+            if (parentProfileEditController.formKey.currentState!.validate()) {
+              await parentProfileEditController.updateParentProfile(
+                context,
+                value: textEditingController.text,
+                documentKey: documentKey,
+              );
+            } else {
+              return showToast(msg: "Please enter a valid data");
+            }
+          },
+          textInputType: textInputType,
+        ),
       ),
     );
   }

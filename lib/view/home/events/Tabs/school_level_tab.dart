@@ -1,7 +1,8 @@
 import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_utils/get_utils.dart';
+import 'package:get/get.dart';
+import 'package:lepton_school/controllers/student_controller/student_event/student_event_controller.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/view/constant/sizes/sizes.dart';
 
@@ -9,8 +10,9 @@ import '../../../widgets/fonts/google_poppins.dart';
 import '../event_display_school_level.dart';
 
 class SchoolLevelPage extends StatelessWidget {
-  const SchoolLevelPage({super.key});
-
+  SchoolLevelPage({super.key});
+  final StudentEventController studentEventController =
+      Get.put(StudentEventController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(

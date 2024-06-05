@@ -3,13 +3,14 @@
 import 'dart:developer';
 
 import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:dropdown_search/dropdown_search.dart'; 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lepton_school/controllers/get_student_detail/get_student_details.dart';
 import 'package:lepton_school/view/colors/colors.dart';
+import 'package:lepton_school/view/constant/sizes/constant.dart';
 import 'package:lepton_school/view/constant/sizes/sizes.dart';
 import 'package:lepton_school/view/widgets/appbar_color/appbar_clr.dart';
 
@@ -38,13 +39,12 @@ class LeaveApplicationScreen extends StatefulWidget {
 
 class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
   StudentController studentController = Get.put(StudentController());
-  final TextEditingController _applyleaveDateController =
-      TextEditingController();
-  final TextEditingController _applyFromDateController =
-      TextEditingController();
+  final TextEditingController _applyleaveDateController = TextEditingController();
+  final TextEditingController _applyFromDateController = TextEditingController();
   final TextEditingController _applyTODateController = TextEditingController();
 
   final TextEditingController _leaveReasonController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   DateTime? _selectedDateForApplyDate;
   DateTime? _selectedFromDate;
@@ -60,8 +60,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
     if (picked != null && picked != _selectedDateForApplyDate) {
       setState(() {
         _selectedDateForApplyDate = picked;
-        DateTime parseDate =
-            DateTime.parse(_selectedDateForApplyDate.toString());
+        DateTime parseDate = DateTime.parse(_selectedDateForApplyDate.toString());
         final DateFormat formatter = DateFormat('dd-MM-yyyy');
         String formatted = formatter.format(parseDate);
 
@@ -126,7 +125,7 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
         return Scaffold(
           appBar: AppBar(
             flexibleSpace: const AppBarColorWidget(),
-        foregroundColor: cWhite,
+            foregroundColor: Colors.white,
             title: Text(
               "Apply Leave".tr,
               style: GoogleFonts.poppins(
@@ -135,15 +134,101 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
             ),
           ),
           body: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 220,
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 250,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Apply Leave Date".tr,
+                            style: GoogleFonts.poppins(
+                              color: cblack,
+                              fontSize: 13,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: 10.h,
+                            ),
+                            child: Stack(
+                              alignment: AlignmentDirectional.centerEnd,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.calendar_today,
+                                    color: Colors.black.withOpacity(0.3),
+                                  ),
+                                ),
+                                TextFormField(
+                                    controller: _applyleaveDateController,
+                                    readOnly: true,
+                                    onTap: () => _selectDate(context),
+                                    decoration: const InputDecoration(
+                                      labelText: 'DD-MM-YYYY',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    validator: checkFieldEmpty),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            height: 100,
+                            width: double.infinity,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Choose Leave Type".tr,
+                                  style: GoogleFonts.poppins(
+                                    color: cblack,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                                kHeight10,
+                                DropdownSearch<String>(
+                                  selectedItem: 'Select'.tr,
+                                  validator: (v) =>
+                                      v == null || v == 'Select' ? "required field" : null,
+                                  items: [
+                                    "Medical".tr,
+                                    "Family".tr,
+                                    "Sick".tr,
+                                    'Function'.tr,
+                                    'Others'.tr
+                                  ],
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _selectedLeaveType = value!;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,201 +240,116 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                             fontSize: 13,
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 10.h,
-                          ),
-                          child: Stack(
-                            alignment: AlignmentDirectional.centerEnd,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.calendar_today,
-                                  color: Colors.black.withOpacity(0.3),
-                                ),
-                              ),
-                              TextFormField(
-                                controller: _applyleaveDateController,
-                                readOnly: true,
-                                onTap: () => _selectDate(context),
-                                decoration: const InputDecoration(
-                                  labelText: 'DD-MM-YYYY',
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                          height: 85,
-                          width: double.infinity,
-                          child: Column(
+                        kHeight10,
+                        Container(
+                          height: 80,
+                          color: Colors.grey.withOpacity(0.1),
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Choose Leave Type".tr,
-                                style: GoogleFonts.poppins(
-                                  color: cblack,
-                                  fontSize: 13,
+                            children: <Widget>[
+                              Icon(
+                                Icons.calendar_month,
+                                color: Colors.black.withOpacity(0.3),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _applyFromDateController,
+                                  readOnly: true,
+                                  onTap: () => _selectFromDate(context),
+                                  decoration: InputDecoration(
+                                    labelText: 'From'.tr,
+                                    border: const OutlineInputBorder(),
+                                  ),
+                                  validator: checkFieldEmpty,
                                 ),
                               ),
-                              kHeight10,
-                              DropdownSearch<String>(
-                                selectedItem: 'Select'.tr,
-                                validator: (v) =>
-                                    v == null ? "required field" : null,
-                                items: [
-                                  "Medical".tr,
-                                  "Family".tr,
-                                  "Sick".tr,
-                                  'Function'.tr,
-                                  'Others'.tr
-                                ],
-                                onChanged: (value) {
-                                  setState(() {
-                                    _selectedLeaveType = value!;
-                                  });
-                                },
+                              const SizedBox(width: 8),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: Colors.black.withOpacity(0.3),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _applyTODateController,
+                                  readOnly: true,
+                                  onTap: () => _selectToDate(context),
+                                  decoration: InputDecoration(
+                                    labelText: 'To'.tr,
+                                    border: const OutlineInputBorder(),
+                                  ),
+                                  validator: checkFieldEmpty,
+                                ),
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Apply Leave Date".tr,
-                        style: GoogleFonts.poppins(
-                          color: cblack,
-                          fontSize: 13,
-                        ),
-                      ),
-                      kHeight10,
-                      Container(
-                        height: 80,
-                        color: Colors.grey.withOpacity(0.1),
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Icon(
-                              Icons.calendar_month,
-                              color: Colors.black.withOpacity(0.3),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                controller: _applyFromDateController,
-                                readOnly: true,
-                                onTap: () => _selectFromDate(context),
-                                decoration: InputDecoration(
-                                  labelText: 'From'.tr,
-                                  border: const OutlineInputBorder(),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Icon(
-                              Icons.arrow_forward,
-                              color: Colors.black.withOpacity(0.3),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                controller: _applyTODateController,
-                                readOnly: true,
-                                onTap: () => _selectToDate(context),
-                                decoration: InputDecoration(
-                                  labelText: 'To'.tr,
-                                  border: const OutlineInputBorder(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                kHeight10,
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Reason".tr,
-                        style: GoogleFonts.poppins(
-                          color: cblack,
-                          fontSize: 13,
-                        ),
-                      ),
-                      kHeight10,
-                      Container(
-                        height: 130,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: TextFormField( 
-                          controller: _leaveReasonController,
-                          minLines: 1,
-                          maxLines: 10,
-                          keyboardType: TextInputType.multiline,
-                          decoration: InputDecoration(
-                            hintText: 'Reason'.tr,
-                            border: InputBorder.none,
-                            contentPadding: const EdgeInsets.all(7),
+                  kHeight10,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Reason".tr,
+                          style: GoogleFonts.poppins(
+                            color: cblack,
+                            fontSize: 13,
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () async {
-                              log(_selectedLeaveType);
-                              ApplyLeveApplicationModel addLeaveAppplicationDetails =
-                                  ApplyLeveApplicationModel(
-                                    dleaveFromDate: _selectedFromDate.toString(),
-                                    dleaveToDate: _selectedToDate.toString(),
-                                      id: _applyleaveDateController.text.trim(),
-                                      applyLeaveDate:
-                                          _applyleaveDateController.text.trim(),
-                                      leaveResontype:
-                                          _selectedLeaveType.toString(),
-                                      leaveFromDate:
-                                          _applyFromDateController.text.trim(),
-                                      leaveToDate:
-                                          _applyTODateController.text.trim(),
-                                      leaveReason:
-                                          _leaveReasonController.text.trim(),
-                                      studentName:
-                                          studentController.studentName.value,
-                                      studentParent: widget.guardianName);
-                              ApplyLeaveLetterStatusToFireBase()
-                                  .applyLeaveLetterController(
+                        kHeight10,
+                        Container(
+                          height: 130,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: TextFormField(
+                              controller: _leaveReasonController,
+                              minLines: 1,
+                              maxLines: 10,
+                              keyboardType: TextInputType.multiline,
+                              decoration: InputDecoration(
+                                hintText: 'Reason'.tr,
+                                border: InputBorder.none,
+                                contentPadding: const EdgeInsets.all(7),
+                              ),
+                              validator: checkFieldEmpty),
+                        ),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  log(_selectedLeaveType);
+                                  ApplyLeveApplicationModel addLeaveAppplicationDetails =
+                                      ApplyLeveApplicationModel(
+                                          dleaveFromDate: _selectedFromDate.toString(),
+                                          dleaveToDate: _selectedToDate.toString(),
+                                          id: _applyleaveDateController.text.trim(),
+                                          applyLeaveDate: _applyleaveDateController.text.trim(),
+                                          leaveResontype: _selectedLeaveType.toString(),
+                                          leaveFromDate: _applyFromDateController.text.trim(),
+                                          leaveToDate: _applyTODateController.text.trim(),
+                                          leaveReason: _leaveReasonController.text.trim(),
+                                          studentName: studentController.studentName.value,
+                                          studentParent: widget.guardianName);
+                                  ApplyLeaveLetterStatusToFireBase().applyLeaveLetterController(
                                       addLeaveAppplicationDetails,
                                       context,
                                       widget.schoolId,
@@ -358,30 +358,34 @@ class _LeaveApplicationScreenState extends State<LeaveApplicationScreen> {
                                       _applyleaveDateController.text.trim(),
                                       widget.studentName,
                                       widget.batchId);
-                              clearFeild();
-                            },
-                            child: ButtonContainerWidget(
-                              curving: 20,
-                              colorindex: 2,
-                              height: 60,
-                              width: 300,
-                              child: Center(
-                                child: Text(
-                                  "Apply Leave".tr,
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontSize: 13,
+                                  clearFeild();
+                                } else {
+                                  log('tttttttttttttttt');
+                                }
+                              },
+                              child: ButtonContainerWidget(
+                                curving: 20,
+                                colorindex: 2,
+                                height: 60,
+                                width: 300,
+                                child: Center(
+                                  child: Text(
+                                    "Apply Leave".tr,
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 13,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                )
-              ],
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );

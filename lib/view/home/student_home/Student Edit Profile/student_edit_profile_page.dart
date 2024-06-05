@@ -28,366 +28,466 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-            body: ListView(children: [
-      Container(
-        width: double.infinity,
-        height: 300.h,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(12.h), bottomRight: Radius.circular(12.h)),
-          color: adminePrimayColor,
-          //const Color.fromARGB(255, 88, 167, 123),
-        ),
-        child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              IconButtonBackWidget(
-                color: cWhite,
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              GooglePoppinsWidgets(
-                text: "Profile".tr,
-                fontsize: 22.h,
-                color: cWhite,
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Stack(children: [
-                SingleChildScrollView(
-                  child: StudentCircleAvatarImgeWidget(),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-              ]),
-            ],
-          )
-        ]),
-      ),
-      SizedBox(
-        width: double.infinity,
-        height: 620.h,
-        child: ListView(
+      child: Scaffold(
+        body: ListView(
           children: [
-            StudentEditListileWidget(
-              icon: Icons.person,
-              subtitle: Row(
-                children: [
-                  GooglePoppinsWidgets(
-                      text: UserCredentialsController.studentModel?.studentName ?? "",
-                      fontsize: 19.h),
-                ],
+            Container(
+              width: double.infinity,
+              height: 300.h,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(12.h),
+                    bottomRight: Radius.circular(12.h)),
+                color: adminePrimayColor,
+                //const Color.fromARGB(255, 88, 167, 123),
               ),
-              title: Row(
+              child: Column(
                 children: [
-                  GooglePoppinsWidgets(text: "Name".tr, fontsize: 12.h),
-                  IconButton(
-                      onPressed: () async {
-                        studentProfileEditController.editvalueController.text =
-                            UserCredentialsController.studentModel?.studentName ?? "";
-
-                        await changeStudentData(context, 'Name', 'studentName');
-                        setState(() {
-                          
-                        });
-                      },
-
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.green,
-                      ))
-                ],
-              ),
-            ),
-            StudentEditListileWidget(
-              icon: Icons.call,
-              subtitle: Row(
-                children: [
-                  GooglePoppinsWidgets(
-                      text: UserCredentialsController.studentModel?.parentPhoneNumber ?? "",
-                      fontsize: 19.h),
-                ],
-              ),
-              title: Row(
-                children: [
-                  GooglePoppinsWidgets(text: "Phone No.".tr, fontsize: 12.h),
-                  IconButton(
-                      onPressed: () async {
-                        studentProfileEditController.editvalueController.text =
-                            UserCredentialsController.studentModel?.parentPhoneNumber ?? "";
-
-                        await changeStudentData(context, 'Phone Number', 'parentPhoneNumber');
-                        setState(() {
-                          
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.green,
-                      ))
-                ],
-              ),
-            ),
-            StudentEditListileWidgetEmail(
-              icon: Icons.email,
-              subtitle: Row(
-                children: [
-                  GooglePoppinsWidgets(
-                      text: UserCredentialsController.studentModel?.studentemail ?? "",
-                      fontsize: 19.h),
-                ],
-              ),
-              title: Row(
-                children: [
-                  GooglePoppinsWidgets(text: "Email".tr, fontsize: 12.h),
-                ],
-              ),
-              editicon: Icons.edit,
-            ),
-            StudentEditListileWidget(
-              icon: Icons.class_rounded,
-              subtitle: Row(
-                children: [
-                  FutureBuilder(
-                      future: FirebaseFirestore.instance
-                          .collection('SchoolListCollection')
-                          .doc(UserCredentialsController.schoolId)
-                          .collection(UserCredentialsController.batchId!)
-                          .doc(UserCredentialsController.batchId)
-                          .collection('classes')
-                          .doc(UserCredentialsController.classId)
-                          .get(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return GooglePoppinsWidgets(
-                              text: snapshot.data!.data()!['className'], fontsize: 19.h);
-                        } else {
-                          return const Text('');
-                        }
-                      }),
-                ],
-              ),
-              title: Row(
-                children: [
-                  GooglePoppinsWidgets(text: "Class".tr, fontsize: 12.h),
-                ],
-              ),
-            ),
-            StudentEditListileWidget(
-              icon: Icons.bloodtype_outlined,
-              subtitle: Row(
-                children: [
-                  GooglePoppinsWidgets(
-                    text: UserCredentialsController.studentModel?.bloodgroup ?? "",
-                    fontsize: 19.h,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      IconButtonBackWidget(
+                        color: cWhite,
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      GooglePoppinsWidgets(
+                        text: "Profile".tr,
+                        fontsize: 22.h,
+                        color: cWhite,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              title: Row(
-                children: [
-                  GooglePoppinsWidgets(text: "Blood Group".tr, fontsize: 12.h),
-                  IconButton(
-                      onPressed: () async {
-                        studentProfileEditController.editvalueController.text =
-                            UserCredentialsController.studentModel?.bloodgroup ?? "";
-
-                        await changeStudentData(context, 'Blood Group', 'bloodgroup');
-                        setState(() {
-                          
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.green,
-                      ))
-                ],
-              ),
-            ),
-            StudentEditListileWidget(
-              icon: Icons.home,
-              subtitle: Row(
-                children: [
-                  GooglePoppinsWidgets(
-                      text: UserCredentialsController.studentModel?.houseName ?? "",
-                      fontsize: 19.h),
-                ],
-              ),
-              title: Row(
-                children: [
-                  GooglePoppinsWidgets(text: "Address".tr, fontsize: 13.h),
-                  IconButton(
-                      onPressed: () async {
-                        studentProfileEditController.editvalueController.text =
-                            UserCredentialsController.studentModel?.houseName ?? "";
-
-                        await changeStudentData(context, 'Address', 'houseName');
-                        setState(() {
-                          
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.green,
-                      ))
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Stack(
+                        children: [
+                          SingleChildScrollView(
+                            child: StudentCircleAvatarImgeWidget(),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
-            StudentEditListileWidget(
-              icon: Icons.home,
-              subtitle: Row(
+            SizedBox(
+              width: double.infinity,
+              height: 620.h,
+              child: ListView(
                 children: [
-                  GooglePoppinsWidgets(
-                      text: UserCredentialsController.studentModel?.place ?? "", fontsize: 19.h),
-                ],
-              ),
-              title: Row(
-                children: [
-                  GooglePoppinsWidgets(text: "Place".tr, fontsize: 13.h),
-                  IconButton(
-                      onPressed: () async {
-                        studentProfileEditController.editvalueController.text =
-                            UserCredentialsController.studentModel?.place ?? "";
-
-                        await changeStudentData(context, 'place', 'place');
-                        setState(() {
-                          
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.green,
-                      ))
-                ],
-              ),
-            ),
-            StudentEditListileWidget(
-              icon: Icons.home,
-              subtitle: Row(
-                children: [
-                  GooglePoppinsWidgets(
-                      text: UserCredentialsController.studentModel?.gender ?? "", fontsize: 19.h),
-                ],
-              ),
-              title: Row(
-                children: [
-                  GooglePoppinsWidgets(text: "Gender".tr, fontsize: 13.h),
-                  IconButton(
-                      onPressed: () async {
-                        studentProfileEditController.editvalueController.text =
-                            UserCredentialsController.studentModel?.gender ?? "";
-
-                        await changeStudentData(context, 'Gender', 'gender');
-                        setState(() {
-                          
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.green,
-                      ))
-                ],
-              ),
-            ),
-            StudentEditListileWidget(
-              icon: Icons.home,
-              subtitle: Row(
-                children: [
-                  GooglePoppinsWidgets(
-                      text: UserCredentialsController.studentModel?.dateofBirth ?? "",
-                      fontsize: 19.h),
-                ],
-              ),
-              title: Row(
-                children: [
-                  GooglePoppinsWidgets(text: "Dob".tr, fontsize: 13.h),
-                  IconButton(
-                      onPressed: () async {
-                        studentProfileEditController.editvalueController.text =
-                            UserCredentialsController.studentModel?.dateofBirth ?? "";
-
-                        await changeStudentData(context, 'DOB', 'dateofBirth');
-                        setState(() {
-                          
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.green,
-                      ))
-                ],
-              ),
-            ),
-            StudentEditListileWidget(
-              icon: Icons.home,
-              subtitle: Row(
-                children: [
-                  GooglePoppinsWidgets(
-                      text: UserCredentialsController.studentModel?.district ?? "", fontsize: 19.h),
-                ],
-              ),
-              title: Row(
-                children: [
-                  GooglePoppinsWidgets(text: "District".tr, fontsize: 13.h),
-                  IconButton(
-                      onPressed: () async {
-                        studentProfileEditController.editvalueController.text =
-                            UserCredentialsController.studentModel?.district ?? "";
-
-                        await changeStudentData(context, 'District', 'district');
-                        setState(() {
-                          
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.green,
-                      ))
-                ],
-              ),
-            ),
-            StudentEditListileWidget(
-              icon: Icons.home,
-              subtitle: Row(
-                children: [
-                  GooglePoppinsWidgets(
-                      text: UserCredentialsController.studentModel?.alPhoneNumber ?? "",
-                      fontsize: 19.h),
-                ],
-              ),
-              title: Row(
-                children: [
-                  GooglePoppinsWidgets(text: "Alternate phone number".tr, fontsize: 13.h),
-                  IconButton(
-                      onPressed: () async {
-                        studentProfileEditController.editvalueController.text =
-                            UserCredentialsController.studentModel?.alPhoneNumber ?? "";
-
-                        await changeStudentData(context, 'Alternate PhoneNumber', 'alPhoneNumber');
-                        setState(() {
-                          
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.green,
-                      ))
+                  StudentEditListileWidget(
+                    icon: Icons.person,
+                    subtitle: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                          text: UserCredentialsController
+                                  .studentModel?.studentName ??
+                              "",
+                          fontsize: 19.h,
+                        ),
+                      ],
+                    ),
+                    title: Row(
+                      children: [
+                        GooglePoppinsWidgets(text: "Name".tr, fontsize: 12.h),
+                        IconButton(
+                          onPressed: () async {
+                            studentProfileEditController.editvalueController
+                                .text = UserCredentialsController
+                                    .studentModel?.studentName ??
+                                "";
+                            await changeStudentData(
+                              context: context,
+                              hintText: 'Name',
+                              updateValue: 'studentName',
+                              validator: checkFieldEmpty,
+                            );
+                            setState(() {});
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  StudentEditListileWidget(
+                    icon: Icons.call,
+                    subtitle: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                          text: UserCredentialsController
+                                  .studentModel?.parentPhoneNumber ??
+                              "",
+                          fontsize: 19.h,
+                        ),
+                      ],
+                    ),
+                    title: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                            text: "Phone No.".tr, fontsize: 12.h),
+                        IconButton(
+                          onPressed: () async {
+                            studentProfileEditController.editvalueController
+                                .text = UserCredentialsController
+                                    .studentModel?.parentPhoneNumber ??
+                                "";
+                            await changeStudentData(
+                                context: context,
+                                hintText: 'Phone Number',
+                                updateValue: 'parentPhoneNumber',
+                                validator: checkFieldPhoneNumberIsValid,
+                                textInputType: TextInputType.number);
+                            setState(() {});
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  StudentEditListileWidgetEmail(
+                    icon: Icons.email,
+                    subtitle: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                            text: UserCredentialsController
+                                    .studentModel?.studentemail ??
+                                "",
+                            fontsize: 19.h),
+                      ],
+                    ),
+                    title: Row(
+                      children: [
+                        GooglePoppinsWidgets(text: "Email".tr, fontsize: 12.h),
+                      ],
+                    ),
+                    editicon: Icons.edit,
+                  ),
+                  StudentEditListileWidget(
+                    icon: Icons.class_rounded,
+                    subtitle: Row(
+                      children: [
+                        FutureBuilder(
+                          future: FirebaseFirestore.instance
+                              .collection('SchoolListCollection')
+                              .doc(UserCredentialsController.schoolId)
+                              .collection(UserCredentialsController.batchId!)
+                              .doc(UserCredentialsController.batchId)
+                              .collection('classes')
+                              .doc(UserCredentialsController.classId)
+                              .get(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return GooglePoppinsWidgets(
+                                  text: snapshot.data!.data()!['className'],
+                                  fontsize: 19.h);
+                            } else {
+                              return const Text('');
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    title: Row(
+                      children: [
+                        GooglePoppinsWidgets(text: "Class".tr, fontsize: 12.h),
+                      ],
+                    ),
+                  ),
+                  StudentEditListileWidget(
+                    icon: Icons.bloodtype_outlined,
+                    subtitle: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                          text: UserCredentialsController
+                                  .studentModel?.bloodgroup ??
+                              "",
+                          fontsize: 19.h,
+                        ),
+                      ],
+                    ),
+                    title: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                            text: "Blood Group".tr, fontsize: 12.h),
+                        IconButton(
+                          onPressed: () async {
+                            studentProfileEditController.editvalueController
+                                .text = UserCredentialsController
+                                    .studentModel?.bloodgroup ??
+                                "";
+                            await changeStudentData(
+                              context: context,
+                              hintText: 'Blood Group',
+                              updateValue: 'bloodgroup',
+                              validator: checkFieldEmpty,
+                            );
+                            setState(() {});
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  StudentEditListileWidget(
+                    icon: Icons.home,
+                    subtitle: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                          text: UserCredentialsController
+                                  .studentModel?.houseName ??
+                              "",
+                          fontsize: 19.h,
+                        ),
+                      ],
+                    ),
+                    title: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                            text: "Address".tr, fontsize: 13.h),
+                        IconButton(
+                          onPressed: () async {
+                            studentProfileEditController.editvalueController
+                                .text = UserCredentialsController
+                                    .studentModel?.houseName ??
+                                "";
+                            await changeStudentData(
+                              context: context,
+                              hintText: 'Address',
+                              updateValue: 'houseName',
+                              validator: checkFieldEmpty,
+                            );
+                            setState(() {});
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  StudentEditListileWidget(
+                    icon: Icons.place,
+                    subtitle: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                          text: UserCredentialsController.studentModel?.place ??
+                              "",
+                          fontsize: 19.h,
+                        ),
+                      ],
+                    ),
+                    title: Row(
+                      children: [
+                        GooglePoppinsWidgets(text: "Place".tr, fontsize: 13.h),
+                        IconButton(
+                          onPressed: () async {
+                            studentProfileEditController
+                                    .editvalueController.text =
+                                UserCredentialsController.studentModel?.place ??
+                                    "";
+                            await changeStudentData(
+                              context: context,
+                              hintText: 'place',
+                              updateValue: 'place',
+                              validator: checkFieldEmpty,
+                            );
+                            setState(() {});
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  StudentEditListileWidget(
+                    icon: Icons.person,
+                    subtitle: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                          text:
+                              UserCredentialsController.studentModel?.gender ??
+                                  "",
+                          fontsize: 19.h,
+                        ),
+                      ],
+                    ),
+                    title: Row(
+                      children: [
+                        GooglePoppinsWidgets(text: "Gender".tr, fontsize: 13.h),
+                        IconButton(
+                          onPressed: () async {
+                            studentProfileEditController.editvalueController
+                                .text = UserCredentialsController
+                                    .studentModel?.gender ??
+                                "";
+                            await changeStudentData(
+                              context: context,
+                              hintText: 'Gender',
+                              updateValue: 'gender',
+                              validator: checkFieldEmpty,
+                            );
+                            setState(() {});
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  StudentEditListileWidget(
+                    icon: Icons.calendar_month,
+                    subtitle: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                          text: UserCredentialsController
+                                  .studentModel?.dateofBirth ??
+                              "",
+                          fontsize: 19.h,
+                        ),
+                      ],
+                    ),
+                    title: Row(
+                      children: [
+                        GooglePoppinsWidgets(text: "Dob".tr, fontsize: 13.h),
+                        IconButton(
+                          onPressed: () async {
+                            studentProfileEditController.editvalueController
+                                .text = UserCredentialsController
+                                    .studentModel?.dateofBirth ??
+                                "";
+                            await changeStudentData(
+                                onTapFunction: () async {
+                                  studentProfileEditController
+                                      .editvalueController
+                                      .text = await dateTimePicker(context);
+                                },
+                                context: context,
+                                textInputType: TextInputType.none,
+                                validator: checkFieldEmpty,
+                                hintText: 'DOB',
+                                updateValue: 'dateofBirth');
+                            setState(() {});
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  StudentEditListileWidget(
+                    icon: Icons.place,
+                    subtitle: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                          text: UserCredentialsController
+                                  .studentModel?.district ??
+                              "",
+                          fontsize: 19.h,
+                        ),
+                      ],
+                    ),
+                    title: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                          text: "District".tr,
+                          fontsize: 13.h,
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            studentProfileEditController.editvalueController
+                                .text = UserCredentialsController
+                                    .studentModel?.district ??
+                                "";
+                            await changeStudentData(
+                              context: context,
+                              hintText: 'District',
+                              updateValue: 'district',
+                              validator: checkFieldEmpty,
+                            );
+                            setState(() {});
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  StudentEditListileWidget(
+                    icon: Icons.phone,
+                    subtitle: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                          text: UserCredentialsController
+                                  .studentModel?.alPhoneNumber ??
+                              "",
+                          fontsize: 19.h,
+                        ),
+                      ],
+                    ),
+                    title: Row(
+                      children: [
+                        GooglePoppinsWidgets(
+                          text: "Alternate phone number".tr,
+                          fontsize: 13.h,
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            studentProfileEditController.editvalueController
+                                .text = UserCredentialsController
+                                    .studentModel?.alPhoneNumber ??
+                                "";
+                            await changeStudentData(
+                              context: context,
+                              validator: checkFieldPhoneNumberIsValid,
+                              hintText: 'Alternate PhoneNumber',
+                              updateValue: 'alPhoneNumber',
+                              textInputType: TextInputType.number,
+                            );
+                            setState(() {});
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
           ],
         ),
       ),
-    ])));
+    );
   }
 }
 
@@ -415,11 +515,14 @@ class StudentCircleAvatarImgeWidget extends StatelessWidget {
     return Column(
       children: [
         CircleAvatar(
-          backgroundImage: UserCredentialsController.studentModel?.profileImageUrl == null ||
-                  UserCredentialsController.studentModel!.profileImageUrl.isEmpty
-              ? const NetworkImage(netWorkImagePathPerson)
-              : NetworkImage(UserCredentialsController.studentModel?.profileImageUrl ?? " ")
-                  as ImageProvider,
+          backgroundImage:
+              UserCredentialsController.studentModel?.profileImageUrl == null ||
+                      UserCredentialsController
+                          .studentModel!.profileImageUrl.isEmpty
+                  ? const NetworkImage(netWorkImagePathPerson)
+                  : NetworkImage(
+                      UserCredentialsController.studentModel?.profileImageUrl ??
+                          " ") as ImageProvider,
           radius: 60,
           child: Stack(
             children: [
@@ -438,7 +541,7 @@ class StudentCircleAvatarImgeWidget extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }
@@ -448,18 +551,18 @@ class StudentCircleAvatarImgeWidget extends StatelessWidget {
         isDismissible: false,
         context: context,
         builder: (BuildContext context) {
-          return BottomProfilePhotoContainerWidget(getImageController: getImageController);
-        }).then((value) {
-      if (getImageController.pickedImage.value.isNotEmpty) {
-        showDialog(
+          return BottomProfilePhotoContainerWidget(
+              getImageController: getImageController);
+        }).then(
+      (value) {
+        if (getImageController.pickedImage.value.isNotEmpty) {
+          showDialog(
             barrierDismissible: false,
             context: context,
             builder: (context) {
               return Obx(
                 () => Get.find<StudentProfileEditController>().isLoading.value
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
+                    ? const Center(child: CircularProgressIndicator())
                     : AlertDialog(
                         title: Text('Do you want to change profile picture'.tr),
                         actions: [
@@ -470,21 +573,31 @@ class StudentCircleAvatarImgeWidget extends StatelessWidget {
                               },
                               child: Text('Update'.tr)),
                           TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                getImageController.pickedImage.value = "";
-                              },
-                              child: Text('Cancel'.tr)),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              getImageController.pickedImage.value = "";
+                            },
+                            child: Text('Cancel'.tr),
+                          ),
                         ],
                       ),
               );
-            });
-      }
-    });
+            },
+          );
+        }
+      },
+    );
   }
 }
 
-changeStudentData(BuildContext context, String hintText, String updateValue) {
+changeStudentData({
+  required BuildContext context,
+  required String hintText,
+  required String updateValue,
+  TextInputType? textInputType,
+  void Function()? onTapFunction,
+  String? Function(String?)? validator,
+}) {
   // final formkey = GlobalKey<FormState>();
   return showDialog(
     context: context,
@@ -493,14 +606,17 @@ changeStudentData(BuildContext context, String hintText, String updateValue) {
       return Form(
         key: studentProfileEditController.formKey,
         child: AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
           title: Text('Edit $hintText'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 TextFormField(
-                  validator: checkFieldEmpty,
+                  onTap: onTapFunction,
+                  validator: validator,
                   controller: studentProfileEditController.editvalueController,
                   decoration: InputDecoration(hintText: "Enter your $hintText"),
+                  keyboardType: textInputType,
                 )
               ],
             ),
@@ -515,10 +631,13 @@ changeStudentData(BuildContext context, String hintText, String updateValue) {
             TextButton(
               child: const Text('Update'),
               onPressed: () async {
-                if (studentProfileEditController.formKey.currentState!.validate()) {
+                if (studentProfileEditController.formKey.currentState!
+                    .validate()) {
                   await studentProfileEditController.updateprofile(context,
                       updateValue: updateValue,
-                      valuee: studentProfileEditController.editvalueController.text.trim());
+                      valuee: studentProfileEditController
+                          .editvalueController.text
+                          .trim());
                 } else {
                   showToast(msg: "Something went wrong");
                   return;

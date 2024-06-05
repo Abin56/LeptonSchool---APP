@@ -2,6 +2,7 @@ import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lepton_school/controllers/student_controller/student_meeting_controller.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/view/colors/colors.dart';
 import 'package:lepton_school/view/pages/Meetings/meetings_school_display.dart';
@@ -11,9 +12,9 @@ import '../../../constant/sizes/sizes.dart';
 import '../../../widgets/fonts/google_poppins.dart';
 
 class SchoolLevelMeetingPage extends StatelessWidget {
-  const SchoolLevelMeetingPage({super.key});
-  // final StudentMeetingController studentMeetingController =
-  //     Get.put(StudentMeetingController());
+  SchoolLevelMeetingPage({super.key});
+  final StudentMeetingController studentMeetingController =
+      Get.put(StudentMeetingController());
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +51,10 @@ class SchoolLevelMeetingPage extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return ListView.separated(
-                      itemCount:snapshot.data!.docs.length,
+                      itemCount: snapshot.data!.docs.length,
                       // studentMeetingController.meetingLists.length,
                       itemBuilder: (BuildContext context, int index) {
-                        
-                      final data = snapshot.data?.docs[index].data();
+                        final data = snapshot.data?.docs[index].data();
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -75,7 +75,7 @@ class SchoolLevelMeetingPage extends StatelessWidget {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 MeetingDisplaySchoolLevel(
-                                              meetingModel:data,
+                                              meetingModel: data,
                                             ),
                                           ),
                                         );
@@ -89,8 +89,7 @@ class SchoolLevelMeetingPage extends StatelessWidget {
                                     title: Padding(
                                       padding: EdgeInsets.only(top: 10.h),
                                       child: GooglePoppinsWidgets(
-                                          text: data? ['topic'],
-                                          fontsize: 19.h),
+                                          text: data?['topic'], fontsize: 19.h),
                                     ),
                                     subtitle: Column(
                                       crossAxisAlignment:
@@ -99,15 +98,13 @@ class SchoolLevelMeetingPage extends StatelessWidget {
                                         Padding(
                                           padding: EdgeInsets.only(top: 10.h),
                                           child: GooglePoppinsWidgets(
-                                              text:
-                                                  "Date : ${data?['date']}",
+                                              text: "Date : ${data?['date']}",
                                               fontsize: 14.h),
                                         ),
                                         Padding(
                                           padding: EdgeInsets.only(top: 10.h),
                                           child: GooglePoppinsWidgets(
-                                              text:
-                                                  "Time : ${data?['time']}",
+                                              text: "Time : ${data?['time']}",
                                               fontsize: 14.h),
                                         ),
                                       ],

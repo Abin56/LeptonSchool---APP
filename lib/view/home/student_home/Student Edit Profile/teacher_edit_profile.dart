@@ -32,38 +32,43 @@ class TeacherEditProfileScreen extends StatelessWidget {
               height: 300.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(12.h),
-                    bottomRight: Radius.circular(12.h)),
+                  bottomLeft: Radius.circular(12.h),
+                  bottomRight: Radius.circular(12.h),
+                ),
                 color: adminePrimayColor,
               ),
-              child: Column(children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButtonBackWidget(
-                      color: cWhite,
-                    ),
-                    kWidth50,
-                    GooglePoppinsWidgets(
-                      text: "Profile".tr,
-                      fontsize: 22.h,
-                      color: cWhite,
-                    )
-                  ],
-                ),
-                kHeight20,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Stack(children: [
-                      SingleChildScrollView(
-                        child: CircleAvatharImageSelectionWidgetTeacher(),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      IconButtonBackWidget(
+                        color: cWhite,
                       ),
-                      kHeight20,
-                    ]),
-                  ],
-                )
-              ]),
+                      kWidth50,
+                      GooglePoppinsWidgets(
+                        text: "Profile".tr,
+                        fontsize: 22.h,
+                        color: cWhite,
+                      )
+                    ],
+                  ),
+                  kHeight20,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Stack(
+                        children: [
+                          SingleChildScrollView(
+                              child:
+                                  CircleAvatharImageSelectionWidgetTeacher()),
+                          kHeight20,
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
             SizedBox(
               width: double.infinity,
@@ -85,25 +90,27 @@ class TeacherEditProfileScreen extends StatelessWidget {
                       children: [
                         GooglePoppinsWidgets(text: "Name".tr, fontsize: 12.h),
                         IconButton(
-                            onPressed: () async {
-                              teacherProfileEditController.textEditingController
-                                  .text = UserCredentialsController
-                                      .teacherModel?.teacherName ??
-                                  "";
-                              await profileUpdate(
-                                context: context,
-                                textEditingController:
-                                    teacherProfileEditController
-                                        .textEditingController,
-                                documentKey: "teacherName",
-                                textInputType: TextInputType.text,
-                                hint: 'Name',
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.green,
-                            ))
+                          onPressed: () async {
+                            teacherProfileEditController.textEditingController
+                                .text = UserCredentialsController
+                                    .teacherModel?.teacherName ??
+                                "";
+                            await profileUpdate(
+                              context: context,
+                              textEditingController:
+                                  teacherProfileEditController
+                                      .textEditingController,
+                              validator: checkFieldEmpty,
+                              documentKey: "teacherName",
+                              textInputType: TextInputType.text,
+                              hint: 'Name',
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -123,26 +130,27 @@ class TeacherEditProfileScreen extends StatelessWidget {
                         GooglePoppinsWidgets(
                             text: "Phone No.".tr, fontsize: 12.h),
                         IconButton(
-                            onPressed: () async {
-                              teacherProfileEditController.textEditingController
-                                  .text = UserCredentialsController
-                                      .teacherModel?.teacherPhNo ??
-                                  "";
-                              await profileUpdate(
-                                context: context,
-                                textEditingController:
-                                    teacherProfileEditController
-                                        .textEditingController,
-                                validator: checkFieldPhoneNumberIsValid,
-                                documentKey: "teacherPhNo",
-                                textInputType: TextInputType.text,
-                                hint: 'Phone No.',
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.green,
-                            ))
+                          onPressed: () async {
+                            teacherProfileEditController.textEditingController
+                                .text = UserCredentialsController
+                                    .teacherModel?.teacherPhNo ??
+                                "";
+                            await profileUpdate(
+                              context: context,
+                              textEditingController:
+                                  teacherProfileEditController
+                                      .textEditingController,
+                              validator: checkFieldPhoneNumberIsValid,
+                              documentKey: "teacherPhNo",
+                              textInputType: TextInputType.phone,
+                              hint: 'Phone No.',
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -158,39 +166,38 @@ class TeacherEditProfileScreen extends StatelessWidget {
                     editicon: Icons.edit,
                   ),
                   FutureBuilder(
-                      future: FirebaseFirestore.instance
-                          .collection('SchoolListCollection')
-                          .doc(UserCredentialsController.schoolId)
-                          .collection(UserCredentialsController.batchId!)
-                          .doc(UserCredentialsController.batchId)
-                          .collection('classes')
-                          .doc(UserCredentialsController.classId)
-                          .get(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return TeacherEditListileWidget(
-                            subtitle: Row(
-                              children: [
-                                GooglePoppinsWidgets(
-                                    text:
-                                        '${snapshot.data!.data()!['className']}',
-                                    fontsize: 19.h),
-                              ],
-                            ),
-                            icon: Icons.class_rounded,
-                            title: Row(
-                              children: [
-                                GooglePoppinsWidgets(
-                                    text: 'Class'.tr, fontsize: 12.h),
-                              ],
-                            ),
-                          );
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      }),
+                    future: FirebaseFirestore.instance
+                        .collection('SchoolListCollection')
+                        .doc(UserCredentialsController.schoolId)
+                        .collection(UserCredentialsController.batchId!)
+                        .doc(UserCredentialsController.batchId)
+                        .collection('classes')
+                        .doc(UserCredentialsController.classId)
+                        .get(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return TeacherEditListileWidget(
+                          subtitle: Row(
+                            children: [
+                              GooglePoppinsWidgets(
+                                  text:
+                                      '${snapshot.data!.data()!['className']}',
+                                  fontsize: 19.h),
+                            ],
+                          ),
+                          icon: Icons.class_rounded,
+                          title: Row(
+                            children: [
+                              GooglePoppinsWidgets(
+                                  text: 'Class'.tr, fontsize: 12.h),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
                   TeacherEditListileWidget(
                     icon: Icons.person,
                     subtitle: Row(
@@ -206,25 +213,27 @@ class TeacherEditProfileScreen extends StatelessWidget {
                       children: [
                         GooglePoppinsWidgets(text: "gender".tr, fontsize: 12.h),
                         IconButton(
-                            onPressed: () async {
-                              teacherProfileEditController.textEditingController
-                                  .text = UserCredentialsController
-                                      .teacherModel?.gender ??
-                                  "";
-                              await profileUpdate(
-                                context: context,
-                                textEditingController:
-                                    teacherProfileEditController
-                                        .textEditingController,
-                                documentKey: "gender",
-                                textInputType: TextInputType.text,
-                                hint: 'gender',
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.green,
-                            ))
+                          onPressed: () async {
+                            teacherProfileEditController.textEditingController
+                                .text = UserCredentialsController
+                                    .teacherModel?.gender ??
+                                "";
+                            await profileUpdate(
+                              context: context,
+                              textEditingController:
+                                  teacherProfileEditController
+                                      .textEditingController,
+                              validator: checkFieldEmpty,
+                              documentKey: "gender",
+                              textInputType: TextInputType.text,
+                              hint: 'gender',
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -244,25 +253,27 @@ class TeacherEditProfileScreen extends StatelessWidget {
                         GooglePoppinsWidgets(
                             text: "Address".tr, fontsize: 12.h),
                         IconButton(
-                            onPressed: () async {
-                              teacherProfileEditController.textEditingController
-                                  .text = UserCredentialsController
-                                      .teacherModel?.houseName ??
-                                  "";
-                              await profileUpdate(
-                                context: context,
-                                textEditingController:
-                                    teacherProfileEditController
-                                        .textEditingController,
-                                documentKey: "houseName",
-                                textInputType: TextInputType.text,
-                                hint: 'Address',
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.green,
-                            ))
+                          onPressed: () async {
+                            teacherProfileEditController.textEditingController
+                                .text = UserCredentialsController
+                                    .teacherModel?.houseName ??
+                                "";
+                            await profileUpdate(
+                              context: context,
+                              textEditingController:
+                                  teacherProfileEditController
+                                      .textEditingController,
+                              documentKey: "houseName",
+                              validator: checkFieldEmpty,
+                              textInputType: TextInputType.text,
+                              hint: 'Address',
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -282,25 +293,27 @@ class TeacherEditProfileScreen extends StatelessWidget {
                         GooglePoppinsWidgets(
                             text: "District".tr, fontsize: 12.h),
                         IconButton(
-                            onPressed: () async {
-                              teacherProfileEditController.textEditingController
-                                  .text = UserCredentialsController
-                                      .teacherModel?.district ??
-                                  "";
-                              await profileUpdate(
-                                context: context,
-                                textEditingController:
-                                    teacherProfileEditController
-                                        .textEditingController,
-                                documentKey: "district",
-                                textInputType: TextInputType.text,
-                                hint: 'District',
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.green,
-                            ))
+                          onPressed: () async {
+                            teacherProfileEditController.textEditingController
+                                .text = UserCredentialsController
+                                    .teacherModel?.district ??
+                                "";
+                            await profileUpdate(
+                              context: context,
+                              textEditingController:
+                                  teacherProfileEditController
+                                      .textEditingController,
+                              validator: checkFieldEmpty,
+                              documentKey: "district",
+                              textInputType: TextInputType.text,
+                              hint: 'District',
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -319,25 +332,27 @@ class TeacherEditProfileScreen extends StatelessWidget {
                       children: [
                         GooglePoppinsWidgets(text: "Place".tr, fontsize: 12.h),
                         IconButton(
-                            onPressed: () async {
-                              teacherProfileEditController.textEditingController
-                                  .text = UserCredentialsController
-                                      .teacherModel?.place ??
-                                  "";
-                              await profileUpdate(
-                                context: context,
-                                textEditingController:
-                                    teacherProfileEditController
-                                        .textEditingController,
-                                documentKey: "place",
-                                textInputType: TextInputType.text,
-                                hint: 'Place',
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.green,
-                            ))
+                          onPressed: () async {
+                            teacherProfileEditController
+                                    .textEditingController.text =
+                                UserCredentialsController.teacherModel?.place ??
+                                    "";
+                            await profileUpdate(
+                              context: context,
+                              textEditingController:
+                                  teacherProfileEditController
+                                      .textEditingController,
+                              validator: checkFieldEmpty,
+                              documentKey: "place",
+                              textInputType: TextInputType.text,
+                              hint: 'Place',
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.green,
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -374,25 +389,26 @@ class TeacherEditProfileScreen extends StatelessWidget {
   }) {
     return showDialog(
       context: context,
-      builder: (context) => updateTextFormField(
-        validator: validator,
-        context: context,
-        hintText: hint,
-        textEditingController: textEditingController,
-        voidCallback: () async {
-          if (textEditingController.text.isNotEmpty &&
-              (validator == null ||
-                  validator(textEditingController.text) == null)) {
-            await teacherProfileEditController.updateTeacherProfile(
-              context,
-              value: textEditingController.text,
-              documentKey: documentKey,
-            );
-          } else {
-            return showToast(msg: "Please enter a valid data");
-          }
-        },
-        textInputType: textInputType,
+      builder: (context) => Form(
+        key: teacherProfileEditController.formKey,
+        child: updateTextFormField(
+          validator: validator,
+          context: context,
+          hintText: hint,
+          textEditingController: textEditingController,
+          voidCallback: () async {
+            if (teacherProfileEditController.formKey.currentState!.validate()) {
+              await teacherProfileEditController.updateTeacherProfile(
+                context,
+                value: textEditingController.text,
+                documentKey: documentKey,
+              );
+            } else {
+              return showToast(msg: "Please enter a valid data");
+            }
+          },
+          textInputType: textInputType,
+        ),
       ),
     );
   }
@@ -476,26 +492,29 @@ class TeacherEditListileWidgetEmail extends StatelessWidget {
                                 ],
                               ),
                               actions: [
-                                Obx(() => teacherProfileEditController
-                                        .isLoading.value
-                                    ? const Center(
-                                        child: CircularProgressIndicator(),
-                                      )
-                                    : TextButton(
-                                        child: Text("Update".tr),
-                                        onPressed: () {
-                                          if (teacherProfileEditController
-                                              .formKey.currentState!
-                                              .validate()) {
-                                            teacherProfileEditController
-                                                .changeTeacherEmail(
-                                                    emailController.text.trim(),
-                                                    context,
-                                                    passwordController.text
-                                                        .trim());
-                                          }
-                                        },
-                                      )),
+                                Obx(
+                                  () => teacherProfileEditController
+                                          .isLoading.value
+                                      ? const Center(
+                                          child: CircularProgressIndicator(),
+                                        )
+                                      : TextButton(
+                                          child: Text("Update".tr),
+                                          onPressed: () {
+                                            if (teacherProfileEditController
+                                                .formKey.currentState!
+                                                .validate()) {
+                                              teacherProfileEditController
+                                                  .changeTeacherEmail(
+                                                      emailController.text
+                                                          .trim(),
+                                                      context,
+                                                      passwordController.text
+                                                          .trim());
+                                            }
+                                          },
+                                        ),
+                                ),
                               ],
                             ),
                           );

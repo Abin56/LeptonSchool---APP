@@ -156,7 +156,7 @@ class AttendanceController extends GetxController {
               .then((usersDeviceIDvalue) async {
             await sendPushMessage(
                 usersDeviceIDvalue.data()?['devideID'],
-                'Sir/Madam, your child was absent on for $subject period at ${timeformated.value} on ${dateformated.value},\n സർ/മാഡം, ${dateformated.value} തീയതി ${timeformated.value} ഉണ്ടായിരുന്ന $subject പീരീഡിൽ നിങ്ങളുടെ കുട്ടി ഹാജരായിരുന്നില്ല',
+                'Sir/Madam, your child is absent on for $subject period at ${timeformated.value} on ${dateformated.value},\n സർ/മാഡം, ${dateformated.value} തീയതി ${timeformated.value} ഉണ്ടായിരുന്ന $subject പീരീഡിൽ നിങ്ങളുടെ കുട്ടി ഹാജരായിരുന്നില്ല',
                 'Absent Notification from ${abStsParentUIDList[i].studentName}');
           });
         }

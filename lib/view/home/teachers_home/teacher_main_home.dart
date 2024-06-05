@@ -6,6 +6,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:lepton_school/info/info.dart';
 import 'package:lepton_school/utils/utils.dart';
 import 'package:lepton_school/view/colors/colors.dart';
+import 'package:lepton_school/view/gemini_ChatBOT/geminiscreen.dart';
 import 'package:lepton_school/view/home/teachers_home/notification_part_tcr.dart';
 import 'package:lepton_school/view/home/teachers_home/teacher_home.dart';
 import 'package:lepton_school/view/widgets/appbar_color/appbar_clr.dart';
@@ -128,7 +129,7 @@ class _TeacherMainHomeScreenState extends State<TeacherMainHomeScreen> {
         schoolId: UserCredentialsController.schoolId!,
       ),
       CreateRoomScreen(),
-      const ChatScreen(),
+      const GeminiAIBOT(),
     ];
     return WillPopScope(
       onWillPop: () => onbackbuttonpressed(context),
