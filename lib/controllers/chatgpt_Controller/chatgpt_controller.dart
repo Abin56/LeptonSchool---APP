@@ -5,13 +5,14 @@ import 'package:get/get.dart';
 
 class ChatGPTController extends GetxController {
   RxString apikey = ''.obs;
-  Future<void> getAPIKEY() async {
+  Future<String> getAPIKEY() async {
     final firebase = await FirebaseFirestore.instance
         .collection("Lepton_AIBOT")
         .doc("apikey")
         .get();
     apikey.value = await firebase.data()!['key'];
     log("KEY ++++++     ${apikey.value}");
+    return apikey.value;
   }
 
   @override
