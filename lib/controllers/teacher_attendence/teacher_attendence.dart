@@ -225,37 +225,26 @@ class TeacherAttendenceController extends GetxController {
         .doc(classID)
         .get()
         .then((value) async {
-      if (value.data()?['workingDaysCount'] == null ||
-          value.data()?['lastClassDay'] == null) {
-        await server
-            .collection(UserCredentialsController.batchId!)
-            .doc(UserCredentialsController.batchId)
-            .collection('classes')
-            .doc(classID)
-            .set({'workingDaysCount': 1, 'lastActiveClassDay': todaydate},
-                SetOptions(merge: true));
-      } else {
-        await server
-            .collection(UserCredentialsController.batchId!)
-            .doc(UserCredentialsController.batchId)
-            .collection('classes')
-            .doc(classID)
-            .get()
-            .then((value) async {
-          if (value.data()?['lastActiveClassDay'] != todaydate) {
-            classWiseWoringDayCount.value = value.data()!['workingDaysCount'];
-            await server
-                .collection(UserCredentialsController.batchId!)
-                .doc(UserCredentialsController.batchId)
-                .collection('classes')
-                .doc(classID)
-                .set({'workingDaysCount': classWiseWoringDayCount.value + 1},
-                    SetOptions(merge: true)).then((value) async {
-              classWiseWoringDayCount.value = 0;
-            });
-          }
-        });
-      }
+      await server
+          .collection(UserCredentialsController.batchId!)
+          .doc(UserCredentialsController.batchId)
+          .collection('classes')
+          .doc(classID)
+          .get()
+          .then((value) async {
+        if (value.data()?['lastActiveClassDay'] != todaydate) {
+          classWiseWoringDayCount.value = value.data()!['workingDaysCount'];
+          await server
+              .collection(UserCredentialsController.batchId!)
+              .doc(UserCredentialsController.batchId)
+              .collection('classes')
+              .doc(classID)
+              .set({'workingDaysCount': classWiseWoringDayCount.value + 1,'lastActiveClassDay': todaydate},
+                  SetOptions(merge: true)).then((value) async {
+            classWiseWoringDayCount.value = 0;
+          });
+        }
+      });
     });
   }
 
