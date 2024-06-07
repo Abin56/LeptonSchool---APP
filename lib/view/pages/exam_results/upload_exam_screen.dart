@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -34,12 +36,10 @@ class ExamResultsView extends StatefulWidget {
 class _ExamResultsViewState extends State<ExamResultsView> {
   final _formKey = GlobalKey<FormState>();
 
- 
-
   TextEditingController obtainedMark = TextEditingController();
 
   TextEditingController obtainedGrade = TextEditingController();
-    TextEditingController passmark = TextEditingController();
+  TextEditingController passmark = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                         SizedBox(
                           // height: 60.h,
                           width: 320.w,
-                    
+
                           child: const Center(
                             child: GetSchoolLevelExamDropDownButton(
                                 // examType: widget.examlevel,
@@ -75,7 +75,7 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                         SizedBox(
                           // height: 75.h,
                           width: 320.w,
-                    
+
                           child: Center(
                             child: GetTeachersSubjectsDropDownButton(
                               classId: widget.classID,
@@ -90,7 +90,7 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                             classID: widget.classID,
                           )),
                         ),
-                                Padding(
+                        Padding(
                           padding: EdgeInsets.only(
                             left: 30.w,
                             right: 30.w,
@@ -98,7 +98,8 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                           child: TextFormFieldWidget(
                             textEditingController: passmark,
                             labelText: "Enter Pass Mark".tr,
-                            function: checkFieldEmpty,
+                            keyboardType: TextInputType.number,
+                            function: checkFieldForNonNumeric,
                             //textEditingController: ,
                           ),
                         ),
@@ -110,7 +111,8 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                           child: TextFormFieldWidget(
                             textEditingController: obtainedMark,
                             labelText: "Obtained Mark".tr,
-                            function: checkFieldEmpty,
+                            keyboardType: TextInputType.number,
+                            function: checkFieldForNonNumeric,
                             //textEditingController: ,
                           ),
                         ),
@@ -123,6 +125,8 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                             textEditingController: obtainedGrade,
                             // hintText: "Obtained Grade",
                             labelText: 'Obtained Grade'.tr,
+                            keyboardType: TextInputType.text,
+                            function: checkFieldEmpty,
                             //textEditingController: ,
                           ),
                         ),
@@ -135,8 +139,7 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                                   setState(() {
                                     widget.isLoading = true;
                                   });
-                                  print(
-                                      'start - 1  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+                                  log('start - 1  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
                                   await FirebaseFirestore.instance
                                       .collection('SchoolListCollection')
                                       .doc(UserCredentialsController.schoolId)
@@ -150,10 +153,10 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                                       .collection('Exam Results')
                                       .doc(schoolLevelExamistValue!['examName'])
                                       .set({
-                                    'docid': schoolLevelExamistValue!['examName']
+                                    'docid':
+                                        schoolLevelExamistValue!['examName']
                                   }).then((value) async {
-                                    print(
-                                        'start - 2  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+                                    log('start - 2  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
                                     await FirebaseFirestore.instance
                                         .collection('SchoolListCollection')
                                         .doc(UserCredentialsController.schoolId)
@@ -163,48 +166,57 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                                         .collection('classes')
                                         .doc(widget.classID)
                                         .collection('Students')
-                                        .doc(allClassStudentsListValue!['docid'])
+                                        .doc(
+                                            allClassStudentsListValue!['docid'])
                                         .collection('Exam Results')
-                                        .doc(schoolLevelExamistValue!['examName'])
+                                        .doc(schoolLevelExamistValue![
+                                            'examName'])
                                         .collection('Marks')
                                         .doc(teacherSubjectValue!['docid'])
                                         .set({
                                       'docid': docid,
                                       'uploadDate': DateTime.now().toString(),
-                                      'studentName':
-                                          allClassStudentsListValue!['studentName'],
+                                      'studentName': allClassStudentsListValue![
+                                          'studentName'],
                                       'obtainedMark': obtainedMark.text.trim(),
-                                      'obtainedGrade': obtainedGrade.text.trim(),
+                                      'obtainedGrade':
+                                          obtainedGrade.text.trim(),
                                       'subjectName':
                                           teacherSubjectValue!['subjectName'],
                                       'studentid':
                                           allClassStudentsListValue!['docid'],
-                                          'passMark':passmark.text.trim().toString()
-                                    }, SetOptions(merge: true)).then((value) async {
-                                      print(
-                                          'start - 3  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+                                      'passMark':
+                                          passmark.text.trim().toString()
+                                    }, SetOptions(merge: true)).then(
+                                            (value) async {
+                                      log('start - 3  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
                                       await FirebaseFirestore.instance
                                           .collection('SchoolListCollection')
-                                          .doc(UserCredentialsController.schoolId)
-                                          .collection(
-                                              UserCredentialsController.batchId!)
-                                          .doc(UserCredentialsController.batchId!)
+                                          .doc(UserCredentialsController
+                                              .schoolId)
+                                          .collection(UserCredentialsController
+                                              .batchId!)
+                                          .doc(UserCredentialsController
+                                              .batchId!)
                                           .collection('classes')
                                           .doc(widget.classID)
                                           .collection('Exam Results')
-                                          .doc(schoolLevelExamistValue!['examName'])
+                                          .doc(schoolLevelExamistValue![
+                                              'examName'])
                                           .set({
                                         'docid':
                                             schoolLevelExamistValue!['examName']
                                       }).then((value) async {
-                                        print(
-                                            'start - 4  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+                                        log('start - 4  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
                                         await FirebaseFirestore.instance
                                             .collection('SchoolListCollection')
-                                            .doc(UserCredentialsController.schoolId)
+                                            .doc(UserCredentialsController
+                                                .schoolId)
                                             .collection(
-                                                UserCredentialsController.batchId!)
-                                            .doc(UserCredentialsController.batchId!)
+                                                UserCredentialsController
+                                                    .batchId!)
+                                            .doc(UserCredentialsController
+                                                .batchId!)
                                             .collection('classes')
                                             .doc(widget.classID)
                                             .collection('Exam Results')
@@ -213,19 +225,20 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                                             .collection('Subjects')
                                             .doc(teacherSubjectValue!['docid'])
                                             .set({
-                                          'subject':
-                                              teacherSubjectValue!['subjectName'],
+                                          'subject': teacherSubjectValue![
+                                              'subjectName'],
                                           'subjectid':
                                               teacherSubjectValue!['docid'],
                                         }).then((value) async {
-                                          print(
-                                              'start - 5  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+                                          log('start - 5  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
                                           await FirebaseFirestore.instance
-                                              .collection('SchoolListCollection')
+                                              .collection(
+                                                  'SchoolListCollection')
                                               .doc(UserCredentialsController
                                                   .schoolId)
-                                              .collection(UserCredentialsController
-                                                  .batchId!)
+                                              .collection(
+                                                  UserCredentialsController
+                                                      .batchId!)
                                               .doc(UserCredentialsController
                                                   .batchId!)
                                               .collection('classes')
@@ -234,19 +247,21 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                                               .doc(schoolLevelExamistValue![
                                                   'examName'])
                                               .collection('Subjects')
-                                              .doc(teacherSubjectValue!['docid'])
+                                              .doc(
+                                                  teacherSubjectValue!['docid'])
                                               .collection('MarkList')
                                               .doc(allClassStudentsListValue![
                                                   'docid'])
                                               .set({
                                             'subjectid':
                                                 teacherSubjectValue!['docid'],
-                                            'teacherId':
-                                                teacherSubjectValue!['teacherId'],
-                                            'teachername':
-                                                teacherSubjectValue!['teacherName'],
+                                            'teacherId': teacherSubjectValue![
+                                                'teacherId'],
+                                            'teachername': teacherSubjectValue![
+                                                'teacherName'],
                                             'examid': docid,
-                                            'uploadDate': DateTime.now().toString(),
+                                            'uploadDate':
+                                                DateTime.now().toString(),
                                             'studentName':
                                                 allClassStudentsListValue![
                                                     'studentName'],
@@ -254,20 +269,22 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                                                 obtainedMark.text.trim(),
                                             'obtainedGrade':
                                                 obtainedGrade.text.trim(),
-                                            'subjectName':
-                                                teacherSubjectValue!['subjectName'],
+                                            'subjectName': teacherSubjectValue![
+                                                'subjectName'],
                                             'studentid':
-                                                allClassStudentsListValue!['docid'],
-                                                      'passMark':passmark.text.trim().toString()
+                                                allClassStudentsListValue![
+                                                    'docid'],
+                                            'passMark':
+                                                passmark.text.trim().toString()
                                           }).then((value) {
-                                            print(
-                                                'start - 6  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+                                            log('start - 6  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
                                             setState(() {
                                               widget.isLoading = false;
                                             });
                                             obtainedMark.clear();
                                             obtainedGrade.clear();
-                                            showToast(msg: "Uploaded Successfully");
+                                            showToast(
+                                                msg: "Uploaded Successfully");
                                           });
                                         });
                                       });

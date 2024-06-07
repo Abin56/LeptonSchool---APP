@@ -17,10 +17,12 @@ showStudentsGroupAppBar(
   String groupID,
   BuildContext context,
 ) async {
-  Navigator.push(context,MaterialPageRoute(builder: (context) {
-    return BootomSheet(
-      groupID: groupID, groupName: groupName, totalStudents: totalStudents);
-  },));
+  Navigator.push(context, MaterialPageRoute(
+    builder: (context) {
+      return BootomSheet(
+          groupID: groupID, groupName: groupName, totalStudents: totalStudents);
+    },
+  ));
   // Get.off(() => BootomSheet(
   //     groupID: groupID, groupName: groupName, totalStudents: totalStudents));
 }
@@ -40,8 +42,8 @@ class BootomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-          future: FirebaseFirestore.instance
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance
               .collection('SchoolListCollection')
               .doc(UserCredentialsController.schoolId)
               .collection(UserCredentialsController.batchId!)
@@ -53,7 +55,7 @@ class BootomSheet extends StatelessWidget {
               .collection("Students")
               .doc(groupID)
               .collection('Participants')
-              .get(),
+              .snapshots(),
           builder: (context, snaps) {
             return ListView(
               children: [

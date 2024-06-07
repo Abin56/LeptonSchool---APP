@@ -47,12 +47,13 @@ class TestDataMonthlyWidget extends StatelessWidget {
           ),
           kHeight10,
           TestDetailsMonthlyWidget(
-              testName: "Subject Name",
-              testDetails:
-                  showTestController.selectedClassTestModel?.subjectName ?? "",
-              voidCallback: () async {
-                await showMyDialog(context, "subjectName");
-              }),
+            testName: "Subject Name",
+            testDetails:
+                showTestController.selectedClassTestModel?.subjectName ?? "",
+            // voidCallback: () async {
+            //   await showMyDialog(context, "subjectName");
+            // },
+          ),
           kHeight10,
           TestDetailsMonthlyWidget(
               voidCallback: () async {

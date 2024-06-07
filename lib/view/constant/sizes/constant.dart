@@ -25,6 +25,21 @@ String? checkFieldEmpty(String? fieldContent) {
   return null;
 }
 
+String? checkFieldForNonNumeric(String? fieldContent) {
+  if (fieldContent == null || fieldContent.isEmpty) {
+    return "Field is mandatory";
+  }
+  // Define a regular expression pattern to match only numeric values
+  String pattern = r'^\d+$';
+  RegExp regex = RegExp(pattern);
+
+  if (!regex.hasMatch(fieldContent)) {
+    return "Field contains non-numeric values";
+  }
+
+  return null;
+}
+
 String? checkFieldEmailIsValid(String? fieldContent) {
   if (fieldContent == null) {
     return 'null';

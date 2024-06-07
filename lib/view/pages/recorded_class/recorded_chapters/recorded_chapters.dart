@@ -5,6 +5,7 @@ import 'package:lepton_school/controllers/recorded_controller/recorded_controlle
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/utils/utils.dart';
 import 'package:lepton_school/view/colors/colors.dart';
+import 'package:lepton_school/view/constant/sizes/constant.dart';
 import 'package:lepton_school/view/constant/sizes/sizes.dart';
 import 'package:lepton_school/view/pages/recorded_class/recorded_chapters/recorded_videoslist.dart';
 import 'package:lepton_school/view/widgets/button_container_widget.dart';
@@ -69,8 +70,7 @@ class RecordedClassChapters extends StatelessWidget {
                                 MaterialPageRoute(
                                   builder: (context) => RecordedVideosList(
                                     subjectID: subjectID,
-                                    chapterID: data
-                                        ['docid'],
+                                    chapterID: data['docid'],
                                   ),
                                 ),
                               );
@@ -137,153 +137,172 @@ class RecordedClassChapters extends StatelessWidget {
                                                 BorderRadius.all(Radius.zero)),
                                         builder: (context) {
                                           return SingleChildScrollView(
-                                            child: Container(
-                                              padding: EdgeInsets.only(
-                                                  left: 12,
-                                                  right: 12,
-                                                  top: 20,
-                                                  bottom: MediaQuery.of(context)
-                                                      .viewInsets
-                                                      .bottom),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      GestureDetector(
+                                            child: Form(
+                                              key: chapterController.formKey,
+                                              child: Container(
+                                                padding: EdgeInsets.only(
+                                                    left: 12,
+                                                    right: 12,
+                                                    top: 20,
+                                                    bottom:
+                                                        MediaQuery.of(context)
+                                                            .viewInsets
+                                                            .bottom),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        GestureDetector(
+                                                            onTap: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: const Icon(
+                                                                Icons.close))
+                                                      ],
+                                                    ),
+                                                    const Text(
+                                                      "Chapter number *",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    kHeight10,
+                                                    Row(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 60,
+                                                          width: 279,
+                                                          child:
+                                                              TextFormFieldWidget(
+                                                            function:
+                                                                checkFieldEmpty,
+                                                            textEditingController:
+                                                                chapterController
+                                                                    .chapterNumberController,
+                                                            hintText:
+                                                                "chapter number",
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        GestureDetector(
                                                           onTap: () {
-                                                            Navigator.pop(
-                                                                context);
+                                                            if (chapterController
+                                                                .formKey
+                                                                .currentState!
+                                                                .validate()) {
+                                                              chapterController
+                                                                  .updateChapterNumber(
+                                                                subjectID:
+                                                                    subjectID,
+                                                                chapterID: snapshot
+                                                                        .data!
+                                                                        .docs[index]
+                                                                    ['docid'],
+                                                              );
+                                                              Navigator.pop(
+                                                                  context);
+                                                            }
                                                           },
-                                                          child: const Icon(
-                                                              Icons.close))
-                                                    ],
-                                                  ),
-                                                  const Text(
-                                                    "Chapter number *",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  kHeight10,
-                                                  Row(
-                                                    children: [
-                                                      SizedBox(
-                                                        height: 60,
-                                                        width: 279,
-                                                        child:
-                                                            TextFormFieldWidget(
-                                                          textEditingController:
-                                                              chapterController
-                                                                  .chapterNumberController,
-                                                          hintText:
-                                                              "chapter number",
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          chapterController
-                                                              .updateChapterNumber(
-                                                            subjectID:
-                                                                subjectID,
-                                                            chapterID: snapshot
-                                                                    .data!
-                                                                    .docs[index]
-                                                                ['docid'],
-                                                          );
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child:
-                                                            ButtonContainerWidget(
-                                                          curving: 5,
-                                                          colorindex: 2,
-                                                          height: 40.h,
-                                                          width: 92.w,
-                                                          child: Center(
-                                                            child:
-                                                                GooglePoppinsWidgets(
-                                                              text: "Update",
-                                                              color: cWhite,
-                                                              fontsize: 15,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
+                                                          child:
+                                                              ButtonContainerWidget(
+                                                            curving: 5,
+                                                            colorindex: 2,
+                                                            height: 40.h,
+                                                            width: 92.w,
+                                                            child: Center(
+                                                              child:
+                                                                  GooglePoppinsWidgets(
+                                                                text: "Update",
+                                                                color: cWhite,
+                                                                fontsize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  kHeight40,
-                                                  const Text(
-                                                    "Chapter Name *",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  kHeight10,
-                                                  Row(
-                                                    children: [
-                                                      SizedBox(
-                                                        height: 60,
-                                                        width: 279,
-                                                        child:
-                                                            TextFormFieldWidget(
-                                                          textEditingController:
-                                                              chapterController
-                                                                  .chapterNameController,
-                                                          hintText:
-                                                              "chapter name",
+                                                      ],
+                                                    ),
+                                                    kHeight40,
+                                                    const Text(
+                                                      "Chapter Name *",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    kHeight10,
+                                                    Row(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 60,
+                                                          width: 279,
+                                                          child:
+                                                              TextFormFieldWidget(
+                                                            function:
+                                                                checkFieldEmpty,
+                                                            textEditingController:
+                                                                chapterController
+                                                                    .chapterNameController,
+                                                            hintText:
+                                                                "chapter name",
+                                                          ),
                                                         ),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          chapterController
-                                                              .updateChapterName(
-                                                            subjectID:
-                                                                subjectID,
-                                                            chapterID: snapshot
-                                                                    .data!
-                                                                    .docs[index]
-                                                                ['docid'],
-                                                          );
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child:
-                                                            ButtonContainerWidget(
-                                                          curving: 5,
-                                                          colorindex: 2,
-                                                          height: 40.h,
-                                                          width: 92.w,
-                                                          child: Center(
-                                                            child:
-                                                                GooglePoppinsWidgets(
-                                                              text: "Update",
-                                                              color: cWhite,
-                                                              fontsize: 15,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            if (chapterController
+                                                                .formKey
+                                                                .currentState!
+                                                                .validate()) {
+                                                              chapterController
+                                                                  .updateChapterName(
+                                                                subjectID:
+                                                                    subjectID,
+                                                                chapterID: snapshot
+                                                                        .data!
+                                                                        .docs[index]
+                                                                    ['docid'],
+                                                              );
+                                                              Navigator.pop(
+                                                                  context);
+                                                            }
+                                                          },
+                                                          child:
+                                                              ButtonContainerWidget(
+                                                            curving: 5,
+                                                            colorindex: 2,
+                                                            height: 40.h,
+                                                            width: 92.w,
+                                                            child: Center(
+                                                              child:
+                                                                  GooglePoppinsWidgets(
+                                                                text: "Update",
+                                                                color: cWhite,
+                                                                fontsize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  kHeight20,
-                                                ],
+                                                      ],
+                                                    ),
+                                                    kHeight20,
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           );
@@ -371,7 +390,7 @@ class RecordedClassChapters extends StatelessWidget {
             }
           },
         ),
-     ),
-);
-}
+      ),
+    );
+  }
 }

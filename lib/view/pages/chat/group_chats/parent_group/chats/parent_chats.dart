@@ -12,8 +12,8 @@ import '../../group_chat.dart';
 import 'chats_appBar.dart';
 
 class ParentsGroupChats extends StatefulWidget {
- final String groupName;
- final String groupId;
+  final String groupName;
+  final String groupId;
 
   const ParentsGroupChats(
       {required this.groupId, required this.groupName, super.key});
@@ -232,13 +232,19 @@ class _ParentsGroupChatsState extends State<ParentsGroupChats> {
                                                         onPressed: () async {
                                                           ///////////////////////////
                                                           ///
-                                                          teacherParentGroupChatController
-                                                              .sendMessage(
-                                                                  widget
-                                                                      .groupId,
-                                                                  userName.data!
-                                                                          .data()![
-                                                                      'teacherName']);
+                                                          if (teacherParentGroupChatController
+                                                                  .messageController
+                                                                  .text
+                                                                  .trim() !=
+                                                              "") {
+                                                            teacherParentGroupChatController
+                                                                .sendMessage(
+                                                                    widget
+                                                                        .groupId,
+                                                                    userName.data!
+                                                                            .data()![
+                                                                        'teacherName']);
+                                                          }
                                                           /////////////////////////
                                                         }),
                                                   ),

@@ -34,7 +34,8 @@ import 'monthly_class_test/class_test_monthly_page.dart';
 class ClickOnClasss extends StatelessWidget {
   final String classID;
   final String className;
-  const ClickOnClasss({required this.classID, required this.className, super.key});
+  const ClickOnClasss(
+      {required this.classID, required this.className, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class ClickOnClasss extends StatelessWidget {
           //backgroundColor: adminePrimayColor,
           title: Text("Notices".tr),
         ),
-        body:   SchoolLevelNoticePage(),
+        body: SchoolLevelNoticePage(),
       ),
 
       // Notice
@@ -66,10 +67,10 @@ class ClickOnClasss extends StatelessWidget {
           backgroundColor: adminePrimayColor,
           title: Text("Events".tr),
         ),
-        body:   SchoolLevelPage(),
+        body: SchoolLevelPage(),
       ),
       // Events
-        SchoolLevelMeetingPage(), // Meetings
+      SchoolLevelMeetingPage(), // Meetings
 
       ClassTestPage(),
 
@@ -89,10 +90,9 @@ class ClickOnClasss extends StatelessWidget {
       const TeacherChatScreen(), // Chats
 
       LeaveLettersListviewScreen(
-        schooilID: UserCredentialsController.schoolId!,
-        batchID: UserCredentialsController.batchId!,
-        classID: UserCredentialsController.classId!), 
-      
+          schooilID: UserCredentialsController.schoolId!,
+          batchID: UserCredentialsController.batchId!,
+          classID: UserCredentialsController.classId!),
 
       const UserExmNotifications(), //Exam
 
@@ -112,7 +112,7 @@ class ClickOnClasss extends StatelessWidget {
           backgroundColor: adminePrimayColor,
           title: const Text("Notices"),
         ),
-        body:   SchoolLevelNoticePage(),
+        body: SchoolLevelNoticePage(),
       ),
       // Notice
 
@@ -121,7 +121,7 @@ class ClickOnClasss extends StatelessWidget {
           backgroundColor: adminePrimayColor,
           title: const Text("Events"),
         ),
-        body:   SchoolLevelPage(),
+        body: SchoolLevelPage(),
       ),
       // Events
       // ViewExamsForProgressreport(
@@ -130,7 +130,7 @@ class ClickOnClasss extends StatelessWidget {
       //     schooilID:
       //         UserCredentialsController.schoolId!), //Progress Report view
       TeacherSubjectHome(), // Subjects
-        SchoolLevelMeetingPage(),
+      SchoolLevelMeetingPage(),
       // Meetings
       RecordedClassMainPage(), // recorded class
 
@@ -198,7 +198,8 @@ class ClickOnClasss extends StatelessWidget {
                                     duration: const Duration(milliseconds: 300),
                                     columnCount: columnCount,
                                     child: ScaleAnimation(
-                                      duration: const Duration(milliseconds: 900),
+                                      duration:
+                                          const Duration(milliseconds: 900),
                                       curve: Curves.fastLinearToSlowEaseIn,
                                       child: FadeInAnimation(
                                         child: Padding(
@@ -206,13 +207,15 @@ class ClickOnClasss extends StatelessWidget {
                                           child: Container(
                                             decoration: const BoxDecoration(
                                                 color: cWhite,
-                                                borderRadius:
-                                                    BorderRadius.all(Radius.circular(10))),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10))),
                                             child: GestureDetector(
                                               onTap: () {
-                                                Navigator.push(context, MaterialPageRoute(
+                                                Navigator.push(context,
+                                                    MaterialPageRoute(
                                                   builder: (context) {
-                                                    return noDataNavigation[index];
+                                                    return noDataNavigation[
+                                                        index];
                                                   },
                                                 ));
 
@@ -220,17 +223,26 @@ class ClickOnClasss extends StatelessWidget {
                                                 //     noDataNavigation[index]);
                                               },
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
                                                 children: [
                                                   _acc_images[index],
                                                   Center(
                                                     child: Text(
-                                                      textAlign: TextAlign.center,
+                                                      textAlign:
+                                                          TextAlign.center,
                                                       _acc_text[index],
-                                                      style: GoogleFonts.montserrat(
-                                                          color: Colors.black.withOpacity(0.5),
-                                                          fontSize: 11.5,
-                                                          fontWeight: FontWeight.w600),
+                                                      style: GoogleFonts
+                                                          .montserrat(
+                                                              color: Colors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              fontSize: 11.5,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
                                                     ),
                                                   )
                                                 ],
@@ -251,8 +263,8 @@ class ClickOnClasss extends StatelessWidget {
                   } else {
                     return AnimationLimiter(
                       child: GridView.count(
-                        physics:
-                            const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                        physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
                         padding: EdgeInsets.all(w / 60),
                         crossAxisCount: columnCount,
                         children: List.generate(
@@ -271,10 +283,12 @@ class ClickOnClasss extends StatelessWidget {
                                     child: Container(
                                       decoration: const BoxDecoration(
                                           color: cWhite,
-                                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
                                       child: GestureDetector(
                                         onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
                                             builder: (context) {
                                               return hasDataNavigation[index];
                                             },
@@ -285,7 +299,8 @@ class ClickOnClasss extends StatelessWidget {
                                         child: Container(
                                           decoration: const BoxDecoration(
                                             // color: Colors.white.withOpacity(0.5),
-                                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
                                             // boxShadow: [
                                             //   BoxShadow(
                                             //     color:
@@ -298,9 +313,12 @@ class ClickOnClasss extends StatelessWidget {
                                           height: h / 100,
                                           width: double.infinity,
                                           margin: EdgeInsets.only(
-                                              top: w / 30, left: w / 30, right: w / 30),
+                                              top: w / 35,
+                                              left: w / 35,
+                                              right: w / 35),
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
                                             children: [
                                               hasDataImages[index],
                                               // Container(
@@ -315,11 +333,14 @@ class ClickOnClasss extends StatelessWidget {
                                               // ),
                                               Center(
                                                 child: Text(
-                                                  translateString(hasDataText[index]),
+                                                  translateString(
+                                                      hasDataText[index]),
                                                   style: GoogleFonts.montserrat(
-                                                      color: Colors.black.withOpacity(0.5),
+                                                      color: Colors.black
+                                                          .withOpacity(0.5),
                                                       fontSize: 11.5,
-                                                      fontWeight: FontWeight.w600),
+                                                      fontWeight:
+                                                          FontWeight.w600),
                                                   textAlign: TextAlign.center,
                                                 ),
                                               )
@@ -373,9 +394,7 @@ List<Widget> hasDataImages = [
   const ImageContainer(image: "assets/flaticons/roll-call.png"),
   const ImageContainer(image: "assets/flaticons/book.png"),
   const ImageContainer(image: "assets/flaticons/icons8-chat-100.png"),
-
   const ImageContainer(image: 'assets/flaticons/leave_letter.png'),
-
   const ImageContainer(image: "assets/flaticons/icons8-grades-100.png"),
   const ImageContainer(image: "assets/flaticons/exam (1).png"),
   const ImageContainer(image: "assets/flaticons/worksheet.png"),
@@ -395,7 +414,6 @@ List<String> hasDataText = [
   'Attendance Book'.tr,
   'Chats'.tr,
   'Leave Letter'.tr,
-  
   'Exams'.tr,
   'Exam Results'.tr,
   'Time Table'.tr,

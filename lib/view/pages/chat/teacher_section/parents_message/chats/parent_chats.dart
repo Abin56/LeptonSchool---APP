@@ -182,8 +182,13 @@ class _ParentsChatsScreenState extends State<ParentsChatsScreen> {
                                       ),
                                       onPressed: () async {
                                         ///////////////////////////
-                                        teacherParentChatController
-                                            .sentMessage(widget.parentDocID);
+                                        if (teacherParentChatController
+                                                .messageController.text
+                                                .trim() !=
+                                            "") {
+                                          teacherParentChatController
+                                              .sentMessage(widget.parentDocID);
+                                        }
                                         /////////////////////////
                                       }),
                                 ),

@@ -4,6 +4,7 @@ import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/view/widgets/fonts/google_poppins.dart';
 
@@ -41,14 +42,16 @@ class ParentMessagesScreen extends StatelessWidget {
                           height: 70.h,
                           child: ListTile(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return ParentsChatsScreen(
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return ParentsChatsScreen(
                                     parentDocID: snapshots.data!.docs[index]
                                         ['docid'],
                                     parentName: snapshots.data!.docs[index]
                                         ['parentname'],
                                   );
-                              },));
+                                },
+                              ));
                               // Get.off(() => ParentsChatsScreen(
                               //       parentDocID: snapshots.data!.docs[index]
                               //           ['docid'],
@@ -81,8 +84,9 @@ class ParentMessagesScreen extends StatelessWidget {
                                   // log('Getting class ID--->>>  ${snapshots.data?.docs[index]['classID']}');
                                   if (parentsnaps.hasData) {
                                     return Text(
-                                        
-                                        parentsnaps.data?.data()?['parentName']??'',
+                                        parentsnaps.data
+                                                ?.data()?['parentName'] ??
+                                            '',
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 17.sp));
@@ -178,7 +182,7 @@ class ParentMessagesScreen extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(right: 10),
                                   child: GooglePoppinsWidgets(
-                                    text: 'Search Parents',
+                                    text: 'Search Parent'.tr,
                                     fontsize: 15.sp,
                                   ),
                                 ),
