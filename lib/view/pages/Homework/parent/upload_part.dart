@@ -11,17 +11,16 @@ import 'package:lepton_school/controllers/form_controller/form_controller.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/model/Signup_Image_Selction/image_selection.dart';
 import 'package:lepton_school/utils/utils.dart';
+import 'package:lepton_school/view/colors/colors.dart';
 import 'package:lepton_school/view/constant/sizes/sizes.dart';
+import 'package:lepton_school/view/widgets/button_container_widget.dart';
 import 'package:lepton_school/view/widgets/button_homework_photo_upload_container';
 import 'package:lepton_school/view/widgets/fonts/google_monstre.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../view/colors/colors.dart';
-import '../../../view/widgets/button_container_widget.dart';
-
 // ignore: must_be_immutable
-class UploadHomeworkToTeacher extends StatefulWidget {
-  UploadHomeworkToTeacher({
+class UploadHomeworkToTeacherParent extends StatefulWidget {
+  UploadHomeworkToTeacherParent({
     super.key,
     required this.homeworkID,
     required this.homeWorkName,
@@ -32,10 +31,10 @@ class UploadHomeworkToTeacher extends StatefulWidget {
   bool stat = false;
 
   @override
-  State<UploadHomeworkToTeacher> createState() => _UploadHomeworkToTeacherState();
+  State<UploadHomeworkToTeacherParent> createState() => _UploadHomeworkToTeacherParentState();
 }
 
-class _UploadHomeworkToTeacherState extends State<UploadHomeworkToTeacher> {
+class _UploadHomeworkToTeacherParentState extends State<UploadHomeworkToTeacherParent> {
   // ignore: unused_field
   final String _selectedLeaveType = '';
   TextEditingController subjectNameController = TextEditingController();
@@ -90,14 +89,14 @@ class _UploadHomeworkToTeacherState extends State<UploadHomeworkToTeacher> {
           // .collection('Chapters')
           // .doc(widget.chapterID)
           .collection('Submit')
-          .doc(UserCredentialsController.studentModel!.docid)
+          .doc(UserCredentialsController.parentModel!.studentID)
           .set({
         'Status': true,
         'homeWorkName': widget.homeWorkName,
         'homeworkID': widget.homeworkID,
         'downloadUrl': downloadUrl,
-        'docid': UserCredentialsController.studentModel!.docid,
-        'uploadedBy': UserCredentialsController.studentModel!.studentName
+        'docid': UserCredentialsController.parentModel!.studentID,
+        'uploadedBy': UserCredentialsController.parentModel!.parentName
       }).then((value) => showDialog(
               context: context,
               builder: (context) {

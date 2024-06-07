@@ -41,10 +41,9 @@ String? checkFieldEmailIsValid(String? fieldContent) {
 }
 
 String? checkFieldPhoneNumberIsValid(String? fieldContent) {
-  if (fieldContent == null) {
-    return 'null';
-  }
-  if (fieldContent.length >= 10) {
+  if (fieldContent!.length > 10) {
+    return 'Please enter a 10 digit number';
+  } else if (fieldContent.length == 10) {
     return null;
   } else {
     return 'Please enter 10 digit number';

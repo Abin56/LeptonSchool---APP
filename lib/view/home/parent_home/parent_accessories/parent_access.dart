@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lepton_school/view/home/bus_route_page/all_bus_list.dart';
 import 'package:lepton_school/view/home/parent_home/leave_application/apply_leave_application.dart';
+import 'package:lepton_school/view/pages/Homework/parent/view_home_work.dart';
 import 'package:lepton_school/view/pages/chat/parent_section/parent_chat_screeen.dart';
 
 import '../../../../controllers/userCredentials/user_credentials.dart';
@@ -59,7 +60,7 @@ class ParentAccessories extends StatelessWidget {
           studentId: UserCredentialsController
               .parentModel!.studentID!), ////// exam result
 
-      const ViewHomeWorks(), // Home Works
+      const ViewHomeWorksParent(), // Home Works
 
       NoticePage(), //Notice
 

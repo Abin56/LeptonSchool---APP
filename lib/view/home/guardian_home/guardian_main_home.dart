@@ -88,11 +88,7 @@ class _GuardianMainHomeScreenState extends State<GuardianMainHomeScreen> {
             activeColor: Colors.white,
             color: Colors.white,
             tabs: [
-              GButton(
-                  iconSize: 20,
-                  icon: LineIcons.home,
-                  text: 'Home'.tr,
-                  style: GnavStyle.google),
+              GButton(iconSize: 20, icon: LineIcons.home, text: 'Home'.tr, style: GnavStyle.google),
               GButton(
                 iconSize: 30,
                 textSize: 20,

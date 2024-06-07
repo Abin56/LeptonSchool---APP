@@ -58,9 +58,7 @@ class ClassTeacherHeaderDrawer extends StatelessWidget {
           Text(
             "Watch and Guide      \n  Let them Study",
             style: GoogleFonts.poppins(
-                color: Colors.black.withOpacity(0.5),
-                fontSize: 10,
-                fontWeight: FontWeight.w600),
+                color: Colors.black.withOpacity(0.5), fontSize: 10, fontWeight: FontWeight.w600),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -113,8 +111,7 @@ Widget MenuItem(int id, String image, String title, bool selected, onTap) {
               child: Container(
                 height: 30,
                 width: double.infinity,
-                decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage(image))),
+                decoration: BoxDecoration(image: DecorationImage(image: AssetImage(image))),
               ),
             ),
             Expanded(
@@ -253,8 +250,7 @@ Widget MyDrawerList(context) {
                     children: [
                       Text(
                         "Developed by",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.w500),
+                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
@@ -278,9 +274,7 @@ Widget MyDrawerList(context) {
                     Text(
                       "Lepton Communications",
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 11.5),
+                          fontWeight: FontWeight.bold, color: Colors.black, fontSize: 11.5),
                     ),
                   ],
                 )),
@@ -297,8 +291,7 @@ Widget MyDrawerList(context) {
                       ),
                       Text(
                         " Version",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
+                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
