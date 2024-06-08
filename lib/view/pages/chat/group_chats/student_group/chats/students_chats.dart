@@ -12,8 +12,8 @@ import '../../../../../../controllers/group_chat_controller/group_StudentsTeache
 import '../../group_chat.dart';
 
 class StudentsGroupChats extends StatefulWidget {
- final String groupName;
- final String groupId;
+  final String groupName;
+  final String groupId;
 
   const StudentsGroupChats(
       {required this.groupId, required this.groupName, super.key});
@@ -232,13 +232,19 @@ class _StudentsGroupChatsState extends State<StudentsGroupChats> {
                                                         onPressed: () async {
                                                           ///////////////////////////
                                                           ///
-                                                          teacherGroupChatController
-                                                              .sendMessage(
-                                                                  widget
-                                                                      .groupId,
-                                                                  userName.data!
-                                                                          .data()![
-                                                                      'teacherName']);
+                                                          if (teacherGroupChatController
+                                                                  .messageController
+                                                                  .text
+                                                                  .trim() !=
+                                                              "") {
+                                                            teacherGroupChatController
+                                                                .sendMessage(
+                                                                    widget
+                                                                        .groupId,
+                                                                    userName.data!
+                                                                            .data()![
+                                                                        'teacherName']);
+                                                          }
                                                           /////////////////////////
                                                         }),
                                                   ),

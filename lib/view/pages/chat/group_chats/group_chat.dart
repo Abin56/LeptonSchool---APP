@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -51,19 +50,19 @@ class GroupChatScreenForTeachers extends StatelessWidget {
                       child: TabBar(
                         // splashBorderRadius: BorderRadius.circular(0),
 
-                        labelPadding:
-                            EdgeInsetsDirectional.symmetric(horizontal: 80.w),
-                        isScrollable: true,
+                        // labelPadding:
+                        //     EdgeInsetsDirectional.symmetric(horizontal: 80.w),
+                        isScrollable: false,
                         unselectedLabelColor: Colors.black,
                         labelColor: Colors.white,
                         indicator: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: adminePrimayColor),
-                        tabs: const [
+                        tabs: [
                           Tab(
-                            text: 'Students',
+                            text: 'Students'.tr,
                           ),
-                          Tab(text: "Parents")
+                          Tab(text: "Parents".tr)
                         ],
                       ),
                     ),
@@ -77,15 +76,15 @@ class GroupChatScreenForTeachers extends StatelessWidget {
                   floatingActionButton: StreamBuilder(
                       builder: (context, checkClassTeacher) {
                         if (checkClassTeacher.hasData) {
-                           return FloatingActionButton(
-                              child: const Icon(
-                                Icons.add,
-                              ),
-                              onPressed: () async {
-                                teacherGroupChatController
-                                    .createGroupChatForWho(context);
-                              },
-                            );
+                          return FloatingActionButton(
+                            child: const Icon(
+                              Icons.add,
+                            ),
+                            onPressed: () async {
+                              teacherGroupChatController
+                                  .createGroupChatForWho(context);
+                            },
+                          );
                         } else {
                           return const Text('');
                         }

@@ -24,8 +24,8 @@ class TeacherChatScreen extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-        flexibleSpace: const AppBarColorWidget(),
-        foregroundColor: cWhite,
+          flexibleSpace: const AppBarColorWidget(),
+          foregroundColor: cWhite,
           backgroundColor: adminePrimayColor,
           title: Text(chat.tr),
           bottom: TabBar(
@@ -42,7 +42,7 @@ class TeacherChatScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Students".tr,
+                          "Students",
                           style: TextStyle(fontSize: 17.sp),
                         ),
                         StreamBuilder(
@@ -130,7 +130,7 @@ class TeacherChatScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Parents".tr,
+                          "Parents",
                           style: TextStyle(fontSize: 17.sp),
                         ),
                         StreamBuilder(

@@ -339,12 +339,11 @@ class TeacherParentGroupChatController extends GetxController {
     userIndexBecomeZero(groupID, 'Parents', teacherParameter: 'parentName');
     RxMap<String, bool?> addParentList = <String, bool?>{}.obs;
 
-    List<ParentModel> featchingParentlList = [];
+    List<ParentModel> fetchingParentList = [];
 
     Get.bottomSheet(Container(
-      height: 1000.h,
       color: Colors.white,
-      child: ListView(
+      child: Column(
         children: [
           const Padding(
             padding: EdgeInsets.only(top: 15),
@@ -355,112 +354,103 @@ class TeacherParentGroupChatController extends GetxController {
                   text: "Add parent in custom",
                   fontsize: 17,
                   fontWeight: FontWeight.w600,
-                )
+                ),
               ],
             ),
           ),
-          SizedBox(
-            height: 15.h,
-          ),
-          SizedBox(
-            height: 900.h,
+          SizedBox(height: 15.h),
+          Expanded(
             child: FutureBuilder(
-                future: FirebaseFirestore.instance
-                    .collection("SchoolListCollection")
-                    .doc(UserCredentialsController.schoolId)
-                    .collection(UserCredentialsController.batchId!)
-                    .doc(UserCredentialsController.batchId!)
-                    .collection('classes')
-                    .doc(UserCredentialsController.classId)
-                    .collection('Parents')
-                    .get(),
-                builder: (context, parentsSnaps) {
-                  if (parentsSnaps.hasData) {
-                    return ListView.separated(
-                        itemBuilder: (context, index) {
-                          final parentDetails = ParentModel.fromMap(
-                              parentsSnaps.data!.docs[index].data());
-                          featchingParentlList.add(parentDetails);
-                          return Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: Row(
-                              children: [
-                                Obx(() => Container(
-                                      color: addParentList[parentsSnaps.data!
+              future: FirebaseFirestore.instance
+                  .collection("SchoolListCollection")
+                  .doc(UserCredentialsController.schoolId)
+                  .collection(UserCredentialsController.batchId!)
+                  .doc(UserCredentialsController.batchId!)
+                  .collection('classes')
+                  .doc(UserCredentialsController.classId)
+                  .collection('Parents')
+                  .get(),
+              builder: (context, parentsSnaps) {
+                if (parentsSnaps.hasData) {
+                  return ListView.separated(
+                    itemBuilder: (context, index) {
+                      final parentDetails = ParentModel.fromMap(
+                        parentsSnaps.data!.docs[index].data(),
+                      );
+                      fetchingParentList.add(parentDetails);
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Row(
+                          children: [
+                            Obx(() => Container(
+                                  color: addParentList[parentsSnaps.data!
+                                              .docs[index]['parentName']] ==
+                                          null
+                                      ? Colors.transparent
+                                      : addParentList[parentsSnaps.data!
                                                   .docs[index]['parentName']] ==
-                                              null
-                                          ? Colors.transparent
-                                          : addParentList[parentsSnaps
-                                                          .data!.docs[index]
-                                                      ['parentName']] ==
-                                                  true
-                                              ? Colors.green.withOpacity(0.4)
-                                              : Colors.red.withOpacity(0.4),
-                                      height: 60.h,
-                                      child: Row(
-                                        children: [
-                                          Text("${index + 1}"),
-                                          const SizedBox(
-                                            width: 5,
+                                              true
+                                          ? Colors.green.withOpacity(0.4)
+                                          : Colors.red.withOpacity(0.4),
+                                  height: 60.h,
+                                  child: Row(
+                                    children: [
+                                      Text("${index + 1}"),
+                                      const SizedBox(width: 5),
+                                      SizedBox(
+                                        width: 200.w,
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: GooglePoppinsEventsWidgets(
+                                            text: parentDetails.parentName!,
+                                            fontsize: 11,
+                                            fontWeight: FontWeight.w600,
                                           ),
-                                          SizedBox(
-                                              width: 200.w,
-                                              child: SingleChildScrollView(
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  child:
-                                                      GooglePoppinsEventsWidgets(
-                                                    text: parentDetails
-                                                        .parentName!,
-                                                    fontsize: 11,
-                                                    fontWeight: FontWeight.w600,
-                                                  ))),
-                                        ],
+                                        ),
                                       ),
-                                    )),
-                                const Spacer(),
-                                IconButton(
-                                    onPressed: () async {
-                                      addParentToGroup(parentDetails.docid!,
-                                              groupID, parentDetails)
-                                          .then((value) {
-                                        showToast(msg: 'Added');
-                                        addParentList[parentsSnaps.data!
-                                            .docs[index]['parentName']] = true;
-                                      });
-                                    },
-                                    icon: const Icon(Icons.add)),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                IconButton(
-                                    onPressed: () async {
-                                      await removeParentToGroup(
-                                              parentDetails.docid!,
-                                              groupID,
-                                              context)
-                                          .then((value) {
-                                        showToast(msg: "Removed");
-                                        addParentList[
-                                            parentsSnaps.data?.docs[index]
-                                                ['parentName']] = false;
-                                      });
-                                    },
-                                    icon: const Icon(Icons.remove))
-                              ],
+                                    ],
+                                  ),
+                                )),
+                            const Spacer(),
+                            IconButton(
+                              onPressed: () async {
+                                addParentToGroup(parentDetails.docid!, groupID,
+                                        parentDetails)
+                                    .then((value) {
+                                  showToast(msg: 'Added');
+                                  addParentList[parentsSnaps.data!.docs[index]
+                                      ['parentName']] = true;
+                                });
+                              },
+                              icon: const Icon(Icons.add),
                             ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const Divider();
-                        },
-                        itemCount: parentsSnaps.data!.docs.length);
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    );
-                  }
-                }),
+                            const SizedBox(width: 20),
+                            IconButton(
+                              onPressed: () async {
+                                await removeParentToGroup(
+                                        parentDetails.docid!, groupID, context)
+                                    .then((value) {
+                                  showToast(msg: "Removed");
+                                  addParentList[parentsSnaps.data!.docs[index]
+                                      ['parentName']] = false;
+                                });
+                              },
+                              icon: const Icon(Icons.remove),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemCount: parentsSnaps.data!.docs.length,
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
@@ -610,14 +600,15 @@ class TeacherParentGroupChatController extends GetxController {
 
 createChatGroups(BuildContext context, String chatValue) async {
   final formKey = GlobalKey<FormState>();
-  final GroupFormController groupFormController = Get.put(GroupFormController());
+  final GroupFormController groupFormController =
+      Get.put(GroupFormController());
   TextEditingController groupNameController = TextEditingController();
   showDialog(
     context: context,
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) {
       return Form(
-        key: groupFormController.formKey ,
+        key: groupFormController.formKey,
         child: FutureBuilder(
             future: FirebaseFirestore.instance
                 .collection('SchoolListCollection')

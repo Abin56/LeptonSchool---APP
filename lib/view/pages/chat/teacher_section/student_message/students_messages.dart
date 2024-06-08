@@ -39,14 +39,16 @@ class StudentsMessagesScreen extends StatelessWidget {
                           height: 70.h,
                           child: ListTile(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return StudentsChatsScreen(
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return StudentsChatsScreen(
                                     studentName: snapshots.data!.docs[index]
                                         ['studentname'],
                                     studentDocID: snapshots.data!.docs[index]
                                         ['docid'],
                                   );
-                              },));
+                                },
+                              ));
                               // Get.off(() => StudentsChatsScreen(
                               //       studentName: snapshots.data!.docs[index]
                               //           ['studentname'],
@@ -147,7 +149,7 @@ class StudentsMessagesScreen extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.only(right: 10.sp),
                                   child: GooglePoppinsWidgets(
-                                    text: 'Search Students'.tr,
+                                    text: 'Search Student'.tr,
                                     fontsize: 15.sp,
                                   ),
                                 ),

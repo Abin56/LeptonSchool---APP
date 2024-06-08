@@ -7,6 +7,7 @@ import 'package:lepton_school/controllers/recorded_controller/recorded_controlle
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/utils/utils.dart';
 import 'package:lepton_school/view/colors/colors.dart';
+import 'package:lepton_school/view/constant/sizes/constant.dart';
 import 'package:lepton_school/view/constant/sizes/sizes.dart';
 import 'package:lepton_school/view/pages/recorded_videos/play_video.dart';
 import 'package:lepton_school/view/widgets/button_container_widget.dart';
@@ -15,7 +16,7 @@ import 'package:lepton_school/widgets/textformfield.dart';
 
 class RecordedVideosList extends StatefulWidget {
   const RecordedVideosList(
- {super.key, required this.subjectID, required this.chapterID});
+      {super.key, required this.subjectID, required this.chapterID});
 
   final String subjectID;
   final String chapterID;
@@ -25,7 +26,7 @@ class RecordedVideosList extends StatefulWidget {
 
 class _RecordedVideosListState extends State<RecordedVideosList> {
   final RecordedChapterController chapterController =
- Get.put(RecordedChapterController());
+      Get.put(RecordedChapterController());
 
   final ScrollController controller = ScrollController();
   double _scrollPosition = 0.0;
@@ -116,7 +117,7 @@ class _RecordedVideosListState extends State<RecordedVideosList> {
                                 ),
                               ),
                               const VerticalDivider(
-                                color: cgrey,width: 1,
+                                color: cgrey, width: 1,
                                 // indent: 4,
                                 // endIndent: 4,
                               )
@@ -174,85 +175,97 @@ class _RecordedVideosListState extends State<RecordedVideosList> {
                                                   Radius.zero)),
                                           builder: (context) {
                                             return SingleChildScrollView(
-                                              child: Container(
-                                                padding: EdgeInsets.only(
-                                                    left: 20,
-                                                    right: 20,
-                                                    top: 25,
-                                                    bottom:
-                                                        MediaQuery.of(context)
-                                                            .viewInsets
-                                                            .bottom),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      children: [
-                                                        GestureDetector(
+                                              child: Form(
+                                                key: chapterController.formKey,
+                                                child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      left: 20,
+                                                      right: 20,
+                                                      top: 25,
+                                                      bottom:
+                                                          MediaQuery.of(context)
+                                                              .viewInsets
+                                                              .bottom),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: const Icon(
+                                                                Icons.close),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      const Text(
+                                                        "Topic Name *",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      kHeight20,
+                                                      TextFormFieldWidget(
+                                                        function:
+                                                            checkFieldEmpty,
+                                                        textEditingController:
+                                                            chapterController
+                                                                .topicController,
+                                                        hintText: "topic name",
+                                                      ),
+                                                      kHeight40,
+                                                      Center(
+                                                        child: GestureDetector(
                                                           onTap: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child: const Icon(
-                                                              Icons.close),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    const Text(
-                                                      "Topic Name *",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    kHeight20,
-                                                    TextFormFieldWidget(
-                                                      textEditingController:
-                                                          chapterController
-                                                              .topicController,
-                                                      hintText: "topic name",
-                                                    ),
-                                                    kHeight40,
-                                                    Center(
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          chapterController
-                                                              .updateChapterTopic(
+                                                            if (chapterController
+                                                                .formKey
+                                                                .currentState!
+                                                                .validate()) {
+                                                              chapterController.updateChapterTopic(
                                                                   subjectID: widget
                                                                       .subjectID,
                                                                   chapterID: widget
                                                                       .chapterID,
                                                                   docId: data[
                                                                       'docid']);
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child:
-                                                            ButtonContainerWidget(
-                                                          curving: 18,
-                                                          colorindex: 2,
-                                                          height: 60.h,
-                                                          width: 150.w,
-                                                          child: Center(
-                                                            child:
-                                                                GooglePoppinsWidgets(
-                                                              text: "Update",
-                                                              color: cWhite,
-                                                              fontsize: 18,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
+                                                              Navigator.pop(
+                                                                  context);
+                                                            }
+                                                          },
+                                                          child:
+                                                              ButtonContainerWidget(
+                                                            curving: 18,
+                                                            colorindex: 2,
+                                                            height: 60.h,
+                                                            width: 150.w,
+                                                            child: Center(
+                                                              child:
+                                                                  GooglePoppinsWidgets(
+                                                                text: "Update",
+                                                                color: cWhite,
+                                                                fontsize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    kHeight20,
-                                                  ],
+                                                      kHeight20,
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             );
@@ -299,7 +312,7 @@ class _RecordedVideosListState extends State<RecordedVideosList> {
                                                                   .chapterID,
                                                               docId: data[
                                                                   'docid']);
-                                                  Navigator.pop(context);
+                                                      Navigator.pop(context);
                                                     },
                                                     child: const Text(
                                                       "Yes",
@@ -337,7 +350,7 @@ class _RecordedVideosListState extends State<RecordedVideosList> {
             return Center(child: Text('No Recorded Classes Uploaded Yet!'.tr));
           },
         ),
-),
-);
-}
+      ),
+    );
+  }
 }

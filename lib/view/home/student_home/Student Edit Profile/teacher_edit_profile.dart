@@ -211,7 +211,7 @@ class TeacherEditProfileScreen extends StatelessWidget {
                     ),
                     title: Row(
                       children: [
-                        GooglePoppinsWidgets(text: "gender".tr, fontsize: 12.h),
+                        GooglePoppinsWidgets(text: "Gender".tr, fontsize: 12.h),
                         IconButton(
                           onPressed: () async {
                             teacherProfileEditController.textEditingController

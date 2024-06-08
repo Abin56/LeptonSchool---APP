@@ -13,8 +13,8 @@ import '../../../../../../controllers/chat_controller/teacher_controller/teacher
 import '../../../../../constant/sizes/constant.dart';
 
 class StudentsChatsScreen extends StatefulWidget {
- final String studentDocID;
- final String studentName;
+  final String studentDocID;
+  final String studentName;
 
   const StudentsChatsScreen(
       {required this.studentDocID, required this.studentName, super.key});
@@ -186,9 +186,13 @@ class _StudentsChatsScreenState extends State<StudentsChatsScreen> {
                                       ),
                                       onPressed: () async {
                                         ///////////////////////////
-                                        teacherChatController
-                                            .sentMessage(widget.studentDocID);
-                                        /////////////////////////
+                                        if (teacherChatController
+                                                .messageController.text
+                                                .trim() !=
+                                            "") {
+                                          teacherChatController
+                                              .sentMessage(widget.studentDocID);
+                                        } /////////////////////////
                                       }),
                                 ),
                               ),

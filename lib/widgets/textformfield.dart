@@ -11,10 +11,12 @@ class TextFormFieldWidget extends StatelessWidget {
     this.hintText,
     this.textEditingController,
     this.function,
+    this.keyboardType,
   });
   final TextEditingController? textEditingController;
   final String? hintText;
   final String? labelText;
+  final TextInputType? keyboardType;
   final String? Function(String? fieldContent)? function;
 
   @override
@@ -22,6 +24,7 @@ class TextFormFieldWidget extends StatelessWidget {
     return TextFormField(
       validator: function,
       controller: textEditingController,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(0.h)),
           labelStyle: TextStyle(color: cblack, fontWeight: FontWeight.w600),

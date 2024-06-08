@@ -9,6 +9,7 @@ class RecordedChapterController extends GetxController {
   TextEditingController chapterNumberController = TextEditingController();
   TextEditingController chapterNameController = TextEditingController();
   TextEditingController topicController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   updateChapterNumber(
       {required String subjectID, required String chapterID}) async {
@@ -26,6 +27,7 @@ class RecordedChapterController extends GetxController {
         'chapterNumber': chapterNumberController.text,
       }).then((value) {
         log("chapter Number updated");
+        showToast(msg: "chapter Number updated");
         chapterNumberController.clear();
       });
     } catch (e) {
@@ -49,6 +51,7 @@ class RecordedChapterController extends GetxController {
         'chapterName': chapterNameController.text,
       }).then((value) {
         log("chapter name updated");
+        showToast(msg: "chapter name updated");
         chapterNameController.clear();
       });
     } catch (e) {
@@ -77,6 +80,7 @@ class RecordedChapterController extends GetxController {
         'topicName': topicController.text,
       }).then((value) {
         log("topic name updated");
+        showToast(msg: "topic name updated");
         topicController.clear();
       });
     } catch (e) {
@@ -130,6 +134,6 @@ class RecordedChapterController extends GetxController {
       });
     } catch (e) {
       showToast(msg: "Something Went Wrong");
-}
-}
+    }
+  }
 }

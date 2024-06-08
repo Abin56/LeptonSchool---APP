@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lepton_school/controllers/log_out/user_logout_controller.dart';
 import 'package:lepton_school/info/info.dart';
 import 'package:lepton_school/view/constant/sizes/sizes.dart';
-import 'package:lepton_school/view/home/exam_Notification/teacher_adding/add_subject.dart';
+import 'package:lepton_school/view/home/exam_Notification/users_exam_list_view/user_exam_acc.dart';
 import 'package:lepton_school/view/home/general_instructions/general_instructions.dart';
 import 'package:lepton_school/view/home/teachers_home/teacher_classes_list.dart';
 import 'package:lepton_school/view/pages/Homework/homework.dart';
@@ -174,21 +174,21 @@ Widget MyDrawerList(context) {
       children: [
         menuItem(1, 'assets/images/information.png', 'General Instructions'.tr,
             currentPage == DrawerSections.dashboard ? true : false, () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)
-              {return GeneralInstruction();}));
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return GeneralInstruction();
+          }));
           // Get.to(
           //   () => GeneralInstruction(),
           // );
         }),
         menuItem(2, 'assets/images/attendance.png', 'Attendance book'.tr,
             currentPage == DrawerSections.dashboard ? true : false, () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)
-              {return AttendenceBookScreenSelectMonth(
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return AttendenceBookScreenSelectMonth(
                 schoolId: UserCredentialsController.schoolId!,
                 batchId: UserCredentialsController.batchId!,
-                classID: UserCredentialsController.classId!);}));
-
-                
+                classID: UserCredentialsController.classId!);
+          }));
 
           // Get.to(
           //   () => AttendenceBookScreenSelectMonth(
@@ -199,8 +199,9 @@ Widget MyDrawerList(context) {
         }),
         menuItem(3, 'assets/images/exam.png', 'Exams'.tr,
             currentPage == DrawerSections.favourites ? true : false, () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)
-              {return const AddTimeTable();}));
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const UserExmNotifications();
+          }));
 
           // Get.to(
           //   () => const AddTimeTable(),
@@ -208,10 +209,9 @@ Widget MyDrawerList(context) {
         }),
         menuItem(4, 'assets/images/library.png', 'Time Table'.tr,
             currentPage == DrawerSections.setting ? true : false, () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)
-              {
-                return const TimeTable();
-                }));
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const TimeTable();
+          }));
 
           // Get.to(
           //   () => const SS(),
@@ -219,13 +219,14 @@ Widget MyDrawerList(context) {
         }),
         menuItem(5, 'assets/images/homework.png', 'HomeWorks'.tr,
             currentPage == DrawerSections.contact ? true : false, () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)
-              {return HomeWorkUpload(
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return HomeWorkUpload(
               batchId: UserCredentialsController.batchId!,
               classId: UserCredentialsController.classId!,
               schoolID: UserCredentialsController.schoolId!,
               teacherID: UserCredentialsController.teacherModel!.docid!,
-            );}));
+            );
+          }));
 
           // Get.to(
           //   () => HomeWorkUpload(
@@ -249,15 +250,17 @@ Widget MyDrawerList(context) {
         // }),
         menuItem(7, 'assets/images/languages.png', 'Change Language'.tr,
             currentPage == DrawerSections.dashboard ? true : false, () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)
-              {return LanguageChangeDrawerPage();}));
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return LanguageChangeDrawerPage();
+          }));
 
           // Get.to(()=>LanguageChangeDrawerPage());
         }),
         menuItem(8, 'assets/images/attendance.png', 'Privacy Policy'.tr,
             currentPage == DrawerSections.dashboard ? true : false, () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)
-              {return  const PrivacyPolicy();}));
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const PrivacyPolicy();
+          }));
           // Get.to(()=>const PrivacyPolicy());
         }),
 

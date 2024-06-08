@@ -339,12 +339,11 @@ class TeacherGroupChatController extends GetxController {
     userIndexBecomeZero(groupID, 'Students', teacherParameter: 'studentName');
     RxMap<String, bool?> addStudentList = <String, bool?>{}.obs;
 
-    List<AddStudentModel> featchingStudentlList = [];
+    List<AddStudentModel> featchingStudentList = [];
 
     Get.bottomSheet(Container(
-      height: 1000.h,
       color: Colors.white,
-      child: ListView(
+      child: Column(
         children: [
           const Padding(
             padding: EdgeInsets.only(top: 15),
@@ -355,113 +354,104 @@ class TeacherGroupChatController extends GetxController {
                   text: "Add students in custom",
                   fontsize: 17,
                   fontWeight: FontWeight.w600,
-                )
+                ),
               ],
             ),
           ),
-          SizedBox(
-            height: 15.h,
-          ),
-          SizedBox(
-            height: 900.h,
+          SizedBox(height: 15.h),
+          Expanded(
             child: FutureBuilder(
-                future: FirebaseFirestore.instance
-                    .collection("SchoolListCollection")
-                    .doc(UserCredentialsController.schoolId)
-                    .collection(UserCredentialsController.batchId!)
-                    .doc(UserCredentialsController.batchId!)
-                    .collection('classes')
-                    .doc(UserCredentialsController.classId)
-                    .collection('Students')
-                    .get(),
-                builder: (context, studentsSnaps) {
-                  if (studentsSnaps.hasData) {
-                    return ListView.separated(
-                        itemBuilder: (context, index) {
-                          final studentDetails = AddStudentModel.fromMap(
-                              studentsSnaps.data!.docs[index].data());
-                          featchingStudentlList.add(studentDetails);
-                          return Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: Row(
-                              children: [
-                                Obx(() => Container(
-                                      color: addStudentList[studentsSnaps
+              future: FirebaseFirestore.instance
+                  .collection("SchoolListCollection")
+                  .doc(UserCredentialsController.schoolId)
+                  .collection(UserCredentialsController.batchId!)
+                  .doc(UserCredentialsController.batchId!)
+                  .collection('classes')
+                  .doc(UserCredentialsController.classId)
+                  .collection('Students')
+                  .get(),
+              builder: (context, studentsSnaps) {
+                if (studentsSnaps.hasData) {
+                  return ListView.separated(
+                    itemBuilder: (context, index) {
+                      final studentDetails = AddStudentModel.fromMap(
+                        studentsSnaps.data!.docs[index].data(),
+                      );
+                      featchingStudentList.add(studentDetails);
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Row(
+                          children: [
+                            Obx(() => Container(
+                                  color: addStudentList[studentsSnaps.data!
+                                              .docs[index]['studentName']] ==
+                                          null
+                                      ? Colors.transparent
+                                      : addStudentList[studentsSnaps
                                                       .data!.docs[index]
                                                   ['studentName']] ==
-                                              null
-                                          ? Colors.transparent
-                                          : addStudentList[studentsSnaps
-                                                          .data!.docs[index]
-                                                      ['studentName']] ==
-                                                  true
-                                              ? Colors.green.withOpacity(0.4)
-                                              : Colors.red.withOpacity(0.4),
-                                      height: 60.h,
-                                      child: Row(
-                                        children: [
-                                          Text("${index + 1}"),
-                                          const SizedBox(
-                                            width: 5,
+                                              true
+                                          ? Colors.green.withOpacity(0.4)
+                                          : Colors.red.withOpacity(0.4),
+                                  height: 60.h,
+                                  child: Row(
+                                    children: [
+                                      Text("${index + 1}"),
+                                      const SizedBox(width: 5),
+                                      SizedBox(
+                                        width: 200.w,
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: GooglePoppinsEventsWidgets(
+                                            text: studentDetails.studentName!,
+                                            fontsize: 11,
+                                            fontWeight: FontWeight.w600,
                                           ),
-                                          SizedBox(
-                                              width: 200.w,
-                                              child: SingleChildScrollView(
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  child:
-                                                      GooglePoppinsEventsWidgets(
-                                                    text: studentDetails
-                                                        .studentName!,
-                                                    fontsize: 11,
-                                                    fontWeight: FontWeight.w600,
-                                                  ))),
-                                        ],
+                                        ),
                                       ),
-                                    )),
-                                const Spacer(),
-                                IconButton(
-                                    onPressed: () async {
-                                      addStudentToGroup(studentDetails.docid!,
-                                              groupID, studentDetails)
-                                          .then((value) {
-                                        showToast(msg: 'Added');
-                                        addStudentList[studentsSnaps.data!
-                                            .docs[index]['studentName']] = true;
-                                      });
-                                    },
-                                    icon: const Icon(Icons.add)),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                IconButton(
-                                    onPressed: () async {
-                                      await removeStudentToGroup(
-                                              studentDetails.docid!,
-                                              groupID,
-                                              context)
-                                          .then((value) {
-                                        showToast(msg: "Removed");
-                                        addStudentList[
-                                            studentsSnaps.data?.docs[index]
-                                                ['studentName']] = false;
-                                      });
-                                    },
-                                    icon: const Icon(Icons.remove))
-                              ],
+                                    ],
+                                  ),
+                                )),
+                            const Spacer(),
+                            IconButton(
+                              onPressed: () async {
+                                addStudentToGroup(studentDetails.docid!,
+                                        groupID, studentDetails)
+                                    .then((value) {
+                                  showToast(msg: 'Added');
+                                  addStudentList[studentsSnaps.data!.docs[index]
+                                      ['studentName']] = true;
+                                });
+                              },
+                              icon: const Icon(Icons.add),
                             ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const Divider();
-                        },
-                        itemCount: studentsSnaps.data!.docs.length);
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    );
-                  }
-                }),
+                            const SizedBox(width: 20),
+                            IconButton(
+                              onPressed: () async {
+                                await removeStudentToGroup(
+                                        studentDetails.docid!, groupID, context)
+                                    .then((value) {
+                                  showToast(msg: "Removed");
+                                  addStudentList[studentsSnaps.data!.docs[index]
+                                      ['studentName']] = false;
+                                });
+                              },
+                              icon: const Icon(Icons.remove),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemCount: studentsSnaps.data!.docs.length,
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
@@ -573,7 +563,7 @@ class TeacherGroupChatController extends GetxController {
                     children: [
                       GestureDetector(
                           onTap: () {
-                            createChatGroups(context, 'Students');
+                            createChatGroups(context, 'Students'.tr);
                           },
                           child: Container(
                               height: 60,
@@ -582,7 +572,7 @@ class TeacherGroupChatController extends GetxController {
                               child: const Center(child: Text('Students')))),
                       GestureDetector(
                           onTap: () {
-                            createChatGroups(context, 'Parents');
+                            createChatGroups(context, 'Parents'.tr);
                           },
                           child: Container(
                               height: 60,
@@ -610,15 +600,16 @@ class TeacherGroupChatController extends GetxController {
 }
 
 createChatGroups(BuildContext context, String chatValue) async {
- // final formKey = GlobalKey<FormState>();
-  final GroupFormController groupFormController = Get.put(GroupFormController());
+  // final formKey = GlobalKey<FormState>();
+  final GroupFormController groupFormController =
+      Get.put(GroupFormController());
   TextEditingController groupNameController = TextEditingController();
   showDialog(
     context: context,
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) {
       return Form(
-        key: groupFormController. formKey,
+        key: groupFormController.formKey,
         child: FutureBuilder(
             future: FirebaseFirestore.instance
                 .collection('SchoolListCollection')
@@ -652,15 +643,25 @@ createChatGroups(BuildContext context, String chatValue) async {
                   TextButton(
                     child: const Text('ok'),
                     onPressed: () async {
-                      if (groupFormController. formKey.currentState!.validate()) {
-                     final docid = uuid.v1();
-                          final groupInfoDetails = CreateGroupChatModel(
-                              activate: true,
-                              docid: docid,
-                              admin: true,
-                              groupName: groupNameController.text,
-                              teacherId:
-                                  FirebaseAuth.instance.currentUser!.uid);
+                      if (groupFormController.formKey.currentState!
+                          .validate()) {
+                        final docid = uuid.v1();
+                        final groupInfoDetails = CreateGroupChatModel(
+                            activate: true,
+                            docid: docid,
+                            admin: true,
+                            groupName: groupNameController.text,
+                            teacherId: FirebaseAuth.instance.currentUser!.uid);
+                        await FirebaseFirestore.instance
+                            .collection('SchoolListCollection')
+                            .doc(UserCredentialsController.schoolId)
+                            .collection(UserCredentialsController.batchId!)
+                            .doc(UserCredentialsController.batchId)
+                            .collection('classes')
+                            .doc(UserCredentialsController.classId)
+                            .collection('ChatGroups')
+                            .doc('ChatGroups')
+                            .set({'docid': "ChatGroups"}).then((value) async {
                           await FirebaseFirestore.instance
                               .collection('SchoolListCollection')
                               .doc(UserCredentialsController.schoolId)
@@ -670,27 +671,16 @@ createChatGroups(BuildContext context, String chatValue) async {
                               .doc(UserCredentialsController.classId)
                               .collection('ChatGroups')
                               .doc('ChatGroups')
-                              .set({'docid': "ChatGroups"}).then((value) async {
-                            await FirebaseFirestore.instance
-                                .collection('SchoolListCollection')
-                                .doc(UserCredentialsController.schoolId)
-                                .collection(UserCredentialsController.batchId!)
-                                .doc(UserCredentialsController.batchId)
-                                .collection('classes')
-                                .doc(UserCredentialsController.classId)
-                                .collection('ChatGroups')
-                                .doc('ChatGroups')
-                                .collection(chatValue)
-                                .doc(docid)
-                                .set(groupInfoDetails.toMap())
-                                .then((value) async {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
+                              .collection(chatValue)
+                              .doc(docid)
+                              .set(groupInfoDetails.toMap())
+                              .then((value) async {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
 
-                              return showToast(
-                                  msg: 'Group Created Successfully');
-                            });
+                            return showToast(msg: 'Group Created Successfully');
                           });
+                        });
                       }
                     },
                   ),
