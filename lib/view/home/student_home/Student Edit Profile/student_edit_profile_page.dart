@@ -25,14 +25,14 @@ final StudentProfileEditController studentProfileEditController =
     Get.put(StudentProfileEditController());
 
 class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
-   String? selectedGender;
-     @override
+  String? selectedGender;
+  @override
   void initState() {
     super.initState();
     selectedGender = UserCredentialsController.parentModel?.gender;
   }
-  @override
 
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -40,11 +40,10 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
           children: [
             Container(
               width: double.infinity,
-              height: 300.h,
+              height: 350.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(12.h),
-                    bottomRight: Radius.circular(12.h)),
+                    bottomLeft: Radius.circular(12.h), bottomRight: Radius.circular(12.h)),
                 color: adminePrimayColor,
                 //const Color.fromARGB(255, 88, 167, 123),
               ),
@@ -83,20 +82,34 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         ],
                       ),
                     ],
-                  ),const Spacer(),
-                  GooglePoppinsWidgets(text: "***", fontsize: 18,color: cWhite,),
-                   Padding(
-                     padding: const EdgeInsets.only(left: 60),
-                     child: GooglePoppinsWidgets(text: "   This photo and informations provided may\n be used for enteries in student Id card", fontsize: 12,color: cWhite,),
-                   ),
-                   GooglePoppinsWidgets(text: "***", fontsize: 18,color: cWhite,),
-
+                  ),
+                  const Spacer(),
+                  GooglePoppinsWidgets(
+                    text: "***",
+                    fontsize: 18,
+                    color: cWhite,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(1),
+                    child: GooglePoppinsWidgets(
+                      text:
+                          "   This photo and informations provided may\n be used for enteries in student Id card",
+                      fontsize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: cWhite,
+                    ),
+                  ),
+                  GooglePoppinsWidgets(
+                    text: "***",
+                    fontsize: 18,
+                    color: cWhite,
+                  ),
                 ],
               ),
             ),
             SizedBox(
               width: double.infinity,
-              height: 620.h,
+              height: 520.h,
               child: ListView(
                 children: [
                   StudentEditListileWidget(
@@ -104,9 +117,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                     subtitle: Row(
                       children: [
                         GooglePoppinsWidgets(
-                          text: UserCredentialsController
-                                  .studentModel?.studentName ??
-                              "",
+                          text: UserCredentialsController.studentModel?.studentName ?? "",
                           fontsize: 19.h,
                         ),
                       ],
@@ -116,10 +127,8 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         GooglePoppinsWidgets(text: "Name".tr, fontsize: 12.h),
                         IconButton(
                           onPressed: () async {
-                            studentProfileEditController.editvalueController
-                                .text = UserCredentialsController
-                                    .studentModel?.studentName ??
-                                "";
+                            studentProfileEditController.editvalueController.text =
+                                UserCredentialsController.studentModel?.studentName ?? "";
                             await changeStudentData(
                               context: context,
                               hintText: 'Name',
@@ -141,29 +150,26 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                     subtitle: Row(
                       children: [
                         GooglePoppinsWidgets(
-                          text: UserCredentialsController
-                                  .studentModel?.parentPhoneNumber ??
-                              "",
+                          text: UserCredentialsController.studentModel?.parentPhoneNumber ?? "",
                           fontsize: 19.h,
                         ),
                       ],
                     ),
                     title: Row(
                       children: [
-                        GooglePoppinsWidgets(
-                            text: "Phone No.".tr, fontsize: 12.h),
+                        GooglePoppinsWidgets(text: "Phone No.".tr, fontsize: 12.h),
                         IconButton(
                           onPressed: () async {
-                            studentProfileEditController.editvalueController
-                                .text = UserCredentialsController
-                                    .studentModel?.parentPhoneNumber ??
-                                "";
+                            studentProfileEditController.editvalueController.text =
+                                UserCredentialsController.studentModel?.parentPhoneNumber ?? "";
                             await changeStudentData(
-                                context: context,
-                                hintText: 'Phone Number',
-                                updateValue: 'parentPhoneNumber',
-                                validator: checkFieldPhoneNumberIsValid,
-                                textInputType: TextInputType.number);
+                              context: context,
+                              hintText: 'Phone Number',
+                              updateValue: 'parentPhoneNumber',
+                              validator: checkFieldPhoneNumberIsValid,
+                              textInputType: TextInputType.number,
+                            );
+
                             setState(() {});
                           },
                           icon: const Icon(
@@ -179,9 +185,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                     subtitle: Row(
                       children: [
                         GooglePoppinsWidgets(
-                            text: UserCredentialsController
-                                    .studentModel?.studentemail ??
-                                "",
+                            text: UserCredentialsController.studentModel?.studentemail ?? "",
                             fontsize: 19.h),
                       ],
                     ),
@@ -208,8 +212,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return GooglePoppinsWidgets(
-                                  text: snapshot.data!.data()!['className'],
-                                  fontsize: 19.h);
+                                  text: snapshot.data!.data()!['className'], fontsize: 19.h);
                             } else {
                               return const Text('');
                             }
@@ -228,23 +231,18 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                     subtitle: Row(
                       children: [
                         GooglePoppinsWidgets(
-                          text: UserCredentialsController
-                                  .studentModel?.bloodgroup ??
-                              "",
+                          text: UserCredentialsController.studentModel?.bloodgroup ?? "",
                           fontsize: 19.h,
                         ),
                       ],
                     ),
                     title: Row(
                       children: [
-                        GooglePoppinsWidgets(
-                            text: "Blood Group".tr, fontsize: 12.h),
+                        GooglePoppinsWidgets(text: "Blood Group".tr, fontsize: 12.h),
                         IconButton(
                           onPressed: () async {
-                            studentProfileEditController.editvalueController
-                                .text = UserCredentialsController
-                                    .studentModel?.bloodgroup ??
-                                "";
+                            studentProfileEditController.editvalueController.text =
+                                UserCredentialsController.studentModel?.bloodgroup ?? "";
                             await changeStudentData(
                               context: context,
                               hintText: 'Blood Group',
@@ -266,23 +264,18 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                     subtitle: Row(
                       children: [
                         GooglePoppinsWidgets(
-                          text: UserCredentialsController
-                                  .studentModel?.houseName ??
-                              "",
+                          text: UserCredentialsController.studentModel?.houseName ?? "",
                           fontsize: 19.h,
                         ),
                       ],
                     ),
                     title: Row(
                       children: [
-                        GooglePoppinsWidgets(
-                            text: "Address".tr, fontsize: 13.h),
+                        GooglePoppinsWidgets(text: "Address".tr, fontsize: 13.h),
                         IconButton(
                           onPressed: () async {
-                            studentProfileEditController.editvalueController
-                                .text = UserCredentialsController
-                                    .studentModel?.houseName ??
-                                "";
+                            studentProfileEditController.editvalueController.text =
+                                UserCredentialsController.studentModel?.houseName ?? "";
                             await changeStudentData(
                               context: context,
                               hintText: 'Address',
@@ -304,8 +297,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                     subtitle: Row(
                       children: [
                         GooglePoppinsWidgets(
-                          text: UserCredentialsController.studentModel?.place ??
-                              "",
+                          text: UserCredentialsController.studentModel?.place ?? "",
                           fontsize: 19.h,
                         ),
                       ],
@@ -315,10 +307,8 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         GooglePoppinsWidgets(text: "Place".tr, fontsize: 13.h),
                         IconButton(
                           onPressed: () async {
-                            studentProfileEditController
-                                    .editvalueController.text =
-                                UserCredentialsController.studentModel?.place ??
-                                    "";
+                            studentProfileEditController.editvalueController.text =
+                                UserCredentialsController.studentModel?.place ?? "";
                             await changeStudentData(
                               context: context,
                               hintText: 'place',
@@ -340,9 +330,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                     subtitle: Row(
                       children: [
                         GooglePoppinsWidgets(
-                          text:
-                              UserCredentialsController.studentModel?.gender ??
-                                  "",
+                          text: UserCredentialsController.studentModel?.gender ?? "",
                           fontsize: 19.h,
                         ),
                       ],
@@ -350,34 +338,36 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                     title: Row(
                       children: [
                         GooglePoppinsWidgets(text: "Gender".tr, fontsize: 13.h),
-                         DropdownButton<String>(
-                        // value: selectedGender,
-                         icon: const Icon(Icons.edit),
-                         iconSize: 24,
-                         elevation: 16,
-                         style: const TextStyle(color: Colors.black),
-                         underline: const SizedBox.shrink(),  
-                         onChanged: (String? newValue) async {
-                           setState(() {
-                             selectedGender = newValue;
-                           });
-                           studentProfileEditController.editvalueController.text = newValue ?? "";
-                                await changeStudentData(
-                                context: context,
-                                hintText: 'Gender',
-                                updateValue: 'gender',
-                                validator: checkFieldEmpty,
-                                );
-                             setState(() {});
-                         },
-                         items: <String>['Male', 'Female',]
-                             .map<DropdownMenuItem<String>>((String value) {
-                           return DropdownMenuItem<String>(
-                             value: value,
-                             child: Text(value),
-                           );
-                         }).toList(),
-                     ),
+                        DropdownButton<String>(
+                          // value: selectedGender,
+                          icon: const Icon(Icons.edit),
+                          iconSize: 24,
+                          elevation: 16,
+                          style: const TextStyle(color: Colors.black),
+                          underline: const SizedBox.shrink(),
+                          onChanged: (String? newValue) async {
+                            setState(() {
+                              selectedGender = newValue;
+                            });
+                            studentProfileEditController.editvalueController.text = newValue ?? "";
+                            await changeStudentData(
+                              context: context,
+                              hintText: 'Gender',
+                              updateValue: 'gender',
+                              validator: checkFieldEmpty,
+                            );
+                            setState(() {});
+                          },
+                          items: <String>[
+                            'Male',
+                            'Female',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
                         // IconButton(
                         //   onPressed: () async {
                         //     studentProfileEditController.editvalueController
@@ -405,9 +395,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                     subtitle: Row(
                       children: [
                         GooglePoppinsWidgets(
-                          text: UserCredentialsController
-                                  .studentModel?.dateofBirth ??
-                              "",
+                          text: UserCredentialsController.studentModel?.dateofBirth ?? "",
                           fontsize: 19.h,
                         ),
                       ],
@@ -417,15 +405,12 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         GooglePoppinsWidgets(text: "Dob".tr, fontsize: 13.h),
                         IconButton(
                           onPressed: () async {
-                            studentProfileEditController.editvalueController
-                                .text = UserCredentialsController
-                                    .studentModel?.dateofBirth ??
-                                "";
+                            studentProfileEditController.editvalueController.text =
+                                UserCredentialsController.studentModel?.dateofBirth ?? "";
                             await changeStudentData(
                                 onTapFunction: () async {
-                                  studentProfileEditController
-                                      .editvalueController
-                                      .text = await dateTimePicker(context);
+                                  studentProfileEditController.editvalueController.text =
+                                      await dateTimePicker(context);
                                 },
                                 context: context,
                                 textInputType: TextInputType.none,
@@ -447,9 +432,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                     subtitle: Row(
                       children: [
                         GooglePoppinsWidgets(
-                          text: UserCredentialsController
-                                  .studentModel?.district ??
-                              "",
+                          text: UserCredentialsController.studentModel?.district ?? "",
                           fontsize: 19.h,
                         ),
                       ],
@@ -462,10 +445,8 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         ),
                         IconButton(
                           onPressed: () async {
-                            studentProfileEditController.editvalueController
-                                .text = UserCredentialsController
-                                    .studentModel?.district ??
-                                "";
+                            studentProfileEditController.editvalueController.text =
+                                UserCredentialsController.studentModel?.district ?? "";
                             await changeStudentData(
                               context: context,
                               hintText: 'District',
@@ -487,9 +468,7 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                     subtitle: Row(
                       children: [
                         GooglePoppinsWidgets(
-                          text: UserCredentialsController
-                                  .studentModel?.alPhoneNumber ??
-                              "",
+                          text: UserCredentialsController.studentModel?.alPhoneNumber ?? "",
                           fontsize: 19.h,
                         ),
                       ],
@@ -502,10 +481,8 @@ class _StudentProfileEditPageState extends State<StudentProfileEditPage> {
                         ),
                         IconButton(
                           onPressed: () async {
-                            studentProfileEditController.editvalueController
-                                .text = UserCredentialsController
-                                    .studentModel?.alPhoneNumber ??
-                                "";
+                            studentProfileEditController.editvalueController.text =
+                                UserCredentialsController.studentModel?.alPhoneNumber ?? "";
                             await changeStudentData(
                               context: context,
                               validator: checkFieldPhoneNumberIsValid,
@@ -557,14 +534,11 @@ class StudentCircleAvatarImgeWidget extends StatelessWidget {
     return Column(
       children: [
         CircleAvatar(
-          backgroundImage:
-              UserCredentialsController.studentModel?.profileImageUrl == null ||
-                      UserCredentialsController
-                          .studentModel!.profileImageUrl.isEmpty
-                  ? const NetworkImage(netWorkImagePathPerson)
-                  : NetworkImage(
-                      UserCredentialsController.studentModel?.profileImageUrl ??
-                          " ") as ImageProvider,
+          backgroundImage: UserCredentialsController.studentModel?.profileImageUrl == null ||
+                  UserCredentialsController.studentModel!.profileImageUrl.isEmpty
+              ? const NetworkImage(netWorkImagePathPerson)
+              : NetworkImage(UserCredentialsController.studentModel?.profileImageUrl ?? " ")
+                  as ImageProvider,
           radius: 60,
           child: Stack(
             children: [
@@ -593,8 +567,7 @@ class StudentCircleAvatarImgeWidget extends StatelessWidget {
         isDismissible: false,
         context: context,
         builder: (BuildContext context) {
-          return BottomProfilePhotoContainerWidget(
-              getImageController: getImageController);
+          return BottomProfilePhotoContainerWidget(getImageController: getImageController);
         }).then(
       (value) {
         if (getImageController.pickedImage.value.isNotEmpty) {
@@ -673,13 +646,10 @@ changeStudentData({
             TextButton(
               child: const Text('Update'),
               onPressed: () async {
-                if (studentProfileEditController.formKey.currentState!
-                    .validate()) {
+                if (studentProfileEditController.formKey.currentState!.validate()) {
                   await studentProfileEditController.updateprofile(context,
                       updateValue: updateValue,
-                      valuee: studentProfileEditController
-                          .editvalueController.text
-                          .trim());
+                      valuee: studentProfileEditController.editvalueController.text.trim());
                 } else {
                   showToast(msg: "Something went wrong");
                   return;

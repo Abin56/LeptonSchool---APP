@@ -21,6 +21,7 @@ import 'package:lepton_school/view/home/parent_home/parent%20home%20widget/paren
 import 'package:lepton_school/view/home/parent_home/parent%20home%20widget/parent_view_all_categories.dart';
 import 'package:lepton_school/view/home/parent_home/parent%20home%20widget/qucik_action.dart';
 import 'package:lepton_school/view/home/student_home/time_table/ss.dart';
+import 'package:lepton_school/view/pages/Homework/parent/view_home_work.dart';
 import 'package:lepton_school/view/pages/Homework/view_home_work.dart';
 import 'package:lepton_school/view/pages/Meetings/Tabs/school_level_meetings_tab.dart';
 import 'package:lepton_school/view/pages/Notice/notice_list.dart';
@@ -85,7 +86,7 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
           classID: UserCredentialsController
               .classId!), ///////////////////Attendance 0
 
-      const ViewHomeWorks(), // Home Works...............1
+      const ViewHomeWorksParent(), // Home Works...............1
       const UserExmNotifications(), // Exams...........2
       const ParentChatScreen(), /////......3
     ];
@@ -169,7 +170,7 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
           batchId: UserCredentialsController.batchId!,
           classID: UserCredentialsController.classId!), //Attendence...0
 
-      const ViewHomeWorks(), // Home Works...............1
+      const ViewHomeWorksParent(), // Home Works...............1
       const TimeTable(), // Time Table...........2
       const TeacherSubjectWiseList(
           navValue: 'parent'), //Teachers.................3

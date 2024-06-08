@@ -13,6 +13,7 @@ import 'package:lepton_school/view/constant/sizes/sizes.dart';
 import 'package:lepton_school/view/home/events/event_display_class_level.dart';
 import 'package:lepton_school/view/home/exam_Notification/users_exam_list_view/user_exam_acc.dart';
 import 'package:lepton_school/view/home/general_instructions/general_instructions.dart';
+import 'package:lepton_school/view/pages/Homework/parent/view_home_work.dart';
 import 'package:lepton_school/view/pages/Homework/view_home_work.dart';
 
 import '../../../controllers/multipile_students/multipile_students_controller.dart';
@@ -24,10 +25,8 @@ import '../student_home/time_table/ss.dart';
 
 // ignore: must_be_immutable
 class ParentHeaderDrawer extends StatelessWidget {
-  MultipileStudentsController multipileStudentsController =
-      Get.put(MultipileStudentsController());
-  ParentLoginController parentLoginController =
-      Get.put(ParentLoginController());
+  MultipileStudentsController multipileStudentsController = Get.put(MultipileStudentsController());
+  ParentLoginController parentLoginController = Get.put(ParentLoginController());
   ParentHeaderDrawer({super.key});
 
   @override
@@ -64,9 +63,7 @@ class ParentHeaderDrawer extends StatelessWidget {
           Text(
             "Watch and Guide      \n  Let them Study",
             style: GoogleFonts.poppins(
-                color: Colors.black.withOpacity(0.5),
-                fontSize: 10,
-                fontWeight: FontWeight.w600),
+                color: Colors.black.withOpacity(0.5), fontSize: 10, fontWeight: FontWeight.w600),
           ),
           TextButton(
             onPressed: () async {
@@ -113,8 +110,7 @@ Widget MenuItem(int id, String image, String title, bool selected, onTap) {
               child: Container(
                 height: 30,
                 width: double.infinity,
-                decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage(image))),
+                decoration: BoxDecoration(image: DecorationImage(image: AssetImage(image))),
               ),
             ),
             Expanded(
@@ -176,34 +172,37 @@ Widget MyDrawerList(context) {
           // Get.off(
           //   () => GeneralInstruction(),
           // );
-          Navigator.push(context,MaterialPageRoute(builder: (context) {
-               return GeneralInstruction();
-    },));
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return GeneralInstruction();
+            },
+          ));
         }),
         MenuItem(2, 'assets/images/attendance.png', 'Attendance book'.tr,
             currentPage == DrawerSections.dashboard ? true : false, () {
-Navigator.push(context,MaterialPageRoute(builder: (context) {
-               return AttendenceBookScreenSelectMonth(
-                schoolId: UserCredentialsController.schoolId!,
-                batchId: UserCredentialsController.batchId!,
-                classID: UserCredentialsController.classId!);
-          
-    },));
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return AttendenceBookScreenSelectMonth(
+                  schoolId: UserCredentialsController.schoolId!,
+                  batchId: UserCredentialsController.batchId!,
+                  classID: UserCredentialsController.classId!);
+            },
+          ));
 
-              
           // Get.off(
           //   () => AttendenceBookScreenSelectMonth(
           //       schoolId: UserCredentialsController.schoolId!,
           //       batchId: UserCredentialsController.batchId!,
           //       classID: UserCredentialsController.classId!),
           // );
-          
         }),
         MenuItem(3, 'assets/images/exam.png', 'Exams'.tr,
             currentPage == DrawerSections.favourites ? true : false, () {
-Navigator.push(context,MaterialPageRoute(builder: (context) {
-               return const UserExmNotifications();
-    },));
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return const UserExmNotifications();
+            },
+          ));
 
           // Get.off(
           //   () => const UserExmNotifications(),
@@ -211,9 +210,11 @@ Navigator.push(context,MaterialPageRoute(builder: (context) {
         }),
         MenuItem(4, 'assets/images/library.png', 'Time Table'.tr,
             currentPage == DrawerSections.setting ? true : false, () {
-             Navigator.push(context,MaterialPageRoute(builder: (context) {
-               return const TimeTable();
-    },));
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return const TimeTable();
+            },
+          ));
 
           // Get.off(
           //   () => const SS(),
@@ -225,9 +226,11 @@ Navigator.push(context,MaterialPageRoute(builder: (context) {
         // }),
         MenuItem(5, 'assets/images/homework.png', 'HomeWorks'.tr,
             currentPage == DrawerSections.contact ? true : false, () {
-              Navigator.push(context,MaterialPageRoute(builder: (context) {
-               return const ViewHomeWorks();
-    },));
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return const ViewHomeWorksParent();
+            },
+          ));
           // Get.off(
           //   () => const ViewHomeWorks(),
           // );
@@ -246,16 +249,20 @@ Navigator.push(context,MaterialPageRoute(builder: (context) {
 
         MenuItem(8, 'assets/images/languages.png', 'Change Language'.tr,
             currentPage == DrawerSections.dashboard ? true : false, () {
-              Navigator.push(context,MaterialPageRoute(builder: (context) {
-               return LanguageChangeDrawerPage();
-    },));
-         // Get.off(() => LanguageChangeDrawerPage());
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return LanguageChangeDrawerPage();
+            },
+          ));
+          // Get.off(() => LanguageChangeDrawerPage());
         }),
         MenuItem(7, 'assets/images/attendance.png', 'Privacy Policy'.tr,
             currentPage == DrawerSections.dashboard ? true : false, () {
-              Navigator.push(context,MaterialPageRoute(builder: (context) {
-               return const PrivacyPolicy();
-    },));
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return const PrivacyPolicy();
+            },
+          ));
           // Get.off(() => const PrivacyPolicy());
         }),
 
@@ -275,8 +282,7 @@ Navigator.push(context,MaterialPageRoute(builder: (context) {
                     children: [
                       Text(
                         "Developed by",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.w500),
+                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
@@ -300,9 +306,7 @@ Navigator.push(context,MaterialPageRoute(builder: (context) {
                     Text(
                       "Lepton Communications",
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 11.5),
+                          fontWeight: FontWeight.bold, color: Colors.black, fontSize: 11.5),
                     ),
                   ],
                 )),
@@ -319,8 +323,7 @@ Navigator.push(context,MaterialPageRoute(builder: (context) {
                       ),
                       Text(
                         " Version",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
+                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
