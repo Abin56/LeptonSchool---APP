@@ -13,9 +13,6 @@ import 'package:lepton_school/utils/utils.dart';
 import 'package:lepton_school/view/constant/sizes/constant.dart';
 
 class PushNotificationController extends GetxController {
- 
-
-
   RxString deviceID = ''.obs;
   Future<void> getUserDeviceID() async {
     await FirebaseMessaging.instance.getToken().then((token) {
@@ -24,8 +21,8 @@ class PushNotificationController extends GetxController {
     });
   }
 
-  Future<void> allUSerDeviceID(String userrole,String currentUSer) async {
-      log('>currentUID>>>>$currentUSer');
+  Future<void> allUSerDeviceID(String userrole, String currentUSer) async {
+    log('>currentUID>>>>$currentUSer');
     log('>>>>>User Role ${UserCredentialsController.userRole}');
     print('allUSerDeviceID');
     print('allUSerDeviceID  $currentUSer');
@@ -287,5 +284,22 @@ class PushNotificationController extends GetxController {
           .doc(docid)
           .set(details.toMap());
     } catch (e) {}
+  }
+
+  RxString pushNotficationKey = ''.obs;
+  getPushNotification() async {
+    FirebaseFirestore.instance
+        .collection('PushNotification')
+        .doc('key')
+        .get()
+        .then((value) async {
+      pushNotficationKey.value = value.data()?['key'];
+    });
+  }
+
+  @override
+  void onInit() {
+    getPushNotification();
+    super.onInit();
   }
 }
