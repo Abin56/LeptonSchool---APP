@@ -148,9 +148,9 @@ final MultipileStudentsController multipileStudentsController =
         ),
       )),
     );
-    
+
   }
-  
+
 
   viewallMenus() {
     final screenNavigationOfParent = [
@@ -276,18 +276,18 @@ List<String> img = [
   'assets/flaticons/test.png',
 ];
 List<String> text = [
-  'Attendance',
-  'Homework',
-  'Time Table',
-  'Teachers',
-  'Subjects',
-  'Leave Letters',
-  'Exams',
-  'Exam Results',
-  'Notices',
-  'Events',
-  'Meetings',
-  'Chats',
-  'Class Test',
-  'Monthly Class Test',
+  'Attendance'.tr,
+  'Homework'.tr,
+  'Time Table'.tr,
+  'Teachers'.tr,
+  'Subjects'.tr,
+  'Leave Letters'.tr,
+  'Exams'.tr,
+  'Exam Results'.tr,
+  'Notices'.tr,
+  'Events'.tr,
+  'Meetings'.tr,
+  'Chats'.tr,
+  'Class Test'.tr,
+  'Monthly Class Test'.tr,
 ];
