@@ -46,4 +46,5 @@ class AccessTokenFirebase {
     final String accessToken = client.credentials.accessToken.data;
     return accessToken;
   }
+  
 }
