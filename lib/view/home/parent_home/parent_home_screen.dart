@@ -22,7 +22,6 @@ import 'package:lepton_school/view/home/parent_home/parent%20home%20widget/paren
 import 'package:lepton_school/view/home/parent_home/parent%20home%20widget/qucik_action.dart';
 import 'package:lepton_school/view/home/student_home/time_table/ss.dart';
 import 'package:lepton_school/view/pages/Homework/parent/view_home_work.dart';
-import 'package:lepton_school/view/pages/Homework/view_home_work.dart';
 import 'package:lepton_school/view/pages/Meetings/Tabs/school_level_meetings_tab.dart';
 import 'package:lepton_school/view/pages/Notice/notice_list.dart';
 import 'package:lepton_school/view/pages/Subject/subject_display.dart';
@@ -33,7 +32,7 @@ import 'package:lepton_school/view/pages/teacher_list/teacher_list.dart';
 
 import '../../../controllers/multipile_students/multipile_students_controller.dart';
 
-class ParentHomeScreen extends StatefulWidget {
+class ParentHomeScreen extends StatelessWidget {
   ParentHomeScreen({super.key, required this.studentName});
   @override
   // ignore: override_on_non_overriding_member
@@ -42,30 +41,18 @@ class ParentHomeScreen extends StatefulWidget {
   final PushNotificationController pushNotCntrl =
       Get.put(PushNotificationController());
 
-  State<ParentHomeScreen> createState() => _ParentHomeScreenState();
-}
-
-class _ParentHomeScreenState extends State<ParentHomeScreen> {
-  MultipileStudentsController multipileStudentsController =
+final MultipileStudentsController multipileStudentsController =
       Get.put(MultipileStudentsController());
-
-
-
-  @override
-  void initState() {
-    widget.pushNotCntrl.getUserDeviceID().then((value) async {
-      await widget.pushNotCntrl
-          .allUSerDeviceID(UserCredentialsController.parentModel!.userRole);
-      await widget.pushNotCntrl.allParentDeviceID();
-    });
-    super.initState();
-
-  }
 
   Widget build(BuildContext context) {
     
     log("Parent DOCID :::::::::::::::::::  ${UserCredentialsController.parentModel?.docid}");
     log("Firebase Auth DOCID :::::::::::::::::::  ${FirebaseAuth.instance.currentUser?.uid}");
+       pushNotCntrl.getUserDeviceID().then((value) async {
+      await pushNotCntrl
+          .allUSerDeviceID(UserCredentialsController.parentModel!.userRole,UserCredentialsController.parentModel?.docid??"");
+      await pushNotCntrl.allParentDeviceID(UserCredentialsController.parentModel?.docid??"");
+    });
     final parentAuth = DBParentLogin(
         parentPassword: ParentPasswordSaver.parentPassword,
         parentEmail: ParentPasswordSaver.parentemailID,
@@ -161,7 +148,9 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
         ),
       )),
     );
+    
   }
+  
 
   viewallMenus() {
     final screenNavigationOfParent = [
@@ -177,7 +166,7 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
       const StudentSubjectScreen(), //Subjects...............4
 
       LeaveApplicationScreen(
-          studentName: widget.studentName,
+          studentName: studentName,
           guardianName: UserCredentialsController.parentModel!.parentName!,
           classID: UserCredentialsController.classId!,
           schoolId: UserCredentialsController.schoolId!,
@@ -238,12 +227,7 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
                                   //icon: Icons.view_list,
                                   text: text[index],
                                   onTap: () {
-                                    Navigator.pushReplacement(context,
-                                        MaterialPageRoute(
-                                      builder: (context) {
-                                        return screenNavigationOfParent[index];
-                                      },
-                                    ));
+                               Get.to(() => screenNavigationOfParent[index]);
 
                                     // Get.off(
                                     //     screenNavigationOfParent[index]);

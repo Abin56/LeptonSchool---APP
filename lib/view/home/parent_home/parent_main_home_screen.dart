@@ -49,7 +49,6 @@ class _ParentMainHomeScreenState extends State<ParentMainHomeScreen> {
   Widget build(BuildContext context) {
 
 
-    log("Stundent IDD :::: ${UserCredentialsController.parentModel!.studentID}");
     checkingSchoolActivate(context);
     List<Widget> pages = [
       ParentHomeScreen(
