@@ -43,15 +43,14 @@ class TeacherChatScreen extends StatelessWidget {
                       children: [
                         Text(
                           "Students",
-                          style: TextStyle(fontSize: 17.sp),
+                          style: TextStyle(fontSize: 16.sp),
                         ),
                         StreamBuilder(
                           stream: FirebaseFirestore.instance
                               .collection('SchoolListCollection')
                               .doc(UserCredentialsController.schoolId)
                               .collection("Teachers")
-                              .doc(
-                                  UserCredentialsController.teacherModel?.docid)
+                              .doc(UserCredentialsController.teacherModel?.docid)
                               .collection('StudentChatCounter')
                               .doc('F0Ikn1UouYIkqmRFKIpg')
                               .snapshots(),
@@ -59,15 +58,12 @@ class TeacherChatScreen extends StatelessWidget {
                             if (messageIndex.hasData) {
                               if (messageIndex.data!.data() == null) {
                                 return const Text('');
-                              } else if (messageIndex.data!
-                                      .data()!['chatIndex'] <=
-                                  0) {
+                              } else if (messageIndex.data!.data()!['chatIndex'] <= 0) {
                                 FirebaseFirestore.instance
                                     .collection('SchoolListCollection')
                                     .doc(UserCredentialsController.schoolId)
                                     .collection("Teachers")
-                                    .doc(UserCredentialsController
-                                        .teacherModel?.docid)
+                                    .doc(UserCredentialsController.teacherModel?.docid)
                                     .collection('StudentChatCounter')
                                     .doc('F0Ikn1UouYIkqmRFKIpg')
                                     .update({'chatIndex': 0});
@@ -94,9 +90,7 @@ class TeacherChatScreen extends StatelessWidget {
                                     backgroundColor: Colors.white,
                                     child: Center(
                                       child: Text(
-                                        messageIndex.data!
-                                            .data()!['chatIndex']
-                                            .toString(),
+                                        messageIndex.data!.data()!['chatIndex'].toString(),
                                         style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 10,
@@ -138,8 +132,7 @@ class TeacherChatScreen extends StatelessWidget {
                               .collection('SchoolListCollection')
                               .doc(UserCredentialsController.schoolId)
                               .collection("Teachers")
-                              .doc(
-                                  UserCredentialsController.teacherModel?.docid)
+                              .doc(UserCredentialsController.teacherModel?.docid)
                               .collection('ParentChatCounter')
                               .doc('F0Ikn1UouYIkqmRFKIpg')
                               .snapshots(),
@@ -147,15 +140,12 @@ class TeacherChatScreen extends StatelessWidget {
                             if (messageIndex.hasData) {
                               if (messageIndex.data!.data() == null) {
                                 return const Text('');
-                              } else if (messageIndex.data!
-                                      .data()!['chatIndex'] <=
-                                  0) {
+                              } else if (messageIndex.data!.data()!['chatIndex'] <= 0) {
                                 FirebaseFirestore.instance
                                     .collection('SchoolListCollection')
                                     .doc(UserCredentialsController.schoolId)
                                     .collection("Teachers")
-                                    .doc(UserCredentialsController
-                                        .teacherModel?.docid)
+                                    .doc(UserCredentialsController.teacherModel?.docid)
                                     .collection('ParentChatCounter')
                                     .doc('F0Ikn1UouYIkqmRFKIpg')
                                     .update({'chatIndex': 0});
@@ -182,9 +172,7 @@ class TeacherChatScreen extends StatelessWidget {
                                     backgroundColor: Colors.white,
                                     child: Center(
                                       child: Text(
-                                        messageIndex.data!
-                                            .data()!['chatIndex']
-                                            .toString(),
+                                        messageIndex.data!.data()!['chatIndex'].toString(),
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 10.sp,

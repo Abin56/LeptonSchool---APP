@@ -19,8 +19,7 @@ showStudentsGroupAppBar(
 ) async {
   Navigator.push(context, MaterialPageRoute(
     builder: (context) {
-      return BootomSheet(
-          groupID: groupID, groupName: groupName, totalStudents: totalStudents);
+      return BootomSheet(groupID: groupID, groupName: groupName, totalStudents: totalStudents);
     },
   ));
   // Get.off(() => BootomSheet(
@@ -34,10 +33,7 @@ class BootomSheet extends StatelessWidget {
   final String totalStudents;
   final String groupID;
   BootomSheet(
-      {required this.groupID,
-      required this.groupName,
-      required this.totalStudents,
-      super.key});
+      {required this.groupID, required this.groupName, required this.totalStudents, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +53,9 @@ class BootomSheet extends StatelessWidget {
               .collection('Participants')
               .snapshots(),
           builder: (context, snaps) {
+            if (!snaps.hasData || snaps.data == null) {
+              return circularProgressIndicatotWidget;
+            }
             return ListView(
               children: [
                 Container(
@@ -82,17 +81,13 @@ class BootomSheet extends StatelessWidget {
                               onTap: () {
                                 showDialog(
                                   context: context,
-                                  barrierDismissible:
-                                      false, // user must tap button!
+                                  barrierDismissible: false, // user must tap button!
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: const Text(
-                                          'Select teacher to Transfer group'),
+                                      title: const Text('Select teacher to Transfer group'),
                                       content: const SingleChildScrollView(
                                         child: ListBody(
-                                          children: <Widget>[
-                                            GetSchoolTeacherListDropDownButton()
-                                          ],
+                                          children: <Widget>[GetSchoolTeacherListDropDownButton()],
                                         ),
                                       ),
                                       actions: <Widget>[
@@ -100,30 +95,21 @@ class BootomSheet extends StatelessWidget {
                                           child: const Text('Ok'),
                                           onPressed: () async {
                                             FirebaseFirestore.instance
-                                                .collection(
-                                                    'SchoolListCollection')
-                                                .doc(UserCredentialsController
-                                                    .schoolId)
-                                                .collection(
-                                                    UserCredentialsController
-                                                        .batchId!)
-                                                .doc(UserCredentialsController
-                                                    .batchId!)
+                                                .collection('SchoolListCollection')
+                                                .doc(UserCredentialsController.schoolId)
+                                                .collection(UserCredentialsController.batchId!)
+                                                .doc(UserCredentialsController.batchId!)
                                                 .collection('classes')
-                                                .doc(UserCredentialsController
-                                                    .classId!)
+                                                .doc(UserCredentialsController.classId!)
                                                 .collection('ChatGroups')
                                                 .doc('ChatGroups')
                                                 .collection("Students")
                                                 .doc(groupID)
                                                 .update({
-                                              'teacherId':
-                                                  teacherNameListValue!['docid']
+                                              'teacherId': teacherNameListValue!['docid']
                                             }).then((value) {
                                               Navigator.of(context).pop();
-                                              showToast(
-                                                  msg:
-                                                      "Transfer Group Successfully");
+                                              showToast(msg: "Transfer Group Successfully");
                                             });
                                           },
                                         ),
@@ -141,8 +127,7 @@ class BootomSheet extends StatelessWidget {
                               child: Container(
                                 decoration: BoxDecoration(
                                     color: adminePrimayColor.withOpacity(0.3),
-                                    border:
-                                        Border.all(color: adminePrimayColor),
+                                    border: Border.all(color: adminePrimayColor),
                                     borderRadius: BorderRadius.circular(30)),
                                 height: 40,
                                 width: 140,
@@ -161,8 +146,7 @@ class BootomSheet extends StatelessWidget {
                               stream: FirebaseFirestore.instance
                                   .collection('SchoolListCollection')
                                   .doc(UserCredentialsController.schoolId)
-                                  .collection(
-                                      UserCredentialsController.batchId!)
+                                  .collection(UserCredentialsController.batchId!)
                                   .doc(UserCredentialsController.batchId!)
                                   .collection('classes')
                                   .doc(UserCredentialsController.classId!)
@@ -173,21 +157,18 @@ class BootomSheet extends StatelessWidget {
                                   .snapshots(),
                               builder: (context, groupSnapShot) {
                                 if (groupSnapShot.hasData) {
-                                  if (groupSnapShot.data!.data()!['activate'] ==
-                                      true) {
+                                  if (groupSnapShot.data!.data()!['activate'] == true) {
                                     return Padding(
                                       padding: const EdgeInsets.only(right: 10),
                                       child: GestureDetector(
                                         onTap: () async {
                                           showDialog(
                                               context: context,
-                                              barrierDismissible:
-                                                  false, // user must tap button!
+                                              barrierDismissible: false, // user must tap button!
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
                                                   title: const Text('Alert'),
-                                                  content:
-                                                      const SingleChildScrollView(
+                                                  content: const SingleChildScrollView(
                                                     child: ListBody(
                                                       children: <Widget>[
                                                         Text(
@@ -199,46 +180,29 @@ class BootomSheet extends StatelessWidget {
                                                     TextButton(
                                                       child: const Text('ok'),
                                                       onPressed: () async {
-                                                        await FirebaseFirestore
-                                                            .instance
+                                                        await FirebaseFirestore.instance
+                                                            .collection('SchoolListCollection')
+                                                            .doc(UserCredentialsController.schoolId)
                                                             .collection(
-                                                                'SchoolListCollection')
-                                                            .doc(UserCredentialsController
-                                                                .schoolId)
-                                                            .collection(
-                                                                UserCredentialsController
-                                                                    .batchId!)
-                                                            .doc(
-                                                                UserCredentialsController
-                                                                    .batchId!)
-                                                            .collection(
-                                                                'classes')
-                                                            .doc(
-                                                                UserCredentialsController
-                                                                    .classId!)
-                                                            .collection(
-                                                                'ChatGroups')
+                                                                UserCredentialsController.batchId!)
+                                                            .doc(UserCredentialsController.batchId!)
+                                                            .collection('classes')
+                                                            .doc(UserCredentialsController.classId!)
+                                                            .collection('ChatGroups')
                                                             .doc('ChatGroups')
-                                                            .collection(
-                                                                "Students")
+                                                            .collection("Students")
                                                             .doc(groupID)
-                                                            .update({
-                                                          'activate': false
-                                                        }).then((value) {
-                                                          Navigator.pop(
-                                                              context);
-                                                          showToast(
-                                                              msg:
-                                                                  'Deactivated');
+                                                            .update({'activate': false}).then(
+                                                                (value) {
+                                                          Navigator.pop(context);
+                                                          showToast(msg: 'Deactivated');
                                                         });
                                                       },
                                                     ),
                                                     TextButton(
-                                                      child:
-                                                          const Text('cancel'),
+                                                      child: const Text('cancel'),
                                                       onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
+                                                        Navigator.of(context).pop();
                                                       },
                                                     ),
                                                   ],
@@ -247,12 +211,9 @@ class BootomSheet extends StatelessWidget {
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              color:
-                                                  Colors.red.withOpacity(0.3),
-                                              border:
-                                                  Border.all(color: Colors.red),
-                                              borderRadius:
-                                                  BorderRadius.circular(30)),
+                                              color: Colors.red.withOpacity(0.3),
+                                              border: Border.all(color: Colors.red),
+                                              borderRadius: BorderRadius.circular(30)),
                                           height: 40,
                                           width: 140,
                                           child: const Center(
@@ -272,17 +233,14 @@ class BootomSheet extends StatelessWidget {
                                         onTap: () async {
                                           showDialog(
                                               context: context,
-                                              barrierDismissible:
-                                                  false, // user must tap button!
+                                              barrierDismissible: false, // user must tap button!
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
                                                   title: const Text('Alert'),
-                                                  content:
-                                                      const SingleChildScrollView(
+                                                  content: const SingleChildScrollView(
                                                     child: ListBody(
                                                       children: <Widget>[
-                                                        Text(
-                                                            'Do you want to Activate this group ?')
+                                                        Text('Do you want to Activate this group ?')
                                                       ],
                                                     ),
                                                   ),
@@ -290,45 +248,29 @@ class BootomSheet extends StatelessWidget {
                                                     TextButton(
                                                       child: const Text('ok'),
                                                       onPressed: () async {
-                                                        await FirebaseFirestore
-                                                            .instance
+                                                        await FirebaseFirestore.instance
+                                                            .collection('SchoolListCollection')
+                                                            .doc(UserCredentialsController.schoolId)
                                                             .collection(
-                                                                'SchoolListCollection')
-                                                            .doc(UserCredentialsController
-                                                                .schoolId)
-                                                            .collection(
-                                                                UserCredentialsController
-                                                                    .batchId!)
-                                                            .doc(
-                                                                UserCredentialsController
-                                                                    .batchId!)
-                                                            .collection(
-                                                                'classes')
-                                                            .doc(
-                                                                UserCredentialsController
-                                                                    .classId!)
-                                                            .collection(
-                                                                'ChatGroups')
+                                                                UserCredentialsController.batchId!)
+                                                            .doc(UserCredentialsController.batchId!)
+                                                            .collection('classes')
+                                                            .doc(UserCredentialsController.classId!)
+                                                            .collection('ChatGroups')
                                                             .doc('ChatGroups')
-                                                            .collection(
-                                                                "Students")
+                                                            .collection("Students")
                                                             .doc(groupID)
-                                                            .update({
-                                                          'activate': true
-                                                        }).then((value) {
-                                                          Navigator.pop(
-                                                              context);
-                                                          showToast(
-                                                              msg: 'Activated');
+                                                            .update({'activate': true}).then(
+                                                                (value) {
+                                                          Navigator.pop(context);
+                                                          showToast(msg: 'Activated');
                                                         });
                                                       },
                                                     ),
                                                     TextButton(
-                                                      child:
-                                                          const Text('cancel'),
+                                                      child: const Text('cancel'),
                                                       onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
+                                                        Navigator.of(context).pop();
                                                       },
                                                     ),
                                                   ],
@@ -337,12 +279,9 @@ class BootomSheet extends StatelessWidget {
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              color:
-                                                  Colors.green.withOpacity(0.3),
-                                              border: Border.all(
-                                                  color: Colors.green),
-                                              borderRadius:
-                                                  BorderRadius.circular(30)),
+                                              color: Colors.green.withOpacity(0.3),
+                                              border: Border.all(color: Colors.green),
+                                              borderRadius: BorderRadius.circular(30)),
                                           height: 40,
                                           width: 140,
                                           child: const Center(
@@ -389,8 +328,7 @@ class BootomSheet extends StatelessWidget {
                             ),
                             IconButton(
                                 onPressed: () async {
-                                  teacherGroupChatController
-                                      .customAddStudentInGroup(groupID);
+                                  teacherGroupChatController.customAddStudentInGroup(groupID);
                                 },
                                 icon: const Icon(Icons.person_add)),
                           ],
@@ -404,8 +342,7 @@ class BootomSheet extends StatelessWidget {
                               stream: FirebaseFirestore.instance
                                   .collection('SchoolListCollection')
                                   .doc(UserCredentialsController.schoolId)
-                                  .collection(
-                                      UserCredentialsController.batchId!)
+                                  .collection(UserCredentialsController.batchId!)
                                   .doc(UserCredentialsController.batchId)
                                   .collection('classes')
                                   .doc(UserCredentialsController.classId)
@@ -419,9 +356,7 @@ class BootomSheet extends StatelessWidget {
                                 if (studentssnapshots.hasData) {
                                   return ListView.separated(
                                       itemBuilder: (context, index) {
-                                        if (studentssnapshots
-                                                .data!.docs.length ==
-                                            index) {
+                                        if (studentssnapshots.data!.docs.length == index) {
                                           return SizedBox(
                                             height: 80.h,
                                           );
@@ -430,17 +365,14 @@ class BootomSheet extends StatelessWidget {
                                           onLongPress: () async {
                                             showDialog(
                                               context: context,
-                                              barrierDismissible:
-                                                  false, // user must tap button!
+                                              barrierDismissible: false, // user must tap button!
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
                                                   title: const Text('Alert'),
-                                                  content:
-                                                      const SingleChildScrollView(
+                                                  content: const SingleChildScrollView(
                                                     child: ListBody(
                                                       children: <Widget>[
-                                                        Text(
-                                                            'Do you want to remove this student ?')
+                                                        Text('Do you want to remove this student ?')
                                                       ],
                                                     ),
                                                   ),
@@ -450,17 +382,14 @@ class BootomSheet extends StatelessWidget {
                                                       onPressed: () async {
                                                         await teacherGroupChatController
                                                             .removeStudentToGroup(
-                                                                studentssnapshots
-                                                                        .data!
-                                                                        .docs[index]
+                                                                studentssnapshots.data!.docs[index]
                                                                     ['docid'],
                                                                 groupID,
                                                                 context);
                                                       },
                                                     ),
                                                     TextButton(
-                                                      child:
-                                                          const Text('cancel'),
+                                                      child: const Text('cancel'),
                                                       onPressed: () async {
                                                         Navigator.pop(context);
                                                       },
@@ -471,12 +400,10 @@ class BootomSheet extends StatelessWidget {
                                             );
                                           },
                                           child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10, right: 10),
+                                            padding: const EdgeInsets.only(left: 10, right: 10),
                                             child: Container(
                                               height: 50,
-                                              color:
-                                                  Colors.blue.withOpacity(0.1),
+                                              color: Colors.blue.withOpacity(0.1),
                                               child: Row(
                                                 children: [
                                                   Text("  ${index + 1}"),
@@ -488,8 +415,7 @@ class BootomSheet extends StatelessWidget {
                                                     width: 20,
                                                   ),
                                                   GooglePoppinsEventsWidgets(
-                                                      text: studentssnapshots
-                                                              .data!.docs[index]
+                                                      text: studentssnapshots.data!.docs[index]
                                                           ['studentName'],
                                                       fontsize: 12)
                                                 ],
@@ -503,9 +429,7 @@ class BootomSheet extends StatelessWidget {
                                           height: 10,
                                         );
                                       },
-                                      itemCount:
-                                          studentssnapshots.data!.docs.length +
-                                              1);
+                                      itemCount: studentssnapshots.data!.docs.length + 1);
                                 } else {
                                   return const Center(
                                     child: CircularProgressIndicator.adaptive(),
