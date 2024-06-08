@@ -22,7 +22,6 @@ import 'package:lepton_school/view/home/parent_home/parent%20home%20widget/paren
 import 'package:lepton_school/view/home/parent_home/parent%20home%20widget/qucik_action.dart';
 import 'package:lepton_school/view/home/student_home/time_table/ss.dart';
 import 'package:lepton_school/view/pages/Homework/parent/view_home_work.dart';
-import 'package:lepton_school/view/pages/Homework/view_home_work.dart';
 import 'package:lepton_school/view/pages/Meetings/Tabs/school_level_meetings_tab.dart';
 import 'package:lepton_school/view/pages/Notice/notice_list.dart';
 import 'package:lepton_school/view/pages/Subject/subject_display.dart';
@@ -39,31 +38,24 @@ class ParentHomeScreen extends StatefulWidget {
   // ignore: override_on_non_overriding_member
   final String studentName;
 
-  final PushNotificationController pushNotCntrl =
-      Get.put(PushNotificationController());
+  final PushNotificationController pushNotCntrl = Get.put(PushNotificationController());
 
   State<ParentHomeScreen> createState() => _ParentHomeScreenState();
 }
 
 class _ParentHomeScreenState extends State<ParentHomeScreen> {
-  MultipileStudentsController multipileStudentsController =
-      Get.put(MultipileStudentsController());
-
-
+  MultipileStudentsController multipileStudentsController = Get.put(MultipileStudentsController());
 
   @override
   void initState() {
     widget.pushNotCntrl.getUserDeviceID().then((value) async {
-      await widget.pushNotCntrl
-          .allUSerDeviceID(UserCredentialsController.parentModel!.userRole);
+      await widget.pushNotCntrl.allUSerDeviceID(UserCredentialsController.parentModel!.userRole);
       await widget.pushNotCntrl.allParentDeviceID();
     });
     super.initState();
-
   }
 
   Widget build(BuildContext context) {
-    
     log("Parent DOCID :::::::::::::::::::  ${UserCredentialsController.parentModel?.docid}");
     log("Firebase Auth DOCID :::::::::::::::::::  ${FirebaseAuth.instance.currentUser?.uid}");
     final parentAuth = DBParentLogin(
@@ -83,8 +75,7 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
       AttendenceBookScreenSelectMonth(
           schoolId: UserCredentialsController.schoolId!,
           batchId: UserCredentialsController.batchId!,
-          classID: UserCredentialsController
-              .classId!), ///////////////////Attendance 0
+          classID: UserCredentialsController.classId!), ///////////////////Attendance 0
 
       const ViewHomeWorksParent(), // Home Works...............1
       const UserExmNotifications(), // Exams...........2
@@ -172,8 +163,7 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
 
       const ViewHomeWorksParent(), // Home Works...............1
       const TimeTable(), // Time Table...........2
-      const TeacherSubjectWiseList(
-          navValue: 'parent'), //Teachers.................3
+      const TeacherSubjectWiseList(navValue: 'parent'), //Teachers.................3
       const StudentSubjectScreen(), //Subjects...............4
 
       LeaveApplicationScreen(
@@ -187,11 +177,11 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
       const UserExmNotifications(), // Exams...........6
       UsersSelectExamLevelScreen(
           classID: UserCredentialsController.classId!,
-          studentId: UserCredentialsController
-              .parentModel!.studentID!), ////// exam result............7
+          studentId:
+              UserCredentialsController.parentModel!.studentID!), ////// exam result............7
       NoticePage(), //Notice.........8
       const EventList(), //Events.................9
-        SchoolLevelMeetingPage(), ////////////////////////////10
+      SchoolLevelMeetingPage(), ////////////////////////////10
 
       const ParentChatScreen(), /////......11
       AllClassTestPage(
@@ -227,29 +217,25 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
 
                         // ignore: sort_child_properties_last
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20, top: 10, right: 20),
+                          padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
                           // child: SingleChildScrollView(
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ParentContainerWidget(
-                                  icon: img[index],
-                                  //icon: Icons.view_list,
-                                  text: text[index],
-                                  onTap: () {
-                                    Navigator.pushReplacement(context,
-                                        MaterialPageRoute(
-                                      builder: (context) {
-                                        return screenNavigationOfParent[index];
-                                      },
-                                    ));
-
-                                    // Get.off(
-                                    //     screenNavigationOfParent[index]);
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            ParentContainerWidget(
+                              icon: img[index],
+                              //icon: Icons.view_list,
+                              text: text[index],
+                              onTap: () {
+                                Navigator.pushReplacement(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return screenNavigationOfParent[index];
                                   },
-                                ),
-                              ]),
+                                ));
+
+                                // Get.off(
+                                //     screenNavigationOfParent[index]);
+                              },
+                            ),
+                          ]),
                           // ),//
                         ),
 
@@ -292,18 +278,18 @@ List<String> img = [
   'assets/flaticons/test.png',
 ];
 List<String> text = [
-  'Attendance',
-  'Homework',
-  'Time Table',
-  'Teachers',
-  'Subjects',
-  'Leave Letters',
-  'Exams',
-  'Exam Results',
-  'Notices',
-  'Events',
-  'Meetings',
-  'Chats',
-  'Class Test',
-  'Monthly Class Test',
+  'Attendance'.tr,
+  'Homework'.tr,
+  'Time Table'.tr,
+  'Teachers'.tr,
+  'Subjects'.tr,
+  'Leave Letters'.tr,
+  'Exams'.tr,
+  'Exam Results'.tr,
+  'Notices'.tr,
+  'Events'.tr,
+  'Meetings'.tr,
+  'Chats'.tr,
+  'Class Test'.tr,
+  'Monthly Class Test'.tr,
 ];
