@@ -12,8 +12,8 @@ import '../../../../../../controllers/group_chat_controller/studentchat_controll
 import '../../../group_chats/group_chat.dart';
 
 class StudenstGroupChatsScreen extends StatefulWidget {
- final String groupID;
- final String groupName;
+  final String groupID;
+  final String groupName;
 
   const StudenstGroupChatsScreen(
       {required this.groupID, required this.groupName, super.key});
@@ -35,6 +35,7 @@ class _StudenstGroupChatsScreenState extends State<StudenstGroupChatsScreen> {
 
   @override
   void initState() {
+    log("message student grp");
     userIndexBecomeZero(widget.groupID, 'Students',
         teacherParameter: 'studentName');
     super.initState();
@@ -172,26 +173,44 @@ class _StudenstGroupChatsScreenState extends State<StudenstGroupChatsScreen> {
                                       .get(),
                                   builder: (context, userName) {
                                     if (userName.hasData) {
-                                      return CircleAvatar(
-                                        radius: 28,
-                                        backgroundColor: adminePrimayColor,
-                                        child: Center(
-                                          child: IconButton(
-                                              icon: const Icon(
-                                                Icons.send,
-                                                color: Colors.white,
-                                              ),
-                                              onPressed: () async {
-                                                ///////////////////////////
-                                                ///
-                                                studentGroupChatMessageController
-                                                    .sendMessage(
-                                                        widget.groupID,
-                                                        userName.data!.data()![
-                                                            'studentName']);
-                                                /////////////////////////
-                                              }),
-                                        ),
+                                      return Obx(
+                                        () => !studentGroupChatMessageController
+                                                .isLoading.value
+                                            ? CircleAvatar(
+                                                radius: 28,
+                                                backgroundColor:
+                                                    adminePrimayColor,
+                                                child: Center(
+                                                  child: IconButton(
+                                                      icon: const Icon(
+                                                        Icons.send,
+                                                        color: Colors.white,
+                                                      ),
+                                                      onPressed: () async {
+                                                        ///////////////////////////
+                                                        ///
+                                                        if (studentGroupChatMessageController
+                                                                .messageController
+                                                                .text
+                                                                .trim() !=
+                                                            "") {
+                                                          studentGroupChatMessageController
+                                                              .isLoading
+                                                              .value = true;
+                                                          await studentGroupChatMessageController
+                                                              .sendMessage(
+                                                                  widget
+                                                                      .groupID,
+                                                                  userName.data!
+                                                                          .data()![
+                                                                      'studentName']);
+                                                        }
+                                                        /////////////////////////
+                                                      }),
+                                                ),
+                                              )
+                                            : const CircularProgressIndicator
+                                                .adaptive(),
                                       );
                                     } else {
                                       return const Center();

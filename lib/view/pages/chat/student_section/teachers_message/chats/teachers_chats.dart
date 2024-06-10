@@ -12,8 +12,8 @@ import '../../../../../../controllers/chat_controller/student_controller/student
 import '../../../../../constant/sizes/constant.dart';
 
 class TeachersChatsScreen extends StatefulWidget {
- final String teacherDocID;
- final String teacherName;
+  final String teacherDocID;
+  final String teacherName;
 
   const TeachersChatsScreen(
       {required this.teacherDocID, required this.teacherName, super.key});
@@ -31,6 +31,7 @@ class _TeachersChatsScreenState extends State<TeachersChatsScreen> {
 
   @override
   void initState() {
+    log("message student chat");
     fectingTeacherChatStatus();
     connectingStudentToteacher();
     connectingCurrentStudentToteacher();
@@ -155,28 +156,41 @@ class _TeachersChatsScreenState extends State<TeachersChatsScreen> {
                                       )),
                                 ),
                               ),
-                              CircleAvatar(
-                                radius: 28,
-                                backgroundColor: adminePrimayColor,
-                                child: Center(
-                                  child: IconButton(
-                                      icon: const Icon(
-                                        Icons.send,
-                                        color: Colors.white,
-                                      ),
-                                      onPressed: () async {
-                                        log('teacherName >>>>  ${widget.teacherDocID}');
-                                        ///////////////////////////
-                                        ///
-                                        studentChatController.sentMessage(
-                                          widget.teacherDocID,
-                                          await getCurrentTeacherMessageIndex(),
-                                          await getTeacherChatCounterIndex(),
-                                        );
-                                        /////////////////////////
-                                      }),
-                                ),
-                              ),
+                              Obx(
+                                () => !studentChatController.isLoading.value
+                                    ? CircleAvatar(
+                                        radius: 28,
+                                        backgroundColor: adminePrimayColor,
+                                        child: Center(
+                                          child: IconButton(
+                                              icon: const Icon(
+                                                Icons.send,
+                                                color: Colors.white,
+                                              ),
+                                              onPressed: () async {
+                                                log('teacherName >>>>  ${widget.teacherDocID}');
+                                                ///////////////////////////
+                                                ///
+                                                if (studentChatController
+                                                        .messageController.text
+                                                        .trim() !=
+                                                    "") {
+                                                  studentChatController
+                                                      .isLoading.value = true;
+                                                  studentChatController
+                                                      .sentMessage(
+                                                    widget.teacherDocID,
+                                                    await getCurrentTeacherMessageIndex(),
+                                                    await getTeacherChatCounterIndex(),
+                                                  );
+                                                }
+                                                /////////////////////////
+                                              }),
+                                        ),
+                                      )
+                                    : const CircularProgressIndicator
+                                        .adaptive(),
+                              )
                             ],
                           ),
                         ),

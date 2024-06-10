@@ -175,26 +175,44 @@ class ParenttGroupChatsScreenState extends State<ParentGroupChatsScreen> {
                                       .get(),
                                   builder: (context, userName) {
                                     if (userName.hasData) {
-                                      return CircleAvatar(
-                                        radius: 28,
-                                        backgroundColor: adminePrimayColor,
-                                        child: Center(
-                                          child: IconButton(
-                                              icon: const Icon(
-                                                Icons.send,
-                                                color: Colors.white,
-                                              ),
-                                              onPressed: () async {
-                                                ///////////////////////////
-                                                ///
-                                                parentGroupChatMessageController
-                                                    .sendMessage(
-                                                        widget.groupID,
-                                                        userName.data!.data()![
-                                                            'parentName']);
-                                                /////////////////////////
-                                              }),
-                                        ),
+                                      return Obx(
+                                        () => !parentGroupChatMessageController
+                                                .isLoading.value
+                                            ? CircleAvatar(
+                                                radius: 28,
+                                                backgroundColor:
+                                                    adminePrimayColor,
+                                                child: Center(
+                                                  child: IconButton(
+                                                      icon: const Icon(
+                                                        Icons.send,
+                                                        color: Colors.white,
+                                                      ),
+                                                      onPressed: () async {
+                                                        ///////////////////////////
+                                                        ///
+                                                        if (parentGroupChatMessageController
+                                                                .messageController
+                                                                .text
+                                                                .trim() !=
+                                                            "") {
+                                                          parentGroupChatMessageController
+                                                              .isLoading
+                                                              .value = true;
+                                                          parentGroupChatMessageController
+                                                              .sendMessage(
+                                                                  widget
+                                                                      .groupID,
+                                                                  userName.data!
+                                                                          .data()![
+                                                                      'parentName']);
+                                                        }
+                                                        /////////////////////////
+                                                      }),
+                                                ),
+                                              )
+                                            : const CircularProgressIndicator
+                                                .adaptive(),
                                       );
                                     } else {
                                       return const Center();

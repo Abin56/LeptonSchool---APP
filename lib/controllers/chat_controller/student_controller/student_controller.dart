@@ -14,7 +14,7 @@ import '../../userCredentials/user_credentials.dart';
 
 class StudentChatController extends GetxController {
   final TextEditingController messageController = TextEditingController();
-
+  late RxBool isLoading = false.obs;
   messageTitles(String teacherID, Size size, String chatId, String message,
       String docid, String time, BuildContext context) {
     if (FirebaseAuth.instance.currentUser!.uid == chatId) {
@@ -35,9 +35,9 @@ class StudentChatController extends GetxController {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: const Text('Alert'),
-                content: SingleChildScrollView(
+                content: const SingleChildScrollView(
                   child: ListBody(
-                    children: const <Widget>[
+                    children: <Widget>[
                       Text('Do you want Delete this message ?')
                     ],
                   ),
@@ -258,8 +258,10 @@ class StudentChatController extends GetxController {
               .doc(teacherId)
               .collection('StudentChatCounter')
               .doc('F0Ikn1UouYIkqmRFKIpg')
-              .update({'chatIndex': sentStudentChatIndex}).then(
-                  (value) => messageController.clear());
+              .update({'chatIndex': sentStudentChatIndex}).then((value) {
+            messageController.clear();
+            isLoading.value = false;
+          });
         });
       });
     });
@@ -272,9 +274,9 @@ class StudentChatController extends GetxController {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Alert'),
-          content: SingleChildScrollView(
+          content: const SingleChildScrollView(
             child: ListBody(
-              children: const <Widget>[Text('Do you want Unblock this user ?')],
+              children: <Widget>[Text('Do you want Unblock this user ?')],
             ),
           ),
           actions: <Widget>[
