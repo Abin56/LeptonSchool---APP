@@ -7,7 +7,6 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
-import 'package:lepton_school/view/home/bus_route_page/all_bus_list.dart';
 import 'package:lepton_school/view/home/class_teacher_HOme/leave_letters/leave_lettersList.dart';
 import 'package:lepton_school/view/pages/Meetings/Tabs/school_level_meetings_tab.dart';
 import 'package:lepton_school/view/pages/Notice/Tabs/school_level_tab.dart';
@@ -134,7 +133,7 @@ class ClickOnClasss extends StatelessWidget {
       // Meetings
       RecordedClassMainPage(), // recorded class
 
-      BusRouteListPage(),
+     // BusRouteListPage(),
       ClassTestPage(),
       ClassMonthlyTestPage(), //class test monthly
 
@@ -404,7 +403,7 @@ List<Widget> hasDataImages = [
   const ImageContainer(image: "assets/flaticons/school-material.png"),
   const ImageContainer(image: "assets/flaticons/meeting.png"),
   const ImageContainer(image: "assets/flaticons/recording.png"),
-  const ImageContainer(image: "assets/flaticons/route (1).png"),
+ // const ImageContainer(image: "assets/flaticons/route (1).png"),
   const ImageContainer(image: "assets/flaticons/exam.png"),
   const ImageContainer(image: "assets/flaticons/test.png"),
   const ImageContainer(image: "assets/flaticons/icons8-teacher-100.png"),
@@ -423,7 +422,7 @@ List<String> hasDataText = [
   'Study Materials'.tr,
   'Meetings'.tr,
   'Recorded Classes'.tr,
-  'Bus Route'.tr,
+  //'Bus Route'.tr,
   'Class Test'.tr,
   'Monthly Class Test'.tr,
   'Live Class'.tr,

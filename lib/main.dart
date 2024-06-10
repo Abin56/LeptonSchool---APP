@@ -224,18 +224,3 @@ checkingSchoolActivate(BuildContext context) async {
     return;
   }
 }
-// Future<void> callCloudFunction() async {
-//   try {
-//     var response = await http.get(Uri.parse('https://us-central1-vidya-veechi-8-feb-2024.cloudfunctions.net/attendanceListener'));
-//     if (response.statusCode == 200) {
-//       // Successful response
-//       log(response.body);
-//     } else {
-//       // Handle error response
-//       lo('Error: ${response.statusCode}');
-//     }
-//   } catch (e) {
-//     // Handle network errors
-//     print('Error: $e');
-//   }
-// }
