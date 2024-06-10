@@ -216,7 +216,7 @@ class _StudentsMainHomeScreenState extends State<StudentsMainHomeScreen> {
             },
           ),
         ),
-        drawer: Drawer(
+        drawer:  Drawer(
           backgroundColor: Colors.white,
           child: SingleChildScrollView(
             child: Column(

@@ -181,7 +181,7 @@ checkingSchoolActivate(BuildContext context) async {
       .doc(UserCredentialsController.schoolId)
       .get();
 
-  if (checking.data()!['deactive'] == true) {
+  if (checking.data()?['deactive'] == true) {
     Navigator.pushReplacement(context, MaterialPageRoute(
       builder: (context) {
         return const DujoLoginScren();

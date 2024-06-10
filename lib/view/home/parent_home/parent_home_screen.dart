@@ -32,32 +32,27 @@ import 'package:lepton_school/view/pages/teacher_list/teacher_list.dart';
 
 import '../../../controllers/multipile_students/multipile_students_controller.dart';
 
-class ParentHomeScreen extends StatefulWidget {
+class ParentHomeScreen extends StatelessWidget {
   ParentHomeScreen({super.key, required this.studentName});
   @override
   // ignore: override_on_non_overriding_member
   final String studentName;
 
-  final PushNotificationController pushNotCntrl = Get.put(PushNotificationController());
+  final PushNotificationController pushNotCntrl =
+      Get.put(PushNotificationController());
 
-  State<ParentHomeScreen> createState() => _ParentHomeScreenState();
-}
-
-class _ParentHomeScreenState extends State<ParentHomeScreen> {
-  MultipileStudentsController multipileStudentsController = Get.put(MultipileStudentsController());
-
-  @override
-  void initState() {
-    widget.pushNotCntrl.getUserDeviceID().then((value) async {
-      await widget.pushNotCntrl.allUSerDeviceID(UserCredentialsController.parentModel!.userRole);
-      await widget.pushNotCntrl.allParentDeviceID();
-    });
-    super.initState();
-  }
+final MultipileStudentsController multipileStudentsController =
+      Get.put(MultipileStudentsController());
 
   Widget build(BuildContext context) {
+    
     log("Parent DOCID :::::::::::::::::::  ${UserCredentialsController.parentModel?.docid}");
     log("Firebase Auth DOCID :::::::::::::::::::  ${FirebaseAuth.instance.currentUser?.uid}");
+       pushNotCntrl.getUserDeviceID().then((value) async {
+      await pushNotCntrl
+          .allUSerDeviceID(UserCredentialsController.parentModel!.userRole,UserCredentialsController.parentModel?.docid??"");
+      await pushNotCntrl.allParentDeviceID(UserCredentialsController.parentModel?.docid??"");
+    });
     final parentAuth = DBParentLogin(
         parentPassword: ParentPasswordSaver.parentPassword,
         parentEmail: ParentPasswordSaver.parentemailID,
@@ -75,7 +70,8 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
       AttendenceBookScreenSelectMonth(
           schoolId: UserCredentialsController.schoolId!,
           batchId: UserCredentialsController.batchId!,
-          classID: UserCredentialsController.classId!), ///////////////////Attendance 0
+          classID: UserCredentialsController
+              .classId!), ///////////////////Attendance 0
 
       const ViewHomeWorksParent(), // Home Works...............1
       const UserExmNotifications(), // Exams...........2
@@ -152,7 +148,9 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
         ),
       )),
     );
+
   }
+
 
   viewallMenus() {
     final screenNavigationOfParent = [
@@ -163,11 +161,12 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
 
       const ViewHomeWorksParent(), // Home Works...............1
       const TimeTable(), // Time Table...........2
-      const TeacherSubjectWiseList(navValue: 'parent'), //Teachers.................3
+      const TeacherSubjectWiseList(
+          navValue: 'parent'), //Teachers.................3
       const StudentSubjectScreen(), //Subjects...............4
 
       LeaveApplicationScreen(
-          studentName: widget.studentName,
+          studentName: studentName,
           guardianName: UserCredentialsController.parentModel!.parentName!,
           classID: UserCredentialsController.classId!,
           schoolId: UserCredentialsController.schoolId!,
@@ -177,11 +176,11 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
       const UserExmNotifications(), // Exams...........6
       UsersSelectExamLevelScreen(
           classID: UserCredentialsController.classId!,
-          studentId:
-              UserCredentialsController.parentModel!.studentID!), ////// exam result............7
+          studentId: UserCredentialsController
+              .parentModel!.studentID!), ////// exam result............7
       NoticePage(), //Notice.........8
       const EventList(), //Events.................9
-      SchoolLevelMeetingPage(), ////////////////////////////10
+        SchoolLevelMeetingPage(), ////////////////////////////10
 
       const ParentChatScreen(), /////......11
       AllClassTestPage(
@@ -217,25 +216,24 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
 
                         // ignore: sort_child_properties_last
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
+                          padding: const EdgeInsets.only(
+                              left: 20, top: 10, right: 20),
                           // child: SingleChildScrollView(
-                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                            ParentContainerWidget(
-                              icon: img[index],
-                              //icon: Icons.view_list,
-                              text: text[index],
-                              onTap: () {
-                                Navigator.pushReplacement(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return screenNavigationOfParent[index];
-                                  },
-                                ));
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ParentContainerWidget(
+                                  icon: img[index],
+                                  //icon: Icons.view_list,
+                                  text: text[index],
+                                  onTap: () {
+                               Get.to(() => screenNavigationOfParent[index]);
 
-                                // Get.off(
-                                //     screenNavigationOfParent[index]);
-                              },
-                            ),
-                          ]),
+                                    // Get.off(
+                                    //     screenNavigationOfParent[index]);
+                                  },
+                                ),
+                              ]),
                           // ),//
                         ),
 

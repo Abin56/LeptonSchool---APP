@@ -12,31 +12,23 @@ import 'package:lepton_school/view/widgets/fonts/google_monstre.dart';
 
 import '../student_home/Student Edit Profile/teacher_edit_profile.dart';
 
-class TeacherHomeScreen extends StatefulWidget {
+class TeacherHomeScreen extends StatelessWidget {
   final PushNotificationController pushNotificationController =
       Get.put(PushNotificationController());
   final AttendanceController attendanceController =
       Get.put(AttendanceController());
   static String routeName = '';
 
-  @override
-  State<TeacherHomeScreen> createState() => _TeacherHomeScreenState();
-}
-
-class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
-  @override
-  void initState() {
-    widget.pushNotificationController.getUserDeviceID().then((value) async =>
-        await widget.pushNotificationController.allTeacherDeviceID().then(
-            (value) async => await widget.pushNotificationController
-                .allUSerDeviceID(
-                    UserCredentialsController.teacherModel!.userRole)));
-    super.initState();
-  }
-
   Widget build(BuildContext context) {
     Get.find<ApplicationController>().checkTeacherProfile(context);
-
+    pushNotificationController.getUserDeviceID().then((value) async =>
+        await pushNotificationController
+            .allTeacherDeviceID(
+                UserCredentialsController.teacherModel!.docid ?? "")
+            .then((value) async =>
+                await pushNotificationController.allUSerDeviceID(
+                    UserCredentialsController.teacherModel!.userRole,
+                    UserCredentialsController.teacherModel!.docid ?? "")));
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(

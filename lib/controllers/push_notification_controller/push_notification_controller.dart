@@ -6,15 +6,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
+import 'package:lepton_school/helper/shared_pref_helper.dart';
 import 'package:lepton_school/model/notification_model/notification_model.dart';
 import 'package:lepton_school/model/user_deviceID_model/user_devideID_model.dart';
 import 'package:lepton_school/utils/utils.dart';
 import 'package:lepton_school/view/constant/sizes/constant.dart';
 
 class PushNotificationController extends GetxController {
-  final currentUID =UserCredentialsController.currentUSerID??"";
-
-
   RxString deviceID = ''.obs;
   Future<void> getUserDeviceID() async {
     await FirebaseMessaging.instance.getToken().then((token) {
@@ -23,29 +21,29 @@ class PushNotificationController extends GetxController {
     });
   }
 
-  Future<void> allUSerDeviceID(String userrole) async {
-      log('>>>>>$currentUID');
+  Future<void> allUSerDeviceID(String userrole, String currentUSer) async {
+    log('>currentUID>>>>$currentUSer');
     log('>>>>>User Role ${UserCredentialsController.userRole}');
     print('allUSerDeviceID');
-    print('allUSerDeviceID  $currentUID');
+    print('allUSerDeviceID  $currentUSer');
     try {
       final UserDeviceIDModel userModel = UserDeviceIDModel(
           message: false,
           batchID: UserCredentialsController.batchId!,
           classID: UserCredentialsController.classId!,
           devideID: deviceID.value,
-          uid: currentUID,
+          uid: currentUSer,
           userrole: userrole,
           schoolID: UserCredentialsController.schoolId!);
       print(userModel);
       await server
           .collection('AllUsersDeviceID')
-          .doc(currentUID)
+          .doc(currentUSer)
           .set(userModel.toMap(), SetOptions(merge: true))
           .then((value) async {
         await server
             .collection('AllUsersDeviceID')
-            .doc(currentUID)
+            .doc(currentUSer)
             .update({"devideID": deviceID.value});
       });
       print('allUSerDeviceID**** FINISHED');
@@ -56,9 +54,9 @@ class PushNotificationController extends GetxController {
 
   /////////////////////////////////// Teacher Part
 
-  Future<void> allTeacherDeviceID() async {
+  Future<void> allTeacherDeviceID(String currentUSer) async {
     final String teacherUID =
-        UserCredentialsController.teacherModel!.docid ?? currentUID;
+        UserCredentialsController.teacherModel!.docid ?? currentUSer;
     try {
       final UserDeviceIDModel teacherModel = UserDeviceIDModel(
           message: false,
@@ -73,16 +71,16 @@ class PushNotificationController extends GetxController {
           .doc(teacherUID)
           .set(teacherModel.toMap())
           .then((value) async {
-        await teacherDeviceID();
+        await teacherDeviceID(currentUSer);
       });
     } catch (e) {
       log(e.toString());
     }
   }
 
-  Future<void> teacherDeviceID() async {
+  Future<void> teacherDeviceID(String currentUSer) async {
     final String teacherUID =
-        UserCredentialsController.teacherModel!.docid ?? currentUID;
+        UserCredentialsController.teacherModel!.docid ?? currentUSer;
     try {
       final UserDeviceIDModel student = UserDeviceIDModel(
           message: false,
@@ -167,10 +165,10 @@ class PushNotificationController extends GetxController {
   ///
   /////////////////////////////////// Parent Part
 
-  Future<void> allParentDeviceID() async {
+  Future<void> allParentDeviceID(String currentUSer) async {
     log('Parent DE:ID +++++++ $deviceID ++++++');
     final String parentUID =
-        UserCredentialsController.parentModel!.docid ?? currentUID;
+        UserCredentialsController.parentModel!.docid ?? currentUSer;
 
     try {
       final UserDeviceIDModel parentmodel = UserDeviceIDModel(
@@ -186,16 +184,16 @@ class PushNotificationController extends GetxController {
           .doc(parentUID)
           .set(parentmodel.toMap())
           .then((value) async {
-        await parentDeviceID();
+        await parentDeviceID(currentUSer);
       });
     } catch (e) {
       log(e.toString());
     }
   }
 
-  Future<void> parentDeviceID() async {
+  Future<void> parentDeviceID(String currentUSer) async {
     final String parentUID =
-        UserCredentialsController.parentModel!.docid ?? currentUID;
+        UserCredentialsController.parentModel!.docid ?? currentUSer;
     try {
       final UserDeviceIDModel parentmodel = UserDeviceIDModel(
           message: false,
@@ -286,5 +284,22 @@ class PushNotificationController extends GetxController {
           .doc(docid)
           .set(details.toMap());
     } catch (e) {}
+  }
+
+  RxString pushNotficationKey = ''.obs;
+  getPushNotification() async {
+    FirebaseFirestore.instance
+        .collection('PushNotification')
+        .doc('key')
+        .get()
+        .then((value) async {
+      pushNotficationKey.value = value.data()?['key'];
+    });
+  }
+
+  @override
+  void onInit() {
+    getPushNotification();
+    super.onInit();
   }
 }

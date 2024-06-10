@@ -1,5 +1,10 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
+import 'package:lepton_school/helper/shared_pref_helper.dart';
 import 'package:lepton_school/info/info.dart';
 import 'package:lepton_school/view/pages/login/widgets/login_screenDegin.dart';
 import 'package:lepton_school/view/widgets/fonts/google_monstre.dart';
@@ -13,6 +18,10 @@ class DujoLoginScren extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("");
+    log(FirebaseAuth.instance.currentUser?.uid??"no user");
+     log(UserCredentialsController.currentUSerID.toString());
+          log(SharedPreferencesHelper.currenUserKey.toString());
     return Scaffold(
       body: SafeArea(
           child: Column(

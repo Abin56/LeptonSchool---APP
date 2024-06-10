@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -26,11 +25,12 @@ class AttendanceController extends GetxController {
   RxString timeformated = ''.obs;
   final PushNotificationController pushNotificationController =
       Get.put(PushNotificationController());
-    var progress = 0.0.obs;
+  var progress = 0.0.obs;
 
   void updateProgress(double value) {
     progress.value = value;
   }
+
   dailyAttendanceController(String classID) async {
     final firebase = FirebaseFirestore.instance
         .collection('SchoolListCollection')
@@ -102,38 +102,57 @@ class AttendanceController extends GetxController {
   }
 
   Future<void> sendPushMessage(String token, String body, String title) async {
-    log("messageOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-    try {
-      final reponse = await http.post(
-        Uri.parse('https://fcm.googleapis.com/fcm/send'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization':
-              'key=AAAAT5j1j9A:APA91bEDY97KTVTB5CH_4YTnLZEol4Z5fxF0fmO654V7YJO6dL9TV_PyIfv64-pVDx477rONsIl8d63VjxT793_Tj4zuGg32JTy_wUNQ4OhGNbr0KOS2i4z7JaG-ZtENTBpYnEGh-ZLg'
+    final serverKey = pushNotificationController.pushNotficationKey.value;
+    final Uri url = Uri.parse(
+        'https://fcm.googleapis.com/v1/projects/little-flower-bb60b/messages:send');
+
+    final Map<String, dynamic> message = {
+      'message': {
+        'token': token,
+        'notification': {
+          'title': title,
+          'body': body,
         },
-        body: jsonEncode(
-          <String, dynamic>{
-            'priority': 'high',
-            'data': <String, dynamic>{
-              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-              'status': 'done',
-              'body': body,
-              'title': title,
-            },
-            "notification": <String, dynamic>{
-              'title': title,
-              'body': body,
-              'android_channel_id': 'high_importance_channel'
-            },
-            'to': token,
+        'android': {
+          'notification': {
+            'title': 'Breaking News',
+            'body': 'Check out the Top Story.',
+            'click_action': 'TOP_STORY_ACTIVITY'
           },
-        ),
+          'data': {'story_id': 'story_12345'}
+        },
+        'apns': {
+          'payload': {
+            'aps': {'category': 'NEW_MESSAGE_CATEGORY'}
+          },
+        },
+        'data': {
+          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+          'status': 'done',
+          'body': body,
+          'title': title,
+        },
+      },
+    };
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $serverKey',
+        },
+        body: jsonEncode(message),
       );
-      log(reponse.body.toString());
-    } catch (e) {
-      if (kDebugMode) {
-        log("error push Notification");
+
+      if (response.statusCode == 200) {
+        print('Notification sent successfully!');
+      } else {
+        print('Failed to send notification: ${response.statusCode}');
+        print('Response body: ${response.body}');
       }
+    } catch (e) {
+      print('Exception caught sending notification: $e');
     }
   }
 

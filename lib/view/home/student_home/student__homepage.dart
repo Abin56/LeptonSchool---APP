@@ -14,29 +14,21 @@ import 'package:lepton_school/view/home/student_home/student_pages/qucik_action.
 import 'package:lepton_school/view/home/student_home/student_pages/quick_action_view_all.dart';
 import 'package:lepton_school/view/home/student_home/student_pages/slider/slider.dart';
 
-class NewStdHomePage extends StatefulWidget {
+class NewStdHomePage extends StatelessWidget {
   final PushNotificationController pushNotificationController =
       Get.put(PushNotificationController());
   NewStdHomePage({super.key});
 
   @override
-  State<NewStdHomePage> createState() => _NewStdHomePageState();
-}
 
-class _NewStdHomePageState extends State<NewStdHomePage> {
-  @override
-  void initState() {
-    widget.pushNotificationController.getUserDeviceID().then((value) async =>
-        await widget.pushNotificationController.allStudentDeviceID().then(
-            (value) async => await widget.pushNotificationController
-                .allUSerDeviceID(
-                    UserCredentialsController.studentModel!.userRole)));
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    callCloudFunction();
+        pushNotificationController.getUserDeviceID().then((value) async =>
+        await pushNotificationController.allStudentDeviceID().then(
+            (value) async => await pushNotificationController
+                .allUSerDeviceID(
+                    UserCredentialsController.studentModel!.userRole,UserCredentialsController.studentModel?.docid??"")));
 
     log(
       UserCredentialsController.studentModel!.docid,
@@ -159,9 +151,6 @@ class _NewStdHomePageState extends State<NewStdHomePage> {
     );
   }
 
-
-
-
 void callCloudFunction() async {
   try {
     // Replace 'YOUR_CLOUD_FUNCTION_URL' with the URL of your Cloud Function
@@ -179,5 +168,5 @@ void callCloudFunction() async {
     log('Error calling Cloud Function: $error');
   }
 }
-  }
+}
 
