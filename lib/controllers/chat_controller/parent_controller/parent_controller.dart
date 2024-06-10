@@ -14,7 +14,7 @@ import '../../userCredentials/user_credentials.dart';
 
 class ParentChatController extends GetxController {
   final TextEditingController messageController = TextEditingController();
-
+  late RxBool isLoading = false.obs;
   messageTitles(String teacherID, Size size, String chatId, String message,
       String docid, String time, BuildContext context) {
     if (FirebaseAuth.instance.currentUser!.uid == chatId) {
@@ -258,8 +258,10 @@ class ParentChatController extends GetxController {
               .doc(teacherId)
               .collection('ParentChatCounter')
               .doc('F0Ikn1UouYIkqmRFKIpg')
-              .update({'chatIndex': sentStudentChatIndex}).then(
-                  (value) => messageController.clear());
+              .update({'chatIndex': sentStudentChatIndex}).then((value) {
+            messageController.clear();
+            isLoading.value = false;
+          });
         });
       });
     });

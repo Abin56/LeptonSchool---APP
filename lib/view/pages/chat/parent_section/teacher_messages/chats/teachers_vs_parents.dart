@@ -156,28 +156,41 @@ class Parent_TeachersChatsScreenState extends State<ParentTeachersChatsScreen> {
                                       )),
                                 ),
                               ),
-                              CircleAvatar(
-                                radius: 28,
-                                backgroundColor: adminePrimayColor,
-                                child: Center(
-                                  child: IconButton(
-                                      icon: const Icon(
-                                        Icons.send,
-                                        color: Colors.white,
-                                      ),
-                                      onPressed: () async {
-                                        log('teacherName >>>>  ${widget.teacherDocID}');
-                                        ///////////////////////////
-                                        ///
-                                        parentChatController.sentMessages(
-                                          widget.teacherDocID,
-                                          await getCurrentTeacherMessageIndex(),
-                                          await getTeacherChatCounterIndex(),
-                                        );
-                                        /////////////////////////
-                                      }),
-                                ),
-                              ),
+                              Obx(
+                                () => !parentChatController.isLoading.value
+                                    ? CircleAvatar(
+                                        radius: 28,
+                                        backgroundColor: adminePrimayColor,
+                                        child: Center(
+                                          child: IconButton(
+                                              icon: const Icon(
+                                                Icons.send,
+                                                color: Colors.white,
+                                              ),
+                                              onPressed: () async {
+                                                log('teacherName >>>>  ${widget.teacherDocID}');
+                                                ///////////////////////////
+                                                ///
+                                                if (parentChatController
+                                                        .messageController.text
+                                                        .trim() !=
+                                                    "") {
+                                                  parentChatController
+                                                      .isLoading.value = true;
+                                                  parentChatController
+                                                      .sentMessages(
+                                                    widget.teacherDocID,
+                                                    await getCurrentTeacherMessageIndex(),
+                                                    await getTeacherChatCounterIndex(),
+                                                  );
+                                                }
+                                                /////////////////////////
+                                              }),
+                                        ),
+                                      )
+                                    : const CircularProgressIndicator
+                                        .adaptive(),
+                              )
                             ],
                           ),
                         ),

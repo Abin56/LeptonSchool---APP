@@ -11,6 +11,8 @@ import '../../../view/home/events/event_display_school_level.dart';
 import '../../userCredentials/user_credentials.dart';
 
 class ParentGroupChatMessageController extends GetxController {
+  late final RxBool isLoading = false.obs;
+
   final TextEditingController messageController = TextEditingController();
   messageTitles(Size size, String chatId, String message, String docid,
       String time, BuildContext context, String groupID, String username) {
@@ -228,6 +230,7 @@ class ParentGroupChatMessageController extends GetxController {
         .set(sendMessage.toMap())
         .then((value) async {
       await sendMessageIndexToAllUsers(groupID);
+      isLoading.value = false;
       messageController.clear();
     });
   }
