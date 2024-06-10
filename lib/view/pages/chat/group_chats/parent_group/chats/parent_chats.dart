@@ -15,8 +15,7 @@ class ParentsGroupChats extends StatefulWidget {
   final String groupName;
   final String groupId;
 
-  const ParentsGroupChats(
-      {required this.groupId, required this.groupName, super.key});
+  const ParentsGroupChats({required this.groupId, required this.groupName, super.key});
 
   @override
   State<ParentsGroupChats> createState() => _ParentsGroupChatsState();
@@ -34,8 +33,7 @@ class _ParentsGroupChatsState extends State<ParentsGroupChats> {
 
   @override
   void initState() {
-    userIndexBecomeZero(widget.groupId, 'Parents',
-        teacherParameter: 'parentName');
+    userIndexBecomeZero(widget.groupId, 'Parents', teacherParameter: 'parentName');
     super.initState();
   }
 
@@ -51,8 +49,7 @@ class _ParentsGroupChatsState extends State<ParentsGroupChats> {
           children: [
             GestureDetector(
                 onTap: () {
-                  showParentsGroupAppBar(
-                      widget.groupName, '10', widget.groupId, context);
+                  showParentsGroupAppBar(widget.groupName, '10', widget.groupId, context);
                 },
                 child: const CircleAvatar()),
             kWidth10,
@@ -81,8 +78,7 @@ class _ParentsGroupChatsState extends State<ParentsGroupChats> {
                 return Center(
                   child: TextButton.icon(
                       onPressed: () async {
-                        teacherParentGroupChatController
-                            .addParticipants(widget.groupId);
+                        teacherParentGroupChatController.addParticipants(widget.groupId);
                       },
                       icon: const Icon(Icons.add),
                       label: const Text("Add Participants")),
@@ -123,27 +119,21 @@ class _ParentsGroupChatsState extends State<ParentsGroupChats> {
                                     itemCount: snaps.data!.docs.length,
                                     itemBuilder: (context, index) {
                                       ///////////////////////////////////
-                                      return teacherParentGroupChatController
-                                          .messageTitles(
-                                              size,
-                                              snaps.data!.docs[index]['chatid'],
-                                              snaps.data!.docs[index]
-                                                  ['message'],
-                                              snaps.data!.docs[index]['docid'],
-                                              snaps.data!.docs[index]
-                                                  ['sendTime'],
-                                              context,
-                                              widget.groupId,
-                                              snaps.data!.docs[index]
-                                                  ['username']);
+                                      return teacherParentGroupChatController.messageTitles(
+                                          size,
+                                          snaps.data!.docs[index]['chatid'],
+                                          snaps.data!.docs[index]['message'],
+                                          snaps.data!.docs[index]['docid'],
+                                          snaps.data!.docs[index]['sendTime'],
+                                          context,
+                                          widget.groupId,
+                                          snaps.data!.docs[index]['username']);
                                       ///////////////////////////////
                                     },
                                   );
                                 }
                               } else {
-                                return const Center(
-                                    child:
-                                        CircularProgressIndicator.adaptive());
+                                return const Center(child: CircularProgressIndicator.adaptive());
                               }
                             }),
                       ),
@@ -162,8 +152,7 @@ class _ParentsGroupChatsState extends State<ParentsGroupChats> {
                               .snapshots(),
                           builder: (context, checkingblock) {
                             if (checkingblock.hasData) {
-                              if (checkingblock.data?.data()?['activate'] ==
-                                  false) {
+                              if (checkingblock.data?.data()?['activate'] == false) {
                                 return GestureDetector(
                                   onTap: () async {},
                                   child: SizedBox(
@@ -171,8 +160,7 @@ class _ParentsGroupChatsState extends State<ParentsGroupChats> {
                                     width: size.width,
                                     child: const Column(
                                       children: [
-                                        Text(
-                                            'Sorry!! This group is not active now.'),
+                                        Text('Sorry!! This group is not active now.'),
                                         SizedBox(
                                           height: 10,
                                         ),
@@ -189,66 +177,61 @@ class _ParentsGroupChatsState extends State<ParentsGroupChats> {
                                     height: size.height / 12,
                                     width: size.width / 1.1,
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
                                         SizedBox(
                                           height: size.height / 17,
                                           width: size.width / 1.3,
                                           child: TextField(
                                             controller:
-                                                teacherParentGroupChatController
-                                                    .messageController,
+                                                teacherParentGroupChatController.messageController,
                                             decoration: InputDecoration(
                                                 hintText: "Send Message",
                                                 border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
+                                                  borderRadius: BorderRadius.circular(30),
                                                 )),
                                           ),
                                         ),
                                         FutureBuilder(
                                             future: FirebaseFirestore.instance
-                                                .collection(
-                                                    'SchoolListCollection')
-                                                .doc(UserCredentialsController
-                                                    .schoolId)
+                                                .collection('SchoolListCollection')
+                                                .doc(UserCredentialsController.schoolId)
                                                 .collection('Teachers')
-                                                .doc(FirebaseAuth
-                                                    .instance.currentUser!.uid)
+                                                .doc(FirebaseAuth.instance.currentUser!.uid)
                                                 .get(),
                                             builder: (context, userName) {
                                               if (userName.hasData) {
-                                                return CircleAvatar(
-                                                  radius: 28,
-                                                  backgroundColor:
-                                                      adminePrimayColor,
-                                                  child: Center(
-                                                    child: IconButton(
-                                                        icon: const Icon(
-                                                          Icons.send,
-                                                          color: Colors.white,
+                                                return Obx(() => !teacherParentGroupChatController
+                                                        .isLoading.value
+                                                    ? CircleAvatar(
+                                                        radius: 28,
+                                                        backgroundColor: adminePrimayColor,
+                                                        child: Center(
+                                                          child: IconButton(
+                                                              icon: const Icon(
+                                                                Icons.send,
+                                                                color: Colors.white,
+                                                              ),
+                                                              onPressed: () async {
+                                                                ///////////////////////////
+                                                                ///
+                                                                if (teacherParentGroupChatController
+                                                                        .messageController.text
+                                                                        .trim() !=
+                                                                    "") {
+                                                                  teacherParentGroupChatController
+                                                                      .isLoading.value = true;
+                                                                  teacherParentGroupChatController
+                                                                      .sendMessage(
+                                                                          widget.groupId,
+                                                                          userName.data!.data()![
+                                                                              'teacherName']);
+                                                                }
+                                                                /////////////////////////
+                                                              }),
                                                         ),
-                                                        onPressed: () async {
-                                                          ///////////////////////////
-                                                          ///
-                                                          if (teacherParentGroupChatController
-                                                                  .messageController
-                                                                  .text
-                                                                  .trim() !=
-                                                              "") {
-                                                            teacherParentGroupChatController
-                                                                .sendMessage(
-                                                                    widget
-                                                                        .groupId,
-                                                                    userName.data!
-                                                                            .data()![
-                                                                        'teacherName']);
-                                                          }
-                                                          /////////////////////////
-                                                        }),
-                                                  ),
-                                                );
+                                                      )
+                                                    : const CircularProgressIndicator.adaptive());
                                               } else {
                                                 return const Center();
                                               }

@@ -16,8 +16,7 @@ class StudentsChatsScreen extends StatefulWidget {
   final String studentDocID;
   final String studentName;
 
-  const StudentsChatsScreen(
-      {required this.studentDocID, required this.studentName, super.key});
+  const StudentsChatsScreen({required this.studentDocID, required this.studentName, super.key});
 
   @override
   State<StudentsChatsScreen> createState() => _StudentsChatsScreenState();
@@ -115,8 +114,7 @@ class _StudentsChatsScreenState extends State<StudentsChatsScreen> {
                         },
                       );
                     } else {
-                      return const Center(
-                          child: CircularProgressIndicator.adaptive());
+                      return const Center(child: CircularProgressIndicator.adaptive());
                     }
                   }),
             ),
@@ -134,8 +132,7 @@ class _StudentsChatsScreenState extends State<StudentsChatsScreen> {
                     if (checkingblock.data?.data()?['block'] == true) {
                       return GestureDetector(
                         onTap: () async {
-                          await teacherChatController.unBlockuser(
-                              widget.studentDocID, context);
+                          await teacherChatController.unBlockuser(widget.studentDocID, context);
                         },
                         child: SizedBox(
                           height: size.height / 15,
@@ -166,8 +163,7 @@ class _StudentsChatsScreenState extends State<StudentsChatsScreen> {
                                 height: size.height / 17.h,
                                 width: size.width / 1.3,
                                 child: TextField(
-                                  controller:
-                                      teacherChatController.messageController,
+                                  controller: teacherChatController.messageController,
                                   decoration: InputDecoration(
                                       hintText: "Send Message",
                                       border: OutlineInputBorder(
@@ -175,27 +171,29 @@ class _StudentsChatsScreenState extends State<StudentsChatsScreen> {
                                       )),
                                 ),
                               ),
-                              CircleAvatar(
-                                radius: 28,
-                                backgroundColor: adminePrimayColor,
-                                child: Center(
-                                  child: IconButton(
-                                      icon: const Icon(
-                                        Icons.send,
-                                        color: Colors.white,
+                              Obx(() => !teacherChatController.isloading.value
+                                  ? CircleAvatar(
+                                      radius: 28,
+                                      backgroundColor: adminePrimayColor,
+                                      child: Center(
+                                        child: IconButton(
+                                            icon: const Icon(
+                                              Icons.send,
+                                              color: Colors.white,
+                                            ),
+                                            onPressed: () async {
+                                              ///////////////////////////
+                                              if (teacherChatController.messageController.text
+                                                      .trim() !=
+                                                  "") {
+                                                teacherChatController.isloading.value = true;
+                                                teacherChatController
+                                                    .sentMessage(widget.studentDocID);
+                                              } /////////////////////////
+                                            }),
                                       ),
-                                      onPressed: () async {
-                                        ///////////////////////////
-                                        if (teacherChatController
-                                                .messageController.text
-                                                .trim() !=
-                                            "") {
-                                          teacherChatController
-                                              .sentMessage(widget.studentDocID);
-                                        } /////////////////////////
-                                      }),
-                                ),
-                              ),
+                                    )
+                                  : const CircularProgressIndicator.adaptive())
                             ],
                           ),
                         ),
@@ -243,9 +241,8 @@ class _StudentsChatsScreenState extends State<StudentsChatsScreen> {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('StudentChatCounter')
         .doc('F0Ikn1UouYIkqmRFKIpg')
-        .update({
-      'chatIndex': messageIndexNotify == 0 ? zero : messageIndexNotify
-    }).then((value) async {
+        .update({'chatIndex': messageIndexNotify == 0 ? zero : messageIndexNotify}).then(
+            (value) async {
       await FirebaseFirestore.instance
           .collection('SchoolListCollection')
           .doc(UserCredentialsController.schoolId)

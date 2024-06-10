@@ -17,9 +17,9 @@ import '../../userCredentials/user_credentials.dart';
 class TeacherParentChatController extends GetxController {
   int studentIndex = 0;
   final TextEditingController messageController = TextEditingController();
-
-  messageTitles(String parentDocID, Size size, String chatId, String message,
-      String docid, String time, BuildContext context) {
+  late RxBool isloading = false.obs;
+  messageTitles(String parentDocID, Size size, String chatId, String message, String docid,
+      String time, BuildContext context) {
     if (FirebaseAuth.instance.currentUser!.uid == chatId) {
       //to get which <<<< DD//Month//Year   >>>>>
       DateTime parseDatee = DateTime.parse(time.toString());
@@ -40,9 +40,7 @@ class TeacherParentChatController extends GetxController {
                 title: const Text('Alert'),
                 content: const SingleChildScrollView(
                   child: ListBody(
-                    children: <Widget>[
-                      Text('Do you want Delete this message ?')
-                    ],
+                    children: <Widget>[Text('Do you want Delete this message ?')],
                   ),
                 ),
                 actions: <Widget>[
@@ -97,8 +95,7 @@ class TeacherParentChatController extends GetxController {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
@@ -117,8 +114,7 @@ class TeacherParentChatController extends GetxController {
                     ),
                     Text(
                       timeformattedd,
-                      style: const TextStyle(
-                          color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
+                      style: const TextStyle(color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
                     ),
                   ],
                 ),
@@ -130,8 +126,7 @@ class TeacherParentChatController extends GetxController {
                 padding: const EdgeInsets.only(right: 10),
                 child: Text(
                   dayformattedd,
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
+                  style: const TextStyle(color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
                 ),
               ),
             ],
@@ -174,8 +169,7 @@ class TeacherParentChatController extends GetxController {
                   ),
                   Text(
                     timeformattedd,
-                    style: const TextStyle(
-                        color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
+                    style: const TextStyle(color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
                   ),
                 ],
               ),
@@ -187,8 +181,7 @@ class TeacherParentChatController extends GetxController {
               padding: const EdgeInsets.only(right: 10),
               child: Text(
                 dayformattedd,
-                style: const TextStyle(
-                    color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
+                style: const TextStyle(color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
               ),
             ),
           ],
@@ -276,8 +269,10 @@ class TeacherParentChatController extends GetxController {
               .doc(parentDocID)
               .collection('TeachersChatCounter')
               .doc('c3cDX5ymHfITQ3AXcwSp')
-              .update({'chatIndex': sentStudentChatIndex}).then(
-                  (value) => messageController.clear());
+              .update({'chatIndex': sentStudentChatIndex}).then((value) {
+            messageController.clear();
+            isloading.value = false;
+          });
         });
       });
     });
@@ -349,18 +344,16 @@ class TeacherParentChatController extends GetxController {
   Future<void> fetchStudent() async {
     searchParentCollection.clear();
     try {
-      final QuerySnapshot<Map<String, dynamic>> snapshot =
-          await FirebaseFirestore.instance
-              .collection("SchoolListCollection")
-              .doc(UserCredentialsController.schoolId)
-              .collection(UserCredentialsController.batchId!)
-              .doc(UserCredentialsController.batchId!)
-              .collection("classes")
-              .doc(UserCredentialsController.classId!)
-              .collection('Parents')
-              .get();
-      searchParentCollection =
-          snapshot.docs.map((e) => AddStudentModel.fromMap(e.data())).toList();
+      final QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+          .collection("SchoolListCollection")
+          .doc(UserCredentialsController.schoolId)
+          .collection(UserCredentialsController.batchId!)
+          .doc(UserCredentialsController.batchId!)
+          .collection("classes")
+          .doc(UserCredentialsController.classId!)
+          .collection('Parents')
+          .get();
+      searchParentCollection = snapshot.docs.map((e) => AddStudentModel.fromMap(e.data())).toList();
     } catch (e) {
       showToast(msg: "Student Data Error");
     }
@@ -370,18 +363,16 @@ class TeacherParentChatController extends GetxController {
   Future<void> fetchParents() async {
     searchParents.clear();
     try {
-      final QuerySnapshot<Map<String, dynamic>> snapshot =
-          await FirebaseFirestore.instance
-              .collection("SchoolListCollection")
-              .doc(UserCredentialsController.schoolId)
-              .collection(UserCredentialsController.batchId!)
-              .doc(UserCredentialsController.batchId!)
-              .collection("classes")
-              .doc(UserCredentialsController.classId!)
-              .collection('Parents')
-              .get();
-      searchParents =
-          snapshot.docs.map((e) => ParentModel.fromMap(e.data())).toList();
+      final QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+          .collection("SchoolListCollection")
+          .doc(UserCredentialsController.schoolId)
+          .collection(UserCredentialsController.batchId!)
+          .doc(UserCredentialsController.batchId!)
+          .collection("classes")
+          .doc(UserCredentialsController.classId!)
+          .collection('Parents')
+          .get();
+      searchParents = snapshot.docs.map((e) => ParentModel.fromMap(e.data())).toList();
     } catch (e) {
       showToast(msg: "Student Data Error");
     }

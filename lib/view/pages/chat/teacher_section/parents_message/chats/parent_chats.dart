@@ -15,8 +15,7 @@ class ParentsChatsScreen extends StatefulWidget {
   final String parentDocID;
   final String parentName;
 
-  const ParentsChatsScreen(
-      {required this.parentDocID, required this.parentName, super.key});
+  const ParentsChatsScreen({required this.parentDocID, required this.parentName, super.key});
 
   @override
   State<ParentsChatsScreen> createState() => _ParentsChatsScreenState();
@@ -111,8 +110,7 @@ class _ParentsChatsScreenState extends State<ParentsChatsScreen> {
                         },
                       );
                     } else {
-                      return const Center(
-                          child: CircularProgressIndicator.adaptive());
+                      return const Center(child: CircularProgressIndicator.adaptive());
                     }
                   }),
             ),
@@ -162,8 +160,7 @@ class _ParentsChatsScreenState extends State<ParentsChatsScreen> {
                                 height: size.height / 17,
                                 width: size.width / 1.3,
                                 child: TextField(
-                                  controller: teacherParentChatController
-                                      .messageController,
+                                  controller: teacherParentChatController.messageController,
                                   decoration: InputDecoration(
                                       hintText: "Send Message",
                                       border: OutlineInputBorder(
@@ -171,28 +168,31 @@ class _ParentsChatsScreenState extends State<ParentsChatsScreen> {
                                       )),
                                 ),
                               ),
-                              CircleAvatar(
-                                radius: 28,
-                                backgroundColor: adminePrimayColor,
-                                child: Center(
-                                  child: IconButton(
-                                      icon: const Icon(
-                                        Icons.send,
-                                        color: Colors.white,
+                              Obx(() => !teacherParentChatController.isloading.value
+                                  ? CircleAvatar(
+                                      radius: 28,
+                                      backgroundColor: adminePrimayColor,
+                                      child: Center(
+                                        child: IconButton(
+                                            icon: const Icon(
+                                              Icons.send,
+                                              color: Colors.white,
+                                            ),
+                                            onPressed: () async {
+                                              ///////////////////////////
+                                              if (teacherParentChatController.messageController.text
+                                                      .trim() !=
+                                                  "") {
+                                                teacherParentChatController.isloading.value = true;
+
+                                                teacherParentChatController
+                                                    .sentMessage(widget.parentDocID);
+                                              }
+                                              /////////////////////////
+                                            }),
                                       ),
-                                      onPressed: () async {
-                                        ///////////////////////////
-                                        if (teacherParentChatController
-                                                .messageController.text
-                                                .trim() !=
-                                            "") {
-                                          teacherParentChatController
-                                              .sentMessage(widget.parentDocID);
-                                        }
-                                        /////////////////////////
-                                      }),
-                                ),
-                              ),
+                                    )
+                                  : const CircularProgressIndicator.adaptive())
                             ],
                           ),
                         ),
@@ -241,9 +241,8 @@ class _ParentsChatsScreenState extends State<ParentsChatsScreen> {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('ParentChatCounter')
         .doc('F0Ikn1UouYIkqmRFKIpg')
-        .update({
-      'chatIndex': messageIndexNotify == 0 ? zero : messageIndexNotify
-    }).then((value) async {
+        .update({'chatIndex': messageIndexNotify == 0 ? zero : messageIndexNotify}).then(
+            (value) async {
       await FirebaseFirestore.instance
           .collection('SchoolListCollection')
           .doc(UserCredentialsController.schoolId)

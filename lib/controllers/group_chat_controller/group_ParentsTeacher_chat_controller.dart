@@ -21,8 +21,8 @@ import 'model/create_group_chat_model.dart';
 class TeacherParentGroupChatController extends GetxController {
   final TextEditingController messageController = TextEditingController();
   RxBool isLoading = false.obs;
-  messageTitles(Size size, String chatId, String message, String docid,
-      String time, BuildContext context, String groupID, String username) {
+  messageTitles(Size size, String chatId, String message, String docid, String time,
+      BuildContext context, String groupID, String username) {
     if (FirebaseAuth.instance.currentUser!.uid == chatId) {
       //to get which <<<< DD//Month//Year   >>>>>
       DateTime parseDatee = DateTime.parse(time.toString());
@@ -43,9 +43,7 @@ class TeacherParentGroupChatController extends GetxController {
                 title: const Text('Alert'),
                 content: const SingleChildScrollView(
                   child: ListBody(
-                    children: <Widget>[
-                      Text('Do you want Delete this message ?')
-                    ],
+                    children: <Widget>[Text('Do you want Delete this message ?')],
                   ),
                 ),
                 actions: <Widget>[
@@ -99,10 +97,8 @@ class TeacherParentGroupChatController extends GetxController {
                   ),
                 ),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                  margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     color: const Color.fromARGB(255, 194, 243, 189),
@@ -120,9 +116,8 @@ class TeacherParentGroupChatController extends GetxController {
                       ),
                       Text(
                         timeformattedd,
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 90, 90, 90),
-                            fontSize: 10),
+                        style:
+                            const TextStyle(color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
                       ),
                     ],
                   ),
@@ -134,8 +129,7 @@ class TeacherParentGroupChatController extends GetxController {
                   padding: const EdgeInsets.only(right: 10),
                   child: Text(
                     dayformattedd,
-                    style: const TextStyle(
-                        color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
+                    style: const TextStyle(color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
                   ),
                 ),
               ],
@@ -163,11 +157,9 @@ class TeacherParentGroupChatController extends GetxController {
             children: [
               Padding(
                   padding: const EdgeInsets.only(right: 20),
-                  child:
-                      GooglePoppinsEventsWidgets(text: username, fontsize: 10)),
+                  child: GooglePoppinsEventsWidgets(text: username, fontsize: 10)),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
@@ -186,8 +178,7 @@ class TeacherParentGroupChatController extends GetxController {
                     ),
                     Text(
                       timeformattedd,
-                      style: const TextStyle(
-                          color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
+                      style: const TextStyle(color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
                     ),
                   ],
                 ),
@@ -199,8 +190,7 @@ class TeacherParentGroupChatController extends GetxController {
                 padding: const EdgeInsets.only(right: 10),
                 child: Text(
                   dayformattedd,
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
+                  style: const TextStyle(color: Color.fromARGB(255, 90, 90, 90), fontSize: 10),
                 ),
               ),
             ],
@@ -236,6 +226,7 @@ class TeacherParentGroupChatController extends GetxController {
         .then((value) async {
       await sendMessageIndexToAllUsers(groupID);
       messageController.clear();
+      isLoading.value = false;
     });
   }
 
@@ -269,9 +260,7 @@ class TeacherParentGroupChatController extends GetxController {
           .collection('Participants')
           .doc(firebase.docs[i].data()['docid'])
           .set({
-        'messageIndex': await fetchCurrentIndexByUser(
-                groupID, firebase.docs[i].data()['docid']) +
-            1
+        'messageIndex': await fetchCurrentIndexByUser(groupID, firebase.docs[i].data()['docid']) + 1
       }, SetOptions(merge: true));
     }
   }
@@ -383,15 +372,15 @@ class TeacherParentGroupChatController extends GetxController {
                         child: Row(
                           children: [
                             Obx(() => Container(
-                                  color: addParentList[parentsSnaps.data!
-                                              .docs[index]['parentName']] ==
-                                          null
-                                      ? Colors.transparent
-                                      : addParentList[parentsSnaps.data!
-                                                  .docs[index]['parentName']] ==
-                                              true
-                                          ? Colors.green.withOpacity(0.4)
-                                          : Colors.red.withOpacity(0.4),
+                                  color:
+                                      addParentList[parentsSnaps.data!.docs[index]['parentName']] ==
+                                              null
+                                          ? Colors.transparent
+                                          : addParentList[parentsSnaps.data!.docs[index]
+                                                      ['parentName']] ==
+                                                  true
+                                              ? Colors.green.withOpacity(0.4)
+                                              : Colors.red.withOpacity(0.4),
                                   height: 60.h,
                                   child: Row(
                                     children: [
@@ -414,12 +403,11 @@ class TeacherParentGroupChatController extends GetxController {
                             const Spacer(),
                             IconButton(
                               onPressed: () async {
-                                addParentToGroup(parentDetails.docid!, groupID,
-                                        parentDetails)
+                                addParentToGroup(parentDetails.docid!, groupID, parentDetails)
                                     .then((value) {
                                   showToast(msg: 'Added');
-                                  addParentList[parentsSnaps.data!.docs[index]
-                                      ['parentName']] = true;
+                                  addParentList[parentsSnaps.data!.docs[index]['parentName']] =
+                                      true;
                                 });
                               },
                               icon: const Icon(Icons.add),
@@ -427,12 +415,11 @@ class TeacherParentGroupChatController extends GetxController {
                             const SizedBox(width: 20),
                             IconButton(
                               onPressed: () async {
-                                await removeParentToGroup(
-                                        parentDetails.docid!, groupID, context)
+                                await removeParentToGroup(parentDetails.docid!, groupID, context)
                                     .then((value) {
                                   showToast(msg: "Removed");
-                                  addParentList[parentsSnaps.data!.docs[index]
-                                      ['parentName']] = false;
+                                  addParentList[parentsSnaps.data!.docs[index]['parentName']] =
+                                      false;
                                 });
                               },
                               icon: const Icon(Icons.remove),
@@ -475,8 +462,7 @@ class TeacherParentGroupChatController extends GetxController {
         .set(parentDetails.toMap());
   }
 
-  Future<void> removeParentToGroup(
-      String parentDocID, String groupID, BuildContext context) async {
+  Future<void> removeParentToGroup(String parentDocID, String groupID, BuildContext context) async {
     await FirebaseFirestore.instance
         .collection("SchoolListCollection")
         .doc(UserCredentialsController.schoolId)
@@ -506,8 +492,7 @@ class TeacherParentGroupChatController extends GetxController {
               await customAddParentsInGroup(groupID);
             },
             child: Container(
-              decoration:
-                  BoxDecoration(color: adminePrimayColor.withOpacity(0.3)),
+              decoration: BoxDecoration(color: adminePrimayColor.withOpacity(0.3)),
               height: 60.h,
               width: 150.w,
               child: const Center(
@@ -523,19 +508,15 @@ class TeacherParentGroupChatController extends GetxController {
                     onTap: () async {
                       await addAllParents(
                         groupID,
-                      ).then((value) =>
-                          showToast(msg: "All parents added in this groups"));
+                      ).then((value) => showToast(msg: "All parents added in this groups"));
                     },
                     child: Container(
-                      decoration: BoxDecoration(
-                          color: adminePrimayColor.withOpacity(0.3)),
+                      decoration: BoxDecoration(color: adminePrimayColor.withOpacity(0.3)),
                       height: 60.h,
                       width: 150.w,
                       child: const Center(
                         child: GooglePoppinsEventsWidgets(
-                            text: 'Add All Parents',
-                            fontsize: 15,
-                            fontWeight: FontWeight.bold),
+                            text: 'Add All Parents', fontsize: 15, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -600,8 +581,7 @@ class TeacherParentGroupChatController extends GetxController {
 
 createChatGroups(BuildContext context, String chatValue) async {
   final formKey = GlobalKey<FormState>();
-  final GroupFormController groupFormController =
-      Get.put(GroupFormController());
+  final GroupFormController groupFormController = Get.put(GroupFormController());
   TextEditingController groupNameController = TextEditingController();
   showDialog(
     context: context,
@@ -632,8 +612,7 @@ createChatGroups(BuildContext context, String chatValue) async {
                           return null;
                         },
                         controller: groupNameController,
-                        decoration:
-                            const InputDecoration(hintText: 'Enter Name'),
+                        decoration: const InputDecoration(hintText: 'Enter Name'),
                       )
                     ],
                   ),
@@ -651,8 +630,7 @@ createChatGroups(BuildContext context, String chatValue) async {
                               docid: docid,
                               admin: true,
                               groupName: groupNameController.text,
-                              teacherId:
-                                  FirebaseAuth.instance.currentUser!.uid);
+                              teacherId: FirebaseAuth.instance.currentUser!.uid);
                           await FirebaseFirestore.instance
                               .collection('SchoolListCollection')
                               .doc(UserCredentialsController.schoolId)
@@ -679,8 +657,7 @@ createChatGroups(BuildContext context, String chatValue) async {
                               Navigator.pop(context);
                               Navigator.pop(context);
 
-                              return showToast(
-                                  msg: 'Group Created Successfully');
+                              return showToast(msg: 'Group Created Successfully');
                             });
                           });
                         } else {
@@ -692,9 +669,7 @@ createChatGroups(BuildContext context, String chatValue) async {
                                 title: const Text('Alert'),
                                 content: const SingleChildScrollView(
                                   child: ListBody(
-                                    children: <Widget>[
-                                      Text('Sorry you not a class teacher')
-                                    ],
+                                    children: <Widget>[Text('Sorry you not a class teacher')],
                                   ),
                                 ),
                                 actions: <Widget>[
