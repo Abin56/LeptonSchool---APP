@@ -44,7 +44,11 @@ class StudentSignInController extends GetxController {
             await SharedPreferencesHelper.setString(
               SharedPreferencesHelper.currenUserKey, value.user!.uid);
           await SharedPreferencesHelper.setString(
-              SharedPreferencesHelper.userRoleKey, 'student').then((value) => Get.off(()=>const SplashScreen()));
+              SharedPreferencesHelper.userRoleKey, 'student')
+              .then((value) {
+                   isLoading.value = false;
+                    Get.off(() => const SplashScreen());
+                });
 
           isLoading.value = false;
         } else {

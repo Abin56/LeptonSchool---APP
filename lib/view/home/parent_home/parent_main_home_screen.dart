@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

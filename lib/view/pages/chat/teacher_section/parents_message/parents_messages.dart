@@ -80,7 +80,7 @@ class ParentMessagesScreen extends StatelessWidget {
                                   log("school Id ${snapshots.data?.docs[index]['classID']}");
                                   log("school Id ${snapshots.data?.docs[index]['docid']}");
 
-                                  log('Getting parent name --->>>  ${parentsnaps.data?.get('parentName')}');
+                                  
                                   // log('Getting class ID--->>>  ${snapshots.data?.docs[index]['classID']}');
                                   if (parentsnaps.hasData) {
                                     return Text(

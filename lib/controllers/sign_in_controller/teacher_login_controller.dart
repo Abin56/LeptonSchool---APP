@@ -14,7 +14,7 @@ import '../../utils/utils.dart';
 class TeacherLoginController extends GetxController {
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  RxBool isLoading = RxBool(false);
+  RxBool isLoading =false.obs;
   TextEditingController emailIdController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String name = "TeacherLoginController";
@@ -54,7 +54,10 @@ class TeacherLoginController extends GetxController {
                 SharedPreferencesHelper.currenUserKey, value.user!.uid);
             await SharedPreferencesHelper.setString(
                     SharedPreferencesHelper.userRoleKey, 'teacher')
-                .then((value) => Get.off(() => const SplashScreen()));
+                .then((value) {
+                   isLoading.value = false;
+                    Get.off(() => const SplashScreen());
+                });
           } else {
             await firebaseAuth.signOut();
             showToast(msg: "You are not a Teacher");

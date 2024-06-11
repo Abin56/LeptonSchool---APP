@@ -51,7 +51,10 @@ class ParentLoginController extends GetxController {
               SharedPreferencesHelper.currenUserKey, value.user!.uid);
           await SharedPreferencesHelper.setString(
                   SharedPreferencesHelper.userRoleKey, 'parent')
-              .then((value) => Get.off(() => const SplashScreen()));
+              .then((value) {
+                   isLoading.value = false;
+                    Get.off(() => const SplashScreen());
+                });
           // if (context.mounted) {
           //   ParentPasswordSaver.parentPassword = passwordController.text.trim();
           //   ParentPasswordSaver.parentemailID = emailIdController.text.trim();
