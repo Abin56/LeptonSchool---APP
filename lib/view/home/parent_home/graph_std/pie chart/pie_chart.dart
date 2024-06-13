@@ -3,9 +3,9 @@ import 'package:lepton_school/view/colors/colors.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class AttendancegraphS extends StatelessWidget {
-  const AttendancegraphS({super.key,  required this.presentPercentage});
+  const AttendancegraphS({super.key,  });
 
-  final double presentPercentage;
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,30 +27,30 @@ class AttendancegraphS extends StatelessWidget {
           color: Color.fromARGB(255, 137, 238, 140),
           thicknessUnit: GaugeSizeUnit.factor,
         ),
-        pointers:  <GaugePointer>[
+        pointers:  const <GaugePointer>[
           RangePointer(
             color: Colors.blue,
-            value: presentPercentage,
+            value:10 ,
             cornerStyle: CornerStyle.endCurve,
             width: 0.3,
             sizeUnit: GaugeSizeUnit.factor,
           ),
         ],
-        annotations: <GaugeAnnotation>[
+        annotations: const <GaugeAnnotation>[
           GaugeAnnotation(
-            axisValue: presentPercentage,
+            axisValue: 10,
             positionFactor: 0.2,
             widget: Column(
               children: [
                 Text(
-                  '${100-presentPercentage.round()}%',
-                  style: const TextStyle(
+                  '10',
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
                     color: Colors.blue, // Text color for present percentage
                   ),
                 ),
-                const Text(
+                Text(
                   'Absent',
                   style: TextStyle(
                     color: Colors.blue, // Text color for 'Present'
@@ -66,9 +66,9 @@ class AttendancegraphS extends StatelessWidget {
 }
 
 class ATP extends StatelessWidget {
-  const ATP({super.key,  required this.presentPercentage});
+  const ATP({super.key,  });
 
-  final double presentPercentage;
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +78,9 @@ class ATP extends StatelessWidget {
       color: cWhite,
       child: Stack(
         alignment: Alignment.center,
-        children: [
-          AttendancegraphS(presentPercentage: presentPercentage),
-          const Indicator(), // Add the Indicator widget
+        children: const [
+          AttendancegraphS(),
+          Indicator(), // Add the Indicator widget
         ],
       ),
     );
@@ -101,7 +101,7 @@ class Indicator extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IndicatorItem(color: Colors.green, text: 'Absent'), // Customize as needed
-            IndicatorItem(color: Colors.red, text: 'Present'), // Customize as needed
+            IndicatorItem(color: Colors.blue, text: 'Present'), // Customize as needed
           ],
         ),
         SizedBox(height: 10),

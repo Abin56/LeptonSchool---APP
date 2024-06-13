@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:lepton_school/controllers/graph_controller/students_Graph/attendence_grphStatus.dart';
 import 'package:lepton_school/view/colors/colors.dart';
 import 'package:lepton_school/view/home/student_home/graph_std/assignment_project_std.dart';
 import 'package:lepton_school/view/home/student_home/graph_std/attendance_std_g.dart';
@@ -8,11 +12,31 @@ import 'package:lepton_school/view/home/student_home/graph_std/homework_std_g.da
 import 'package:lepton_school/view/home/student_home/student_pages/on_click_std_details/attendance_bottomsheet.dart';
 import 'package:lepton_school/view/widgets/fonts/google_poppins.dart';
 
-class GraphShowingPartStdAttendance extends StatelessWidget {
-  const GraphShowingPartStdAttendance({super.key});
+class GraphShowingPartStdAttendance extends StatefulWidget {
+   const GraphShowingPartStdAttendance({super.key});
+
+  @override
+  State<GraphShowingPartStdAttendance> createState() => _GraphShowingPartStdAttendanceState();
+}
+
+class _GraphShowingPartStdAttendanceState extends State<GraphShowingPartStdAttendance> {
+ late Future<int> _fetchPresentDays;
+  late Future<int> _fetchTotalDays;
+    @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
+
+  void _fetchData() {
+    final studentAttendenceGrpghStatus = Get.put(StudentAttendenceGrpghStatus());
+    _fetchPresentDays = studentAttendenceGrpghStatus.fetchStudentAttendence();
+    _fetchTotalDays = studentAttendenceGrpghStatus.totalWorkingDays();
+  }
 
   @override
   Widget build(BuildContext context) {
+ 
     return GestureDetector(
       onTap: () => attendanceOnClickDetailsShowing(),
       child: Container(
@@ -23,7 +47,30 @@ class GraphShowingPartStdAttendance extends StatelessWidget {
           ),
         ], 
         color: cWhite, borderRadius: BorderRadius.all(Radius.circular(20))),
-        child: Row(
+        child: FutureBuilder<int>(
+          future: _fetchPresentDays,
+          builder: (context, snapshotPresentDays) {
+            if (snapshotPresentDays.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshotPresentDays.hasError) {
+              return Center(child: Text('Error: ${snapshotPresentDays.error}'));
+            }
+
+            final presentDays = snapshotPresentDays.data ?? 0;
+
+            return FutureBuilder<int>(
+              future: _fetchTotalDays,
+              builder: (context, snapshotTotalDays) {
+                if (snapshotTotalDays.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshotTotalDays.hasError) {
+                  return Center(child: Text('Error: ${snapshotTotalDays.error}'));
+                }
+
+                final totalDays = snapshotTotalDays.data ?? 0;
+                // log('Present Days: $presentDays');
+                // log('Total Days: $totalDays');
+        return Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Expanded(
@@ -64,7 +111,7 @@ class GraphShowingPartStdAttendance extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 05, left: 25),
                     child: Text(
-                      '200/300',
+                      ' $presentDays'"/"' $totalDays',
                       style:
                           TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
                     ),
@@ -76,14 +123,18 @@ class GraphShowingPartStdAttendance extends StatelessWidget {
                 ],
               ),
             ),
-            const Expanded(
+             const Expanded(
               flex: 1,
               child: Padding(
                 padding: EdgeInsets.only(top: 10),
                 child: AttendanceGraphOfStudent(),
               ),
-            ),
-          ],
+                    ),
+                  ],
+                );
+              },
+            );
+          },
         ),
       ),
     );

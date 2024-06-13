@@ -50,14 +50,14 @@ class _ParentMainHomeScreenState extends State<ParentMainHomeScreen> {
     checkingSchoolActivate(context);
     List<Widget> pages = [
       ParentHomeScreen(
-        studentName: UserCredentialsController.parentModel!.studentID!,
+        studentName: UserCredentialsController.parentModel?.studentID??'',
       ),
       RecSelectSubjectScreen(
         batchId: UserCredentialsController.batchId!,
         classID: UserCredentialsController.classId!,
         schoolId: UserCredentialsController.schoolId!,
       ),
-      ParentEditProfileScreenFull()
+      const ParentEditProfileScreenFull()
     ];
     return WillPopScope(
       onWillPop: () => onbackbuttonpressed(context),

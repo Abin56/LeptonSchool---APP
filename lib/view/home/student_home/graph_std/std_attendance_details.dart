@@ -1,8 +1,13 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:lepton_school/controllers/graph_controller/students_Graph/attendence_grphStatus.dart';
 
 class PieChartSample2 extends StatefulWidget {
-  const PieChartSample2({super.key});
+   final int totalDays;
+  final int presentDays;
+  final int absentDays ;
+  const PieChartSample2({super.key,required this.totalDays, required this.presentDays, required this.absentDays});
 
   @override
   State<StatefulWidget> createState() => PieChart2State();
@@ -10,9 +15,37 @@ class PieChartSample2 extends StatefulWidget {
 
 class PieChart2State extends State {
   int touchedIndex = -1;
+ double presentPercentage = 0.0;
+  double absentPercentage = 0.0;
+  bool isLoading = true;
+
+    @override
+  void initState() {
+    super.initState();
+    _fetchAttendanceData();
+  }
+
+ 
+  Future<void> _fetchAttendanceData() async {
+    final studentAttendenceGrpghStatus = Get.put(StudentAttendenceGrpghStatus());
+    final presentDays = await studentAttendenceGrpghStatus.fetchStudentAttendence();
+    final totalDays = await studentAttendenceGrpghStatus.totalWorkingDays();
+    final absentDays =totalDays-presentDays;
+    setState(() {
+      
+      presentPercentage = (presentDays / totalDays) * 100;
+      absentPercentage = (absentDays / totalDays) * 100;
+      isLoading = false;
+      //  log("Present Percentage: $presentPercentage");
+      // log("Absent Percentage: $absentPercentage");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+      if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
     return AspectRatio(
       aspectRatio: 1.3,
       child: Row(
@@ -44,7 +77,7 @@ class PieChart2State extends State {
                   ),
                   sectionsSpace: 0,
                   centerSpaceRadius: 40,
-                  sections: showingSections(),
+                  sections: showingSections(presentPercentage, absentPercentage),
                 ),
               ),
             ),
@@ -95,7 +128,7 @@ class PieChart2State extends State {
     );
   }
 
-  List<PieChartSectionData> showingSections() {
+  List<PieChartSectionData> showingSections(double presentPercentage, double absentPercentage) {
     return List.generate(2, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
@@ -105,8 +138,8 @@ class PieChart2State extends State {
         case 0:
           return PieChartSectionData(
             color: Colors.blue,
-            value: 70,
-            title: '70%',
+            value:  presentPercentage,
+            title:  '${presentPercentage.toStringAsFixed(1)}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -118,8 +151,8 @@ class PieChart2State extends State {
         case 1:
           return PieChartSectionData(
             color: Colors.green,
-            value: 30,
-            title: '30%',
+            value:  absentPercentage,
+            title:  '${( absentPercentage).toStringAsFixed(1)}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,

@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lepton_school/controllers/graph_controller/students_Graph/attendence_grphStatus.dart';
 import 'package:lepton_school/controllers/push_notification_controller/push_notification_controller.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/local_database/parent_login_database.dart';
@@ -43,6 +44,10 @@ class ParentHomeScreen extends StatelessWidget {
 
 final MultipileStudentsController multipileStudentsController =
       Get.put(MultipileStudentsController());
+      
+      final StudentAttendenceGrpghStatus studentAttendenceGrpghStatus =
+      Get.put(StudentAttendenceGrpghStatus());
+   
 
   Widget build(BuildContext context) {
     
@@ -50,7 +55,7 @@ final MultipileStudentsController multipileStudentsController =
     log("Firebase Auth DOCID :::::::::::::::::::  ${FirebaseAuth.instance.currentUser?.uid}");
        pushNotCntrl.getUserDeviceID().then((value) async {
       await pushNotCntrl
-          .allUSerDeviceID(UserCredentialsController.parentModel!.userRole,UserCredentialsController.parentModel?.docid??"");
+          .allUSerDeviceID(UserCredentialsController.parentModel?.userRole??'',UserCredentialsController.parentModel?.docid??"");
       await pushNotCntrl.allParentDeviceID(UserCredentialsController.parentModel?.docid??"");
     });
     final parentAuth = DBParentLogin(
@@ -59,7 +64,7 @@ final MultipileStudentsController multipileStudentsController =
         schoolID: UserCredentialsController.schoolId!,
         batchID: UserCredentialsController.batchId!,
         classID: UserCredentialsController.classId!,
-        studentID: UserCredentialsController.parentModel!.studentID!,
+        studentID: UserCredentialsController.parentModel?.studentID??'',
         parentID: FirebaseAuth.instance.currentUser!.uid,
         emailID: FirebaseAuth.instance.currentUser!.email ?? "",
         parentDocID: FirebaseAuth.instance.currentUser!.uid);

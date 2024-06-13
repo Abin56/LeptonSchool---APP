@@ -4,14 +4,14 @@ import 'package:lepton_school/controllers/graph_controller/students_Graph/attend
 import 'package:lepton_school/view/colors/colors.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class AttendanceGraphOfStudent extends StatefulWidget {
-   const AttendanceGraphOfStudent({super.key});
+class AttendanceGraphOfStudentPrnt extends StatefulWidget {
+   const AttendanceGraphOfStudentPrnt({super.key});
 
   @override
-  State<AttendanceGraphOfStudent> createState() => _AttendanceGraphOfStudentState();
+  State<AttendanceGraphOfStudentPrnt> createState() => _AttendanceGraphOfStudentPrntState();
 }
 
-class _AttendanceGraphOfStudentState extends State<AttendanceGraphOfStudent> {
+class _AttendanceGraphOfStudentPrntState extends State<AttendanceGraphOfStudentPrnt> {
 final StudentAttendenceGrpghStatus studentAttendenceGrpghStatus = Get.put(StudentAttendenceGrpghStatus());                        
 
  double presentPercentage = 0.0;
@@ -27,11 +27,12 @@ final StudentAttendenceGrpghStatus studentAttendenceGrpghStatus = Get.put(Studen
  
   Future<void> _fetchAttendanceDataTo() async {
     final studentAttendenceGrpghStatus = Get.put(StudentAttendenceGrpghStatus());
-    final presentDays = await studentAttendenceGrpghStatus.fetchStudentAttendence();
+    final presentDays = await studentAttendenceGrpghStatus.fetchStudentAttendenceToParent();
     final totalDays = await studentAttendenceGrpghStatus.totalWorkingDays();
+    final absentDays = totalDays-presentDays;
     setState(() {
       presentPercentage = (presentDays / totalDays) * 100;
-      absentPercentage = totalDays - presentPercentage;
+      absentPercentage = (absentDays / totalDays) * 100;
       isLoading = false;
       //  log("Present Percentage: $presentPercentage");
       // log("Absent Percentage: $absentPercentage");
@@ -79,8 +80,8 @@ final StudentAttendenceGrpghStatus studentAttendenceGrpghStatus = Get.put(Studen
   }
 }
 
-class AttendanceGraph extends StatelessWidget {
-  const AttendanceGraph({super.key});
+class AttendanceGraphparent extends StatelessWidget {
+  const AttendanceGraphparent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +89,7 @@ class AttendanceGraph extends StatelessWidget {
       height: 200,
       width: 200,
       color: cWhite,
-      child:  const AttendanceGraphOfStudent(),
+      child: const AttendanceGraphOfStudentPrnt(),
     );
   }
 }
