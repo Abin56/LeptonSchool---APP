@@ -106,7 +106,7 @@ class AddHomeWorsToFireBase {
           .doc(batchId)
           .collection("classes")
           .doc(classId)
-          .collection("HomeWorks")
+          .collection("HomeWorks") 
           .add(productModel.toMap())
           .then((value) {
         firebase
@@ -125,9 +125,9 @@ class AddHomeWorsToFireBase {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: const Text('Message'),
-                content: SingleChildScrollView(
+                content: const SingleChildScrollView(
                   child: ListBody(
-                    children: const <Widget>[
+                    children: <Widget>[
                       Text('Successfully uploaded'),
                     ],
                   ),
