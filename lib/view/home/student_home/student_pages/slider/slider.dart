@@ -10,11 +10,11 @@ class CarouselSliderStd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
-      items:  const [
+      items:   [
       GraphShowingPartStdAttendance(),
       GraphShowingPartStdExamResult(),
       GraphShowingPartStdHomework(),
-      GraphShowingPartStdAssignProject()
+    // GraphShowingPartStdAssignProject()
     ],
      options: CarouselOptions(
         height: 200.w,

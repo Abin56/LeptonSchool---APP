@@ -1,79 +1,108 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:lepton_school/view/colors/colors.dart';
+import 'package:get/get.dart';
+import 'package:lepton_school/controllers/graph_controller/exam_graph/std_exam_graph.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ExamGraphOfStd extends StatelessWidget {
-  const ExamGraphOfStd({super.key});
+  ExamGraphOfStd({super.key});
+
+  final StudentExamResultGraphController controller =
+      Get.put(StudentExamResultGraphController());
 
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = <ChartData>[
-      ChartData(
-        'Onam',
-        100,
-        70,
-        30,
-      ),
-      ChartData(
-        'x Mas',
-        100,
-        60,
-        40,
-      ),
-    ];
-    return SfCartesianChart(
-        primaryXAxis: CategoryAxis(),
-        primaryYAxis: NumericAxis(minimum: 0, maximum: 100, interval: 10),
-        series: <CartesianSeries>[
-          ColumnSeries<ChartData, String>(
-            dataLabelSettings: const DataLabelSettings(
+    return FutureBuilder(
+      future: controller.fetchExams(),
+      builder: (context, AsyncSnapshot<List<String>> snapshot) {
+        controller.getStudentExamStatus().then((value) => controller.examgraphData());
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          final List<String> exams = snapshot.data ?? [];
+       
+          return FutureBuilder(
+            future: Future.wait(exams.map((exam) async {
+              final passCount =await controller.examgraphData().then((value) => value['studentExamPassTotalCount']);
+              final failCount =await controller.examgraphData().then((value) => value['studentExamFailedTotalCount']);
+              final totalExams =await controller.examgraphData().then((value) => value['totalExamCount']);
+              
 
-                // Renders the data label
-                isVisible: true),
-            dataSource: chartData,
-            xValueMapper: (ChartData data, _) => data.x,
-            yValueMapper: (ChartData data, _) => data.y,
-            // pointColorMapper: (data, index) => data.color,
-            // color: const Color.fromARGB(255, 255, 170, 1),
-          ),
-          ColumnSeries<ChartData, String>(
-            dataLabelSettings: const DataLabelSettings(
+              return ChartData(
+                "Exam",
+                totalExams!.toDouble(),
+                passCount!.toDouble(),
+                failCount!.toDouble(),
+              );
+            })),
+            builder: (context, AsyncSnapshot<List<ChartData>> chartSnapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${chartSnapshot.error}'));
+              } else {
+                final List<ChartData> chartData = chartSnapshot.data ?? [];
+              
 
-                // Renders the data label
-                isVisible: true),
-            dataSource: chartData,
-            xValueMapper: (ChartData data, _) => data.x,
-            yValueMapper: (ChartData data, _) => data.y1,
-            // pointColorMapper: (data, index) => data.color,
-            // color: const Color.fromARGB(255, 65, 125, 252),
-          ),
-          ColumnSeries<ChartData, String>(
-            dataLabelSettings: const DataLabelSettings(
-
-                // Renders the data label
-                isVisible: true),
-            dataSource: chartData,
-            xValueMapper: (ChartData data, _) => data.x,
-            yValueMapper: (ChartData data, _) => data.y2,
-            // pointColorMapper: (data, index) => data.color,
-            // color: const Color.fromARGB(255, 251, 65, 65),
-          )
-        ]);
+                return SfCartesianChart(
+                  primaryXAxis: const CategoryAxis(),
+                  primaryYAxis: const NumericAxis(minimum: 0, maximum: 50, interval: 5),
+                  series: <CartesianSeries>[
+                    ColumnSeries<ChartData, String>(
+                      dataLabelSettings: const DataLabelSettings(
+                        isVisible: true,
+                      ),
+                      dataSource: chartData,
+                      width: 1,
+                      xValueMapper: (ChartData data, _) => data.x,
+                      yValueMapper: (ChartData data, _) => data.y,
+                      name: 'Total Exams',
+                    ),
+                    ColumnSeries<ChartData, String>(
+                      dataLabelSettings: const DataLabelSettings(
+                        isVisible: true,
+                      ),
+                      dataSource: chartData,
+                      width: 1,
+                      xValueMapper: (ChartData data, _) => data.x,
+                      yValueMapper: (ChartData data, _) => data.y1,
+                      pointColorMapper: (ChartData data, _) =>
+                          data.y >= data.y1 ? Colors.green : Colors.red,
+                      name: 'Passed Exams',
+                    ),
+                    ColumnSeries<ChartData, String>(
+                      dataLabelSettings: const DataLabelSettings(
+                        isVisible: true,
+                      ),
+                      dataSource: chartData,
+                      width: 1,
+                      xValueMapper: (ChartData data, _) => data.x,
+                      yValueMapper: (ChartData data, _) => data.y2,
+                      pointColorMapper: (ChartData data, _) =>
+                          data.y1 > 0 ? Colors.red : Colors.transparent,
+                      name: 'Failed Exams',
+                    ),
+                  ],
+                );
+              }
+            },
+          );
+        }
+      },
+    );
   }
 }
 
 class ChartData {
-  ChartData(
-    this.x,
-    this.y,
-    this.y1,
-    this.y2,
-  );
+  ChartData(this.x, this.y, this.y1, this.y2);
+
   final String x;
-  final double? y;
-  final double? y1;
-  final double? y2;
-  // final Color color;
+  final double y; // Total exams
+  final double y1; // Passed exams
+  final double y2; // Failed exams
 }
 
 class ExamResultGraph extends StatelessWidget {
@@ -82,6 +111,10 @@ class ExamResultGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 200, width: 200, color: cWhite, child: const ExamGraphOfStd());
+      height: 400, // Adjust height as needed
+      width: double.infinity,
+      color: Colors.white,
+      child: ExamGraphOfStd(),
+    );
   }
 }

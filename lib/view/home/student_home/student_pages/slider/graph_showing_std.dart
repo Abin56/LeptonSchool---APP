@@ -1,6 +1,7 @@
 import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lepton_school/controllers/graph_controller/exam_graph/std_exam_graph.dart';
 import 'package:lepton_school/controllers/graph_controller/students_Graph/attendence_grphStatus.dart';
 import 'package:lepton_school/view/colors/colors.dart';
 import 'package:lepton_school/view/home/student_home/graph_std/assignment_project_std.dart';
@@ -51,7 +52,7 @@ class _GraphShowingPartStdAttendanceState extends State<GraphShowingPartStdAtten
             if (snapshotPresentDays.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshotPresentDays.hasError) {
-              return Center(child: Text('Error: ${snapshotPresentDays.error}'));
+              return const Center(child: Text('Error: '));
             }
 
             final presentDays = snapshotPresentDays.data ?? 0;
@@ -62,7 +63,7 @@ class _GraphShowingPartStdAttendanceState extends State<GraphShowingPartStdAtten
                 if (snapshotTotalDays.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (snapshotTotalDays.hasError) {
-                  return Center(child: Text('Error: ${snapshotTotalDays.error}'));
+                  return const Center(child: Text('Error:'));
                 }
 
                 final totalDays = snapshotTotalDays.data ?? 0;
@@ -219,10 +220,13 @@ class GraphShowingPartStdHomework extends StatelessWidget {
 
 
 class GraphShowingPartStdExamResult extends StatelessWidget {
-  const GraphShowingPartStdExamResult({super.key});
-
+   GraphShowingPartStdExamResult({super.key});
+  final StudentExamResultGraphController examResultGraphController =
+      Get.put(StudentExamResultGraphController());
   @override
   Widget build(BuildContext context) {
+           examResultGraphController.getStudentExamStatus().then((value) => examResultGraphController.examgraphData());
+  
     return Container(
       height: 190.h,
       decoration: const BoxDecoration(boxShadow: [
@@ -270,20 +274,33 @@ class GraphShowingPartStdExamResult extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 05, left: 25),
-                  child: Text(
-                    '200/300',
-                    style:
-                        TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
+                  child: FutureBuilder(
+                    future:  examResultGraphController.examgraphData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                                       final totalExams = snapshot.data?['totalExamCount'];
+                              final passCount = snapshot.data?['studentExamPassTotalCount'];
+                         return Text(
+                          '$passCount/$totalExams',
+                        style:
+                            TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
+                      );
+                      }else{
+                        return const CircularProgressIndicator.adaptive();
+                      }
+           
+                     
+                    }
                   ),
                 ),
               ],
             ),
           ),
-          const Expanded(
+           Expanded(
             flex: 1,
             child: Padding(
-              padding: EdgeInsets.only(top: 10),
-              child:    AssignmentProjectGraph(),
+              padding: const EdgeInsets.only(top: 10),
+              child:    ExamGraphOfStd(),
 
             ),
           ),
@@ -358,7 +375,7 @@ class GraphShowingPartStdAssignProject extends StatelessWidget {
             flex: 1,
             child: Padding(
               padding: EdgeInsets.only(top: 10),
-              child: ExamGraphOfStd(),
+              child:  AssignmentProjectGraph(),
             ),
           ),
         ],
