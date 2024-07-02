@@ -96,6 +96,7 @@ class _UploadHomeworkToTeacherState extends State<UploadHomeworkToTeacher> {
         'homeWorkName': widget.homeWorkName,
         'homeworkID': widget.homeworkID,
         'downloadUrl': downloadUrl,
+          'submittedDate': Timestamp.now(),
         'docid': UserCredentialsController.studentModel!.docid,
         'uploadedBy': UserCredentialsController.studentModel!.studentName
       }).then((value) => showDialog(

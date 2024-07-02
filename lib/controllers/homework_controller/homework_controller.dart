@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/utils/utils.dart';
@@ -22,6 +23,7 @@ class HomeWorkListController extends GetxController {
           .doc(docID)
           .update({
         'Status': status.value,
+        'submittedDate': status.value ? FieldValue.serverTimestamp() : null,
         'downloadUrl': '',
       }).then(
         (value) => log('update completed'),
@@ -50,6 +52,7 @@ class HomeWorkListController extends GetxController {
         'Status': true,
         'homeWorkName': homeWorkName,
         'homeworkID': homeworkID,
+        'submittedDate': FieldValue.serverTimestamp(),
         'downloadUrl': '',
         'docid': studentid,
         'uploadedBy': studentName

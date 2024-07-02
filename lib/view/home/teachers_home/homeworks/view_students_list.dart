@@ -2,6 +2,7 @@ import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:lepton_school/controllers/homework_controller/homework_controller.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/utils/utils.dart';
@@ -95,6 +96,18 @@ class ViewStudentsList extends StatelessWidget {
                       bool isChecked = isInSecondCollection &&
                           secondCollection.firstWhere(
                               (doc) => doc.id == studentID)['Status'];
+                              
+                                final dynamic submittedDate = isInSecondCollection
+      ? secondCollection.firstWhere((doc) => doc.id == studentID)['submittedDate']
+      : null;
+  String formattedDate = 'Not submitted yet';
+
+  if (submittedDate is Timestamp) {
+    formattedDate = DateFormat('yyyy-MM-dd').format(submittedDate.toDate());
+  } else if (submittedDate is String) {
+    const Text("Today");
+  }
+
                       return Container(
                         decoration: const BoxDecoration(
                             // color: Color.fromARGB(236, 228, 244, 255),
@@ -198,51 +211,62 @@ class ViewStudentsList extends StatelessWidget {
                           ),
                           subtitle: Padding(
                             padding: EdgeInsets.only(top: 10.h),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                              
                               children: [
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    GooglePoppinsWidgets(
-                                      text: "Status :  ",
-                                      fontsize: 15.h,
-                                      fontWeight: FontWeight.w500,
+                                    Row(
+                                      children: [
+                                        GooglePoppinsWidgets(
+                                          text: "Status :  ",
+                                          fontsize: 15.h,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        GooglePoppinsWidgets(
+                                          text: isChecked
+                                              ? "Completed"
+                                              : "Not completed",
+                                          fontsize: 15.h,
+                                          color: isChecked ? Colors.green : cred,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ],
                                     ),
-                                    GooglePoppinsWidgets(
-                                      text: isChecked
-                                          ? "Completed"
-                                          : "Not completed",
-                                      fontsize: 15.h,
-                                      color: isChecked ? Colors.green : cred,
-                                      fontWeight: FontWeight.w500,
+                                    Checkbox(
+                                      value: isInSecondCollection == true
+                                          ? isChecked
+                                          : false,
+                                      activeColor: Colors.green,
+                                      onChanged: (value) {
+                                        if (isInSecondCollection == true) {
+                                          homeWorkController.status.value = value!;
+                                          homeWorkController.updateCompleteStatus(
+                                              homeworkID: homeworkID,
+                                              docID: secondCollection.firstWhere(
+                                                      (doc) => doc.id == studentID)[
+                                                  'docid']);
+                                        } else {
+                                          homeWorkController
+                                              .setUpdateCompleteStatus(
+                                            studentid: studentID,
+                                            homeWorkName: homeWorkName,
+                                            homeworkID: homeworkID,
+                                            studentName: firstCollection[index]
+                                                ['studentName'],
+                                          );
+                                        }
+                                      },
                                     ),
                                   ],
                                 ),
-                                Checkbox(
-                                  value: isInSecondCollection == true
-                                      ? isChecked
-                                      : false,
-                                  activeColor: Colors.green,
-                                  onChanged: (value) {
-                                    if (isInSecondCollection == true) {
-                                      homeWorkController.status.value = value!;
-                                      homeWorkController.updateCompleteStatus(
-                                          homeworkID: homeworkID,
-                                          docID: secondCollection.firstWhere(
-                                                  (doc) => doc.id == studentID)[
-                                              'docid']);
-                                    } else {
-                                      homeWorkController
-                                          .setUpdateCompleteStatus(
-                                        studentid: studentID,
-                                        homeWorkName: homeWorkName,
-                                        homeworkID: homeworkID,
-                                        studentName: firstCollection[index]
-                                            ['studentName'],
-                                      );
-                                    }
-                                  },
+                                Row(
+                                  children: [
+                                    GooglePoppinsWidgets(text:"Submitted Date: $formattedDate", fontsize: 15.h),
+                                  ],
                                 ),
+
                               ],
                             ),
                           ),
