@@ -20,7 +20,7 @@ attendanceOnClickDetailsShowing() {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          return Center(child: Text('Error: '));
         } else if (snapshot.hasData) {
           final presentDays = snapshot.data!;
          
@@ -170,6 +170,7 @@ attendanceOnClickDetailsShowing() {
                       .collection('Students')
                       .doc(UserCredentialsController.studentModel?.docid)
                       .collection('MyAttendenceList')
+                      .where('present', isEqualTo: false)
                       .snapshots(),
                     builder: (context, dayssnaps) {
                      

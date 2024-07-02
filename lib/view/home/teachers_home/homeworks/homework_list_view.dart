@@ -41,7 +41,7 @@ class HomeworksListView extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
             if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
+              return Center(child: Text('Error: '));
             }
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
               return const Center(child: Text('No data available'));

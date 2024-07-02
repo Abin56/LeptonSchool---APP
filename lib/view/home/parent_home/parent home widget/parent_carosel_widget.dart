@@ -1,12 +1,11 @@
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lepton_school/controllers/graph_controller/exam_graph/prnt_examresult_graph.dart';
 import 'package:lepton_school/controllers/graph_controller/students_Graph/attendence_grphStatus.dart';
 import 'package:lepton_school/view/colors/colors.dart';
 import 'package:lepton_school/view/home/parent_home/graph_std/attendance_std_prnt.dart';
-import 'package:lepton_school/view/home/parent_home/graph_std/exm_std.dart';
+import 'package:lepton_school/view/home/parent_home/graph_std/exm_std_prnt.dart';
 import 'package:lepton_school/view/home/parent_home/graph_std/homework_std_g.dart';
 import 'package:lepton_school/view/home/parent_home/graph_std/pie%20chart/pie_chart.dart';
 import 'package:lepton_school/view/home/parent_home/graph_std/project_assignmnt_chart.dart';
@@ -64,9 +63,11 @@ class CarouselSliderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final studentAttendenceGrpghStatus =
-        Get.put(StudentAttendenceGrpghStatus());
+     final studentAttendenceGrpghStatus =Get.put(StudentAttendenceGrpghStatus());
     studentAttendenceGrpghStatus.fetchStudentAttendenceToParent();
+
+    final parentExamResultGraphController =  Get.put(ParentExamResultGraphController());
+    parentExamResultGraphController.getStudentExamStatus();
     // ignore: avoid_unnecessary_containers
     return CarouselSlider(
       items: [
@@ -77,12 +78,27 @@ class CarouselSliderWidget extends StatelessWidget {
           count: '100/200',
           clicktext: '',
         ),
-        CaroselmageWidget(
-          sliderWidget: graphList[1],
-          slidertext: 'Exam Result',
-          slidersecondtext: 'Average',
-          count: '100/200',
-          clicktext: '',
+        FutureBuilder(
+          future: parentExamResultGraphController.examgraphData(),
+                    builder: (context, snapshotTotalExam) {
+                      if (snapshotTotalExam.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshotTotalExam.hasError) {
+                        return const Center(child: Text('Error:'));
+                      }
+               final examData = snapshotTotalExam.data ?? {'studentExamPassTotalCount': 0, 'totalExamCount': 0};
+              final passCount = examData['studentExamPassTotalCount']!;
+              final totalExams = examData['totalExamCount']!;
+                     
+            return CaroselmageWidget(
+              sliderWidget: graphList[1],
+              slidertext: 'Exam Result',
+              slidersecondtext: 'Average',
+              count: '$passCount/$totalExams',
+              clicktext: '',
+            );
+          }
         ),
         GestureDetector(
           onTap: () {
@@ -111,8 +127,6 @@ class CarouselSliderWidget extends StatelessWidget {
                       }
 
                       final totalDays = snapshotTotalDays.data ?? 0;
-                      log('Present Days: $presentDays');
-                      log('Total Days: $totalDays');
                       return CaroselmageWidget(
                         sliderWidget: graphList[2],
                         slidertext: 'Attendance',
@@ -133,7 +147,7 @@ class CarouselSliderWidget extends StatelessWidget {
         enlargeCenterPage: true,
         autoPlay: true,
         autoPlayInterval: const Duration(seconds: 2),
-        autoPlayAnimationDuration: const Duration(milliseconds: 800),
+        autoPlayAnimationDuration: const Duration(seconds: 2),
         autoPlayCurve: Curves.fastOutSlowIn,
       ),
     );
@@ -213,7 +227,7 @@ class CaroselmageWidget extends StatelessWidget {
 
 final List<Widget> graphList = [
   const HomeWorkGraph(),
-  const ExamResultGraph(),
+  const ExamResultGraphPrnt(),
   const AttendanceGraphOfStudentPrnt(),
   const StdProjectAndAssignmnetGraph()
 ];
