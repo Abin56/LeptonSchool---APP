@@ -40,6 +40,7 @@ class _ExamResultsViewState extends State<ExamResultsView> {
 
   TextEditingController obtainedGrade = TextEditingController();
   TextEditingController passmark = TextEditingController();
+   TextEditingController maximummark = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +117,19 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                             //textEditingController: ,
                           ),
                         ),
+                         Padding(
+                          padding: EdgeInsets.only(
+                            left: 30.w,
+                            right: 30.w,
+                          ),
+                          child: TextFormFieldWidget(
+                            textEditingController: maximummark,
+                            labelText: "Enter Maximum Mark".tr,
+                            keyboardType: TextInputType.number,
+                            function: checkFieldForNonNumeric,
+                            //textEditingController: ,
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.only(
                             left: 30.w,
@@ -179,14 +193,11 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                                       'studentName': allClassStudentsListValue![
                                           'studentName'],
                                       'obtainedMark': obtainedMark.text.trim(),
-                                      'obtainedGrade':
-                                          obtainedGrade.text.trim(),
-                                      'subjectName':
-                                          teacherSubjectValue!['subjectName'],
-                                      'studentid':
-                                          allClassStudentsListValue!['docid'],
-                                      'passMark':
-                                          passmark.text.trim().toString()
+                                      'obtainedGrade':obtainedGrade.text.trim(),
+                                      'subjectName': teacherSubjectValue!['subjectName'],
+                                      'studentid': allClassStudentsListValue!['docid'],
+                                      'passMark':  passmark.text.trim().toString(),
+                                      'maximumMark':maximummark.text.trim(),
                                     }, SetOptions(merge: true)).then(
                                             (value) async {
                                       log('start - 3  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
@@ -275,7 +286,8 @@ class _ExamResultsViewState extends State<ExamResultsView> {
                                                 allClassStudentsListValue![
                                                     'docid'],
                                             'passMark':
-                                                passmark.text.trim().toString()
+                                                passmark.text.trim().toString(),
+                                                'maximumMark':maximummark.text.trim()
                                           }).then((value) {
                                             log('start - 6  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
                                             setState(() {
