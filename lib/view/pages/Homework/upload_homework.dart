@@ -1,7 +1,6 @@
 import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:lepton_school/controllers/homework_controller/homework_controller.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/utils/utils.dart';
@@ -166,10 +165,7 @@ class UploadHomework extends StatelessWidget {
         fontWeight: FontWeight.bold,
       ),
     ),
-    Text(
-      snapshot.data!['submittedDate'] != null
-      ? DateFormat('dd/MM/yyyy').format(snapshot.data!['submittedDate'].toDate())
-          : "Not Submitted",
+    Text(snapshot.data!['submittedDate'] ?? "Not Submitted",
       style: TextStyle(
         fontSize: 20.h,
         fontWeight: FontWeight.bold,

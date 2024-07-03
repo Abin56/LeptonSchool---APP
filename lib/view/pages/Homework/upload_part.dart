@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:lepton_school/controllers/form_controller/form_controller.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/model/Signup_Image_Selction/image_selection.dart';
@@ -78,6 +79,8 @@ class _UploadHomeworkToTeacherState extends State<UploadHomeworkToTeacher> {
   Future<void> uploadToFirebase() async {
     try {
       // String uid = const Uuid().v1();
+       String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
+       
       FirebaseFirestore.instance
           .collection('SchoolListCollection')
           .doc(UserCredentialsController.schoolId)
@@ -96,7 +99,7 @@ class _UploadHomeworkToTeacherState extends State<UploadHomeworkToTeacher> {
         'homeWorkName': widget.homeWorkName,
         'homeworkID': widget.homeworkID,
         'downloadUrl': downloadUrl,
-          'submittedDate': Timestamp.now(),
+          'submittedDate': formattedDate,
         'docid': UserCredentialsController.studentModel!.docid,
         'uploadedBy': UserCredentialsController.studentModel!.studentName
       }).then((value) => showDialog(

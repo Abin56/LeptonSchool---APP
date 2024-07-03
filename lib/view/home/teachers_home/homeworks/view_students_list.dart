@@ -96,17 +96,21 @@ class ViewStudentsList extends StatelessWidget {
                       bool isChecked = isInSecondCollection &&
                           secondCollection.firstWhere(
                               (doc) => doc.id == studentID)['Status'];
-                              
-                                final dynamic submittedDate = isInSecondCollection
-      ? secondCollection.firstWhere((doc) => doc.id == studentID)['submittedDate']
-      : null;
-  String formattedDate = 'Not submitted yet';
 
-  if (submittedDate is Timestamp) {
-    formattedDate = DateFormat('yyyy-MM-dd').format(submittedDate.toDate());
-  } else if (submittedDate is String) {
-    const Text("Today");
-  }
+                      final dynamic submittedDate = isInSecondCollection
+                          ? secondCollection.firstWhere(
+                              (doc) => doc.id == studentID)['submittedDate']
+                          : null;
+                      String formattedDate = 'Not submitted yet';
+
+                      if (submittedDate != null) {
+                        if (submittedDate is String) {
+                          formattedDate = submittedDate;
+                        } else if (submittedDate is Timestamp) {
+                          formattedDate = DateFormat('yyyy-MM-dd')
+                              .format(submittedDate.toDate());
+                        }
+                      }
 
                       return Container(
                         decoration: const BoxDecoration(
@@ -211,11 +215,12 @@ class ViewStudentsList extends StatelessWidget {
                           ),
                           subtitle: Padding(
                             padding: EdgeInsets.only(top: 10.h),
-                            child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                              
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       children: [
@@ -229,7 +234,8 @@ class ViewStudentsList extends StatelessWidget {
                                               ? "Completed"
                                               : "Not completed",
                                           fontsize: 15.h,
-                                          color: isChecked ? Colors.green : cred,
+                                          color:
+                                              isChecked ? Colors.green : cred,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ],
@@ -241,12 +247,15 @@ class ViewStudentsList extends StatelessWidget {
                                       activeColor: Colors.green,
                                       onChanged: (value) {
                                         if (isInSecondCollection == true) {
-                                          homeWorkController.status.value = value!;
-                                          homeWorkController.updateCompleteStatus(
-                                              homeworkID: homeworkID,
-                                              docID: secondCollection.firstWhere(
-                                                      (doc) => doc.id == studentID)[
-                                                  'docid']);
+                                          homeWorkController.status.value =
+                                              value!;
+                                          homeWorkController
+                                              .updateCompleteStatus(
+                                                  homeworkID: homeworkID,
+                                                  docID: secondCollection
+                                                      .firstWhere((doc) =>
+                                                          doc.id ==
+                                                          studentID)['docid']);
                                         } else {
                                           homeWorkController
                                               .setUpdateCompleteStatus(
@@ -263,10 +272,11 @@ class ViewStudentsList extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    GooglePoppinsWidgets(text:"Submitted Date: $formattedDate", fontsize: 15.h),
+                                    GooglePoppinsWidgets(
+                                        text: "Submitted Date: $formattedDate",
+                                        fontsize: 15.h),
                                   ],
                                 ),
-
                               ],
                             ),
                           ),
