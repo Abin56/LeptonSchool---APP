@@ -1,8 +1,9 @@
 import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lepton_school/controllers/graph_controller/attendance_Graph/attendence_grphStatus.dart';
 import 'package:lepton_school/controllers/graph_controller/exam_graph/std_exam_graph.dart';
-import 'package:lepton_school/controllers/graph_controller/students_Graph/attendence_grphStatus.dart';
+import 'package:lepton_school/controllers/graph_controller/parent_Graphs/home_work_graph.dart';
 import 'package:lepton_school/view/colors/colors.dart';
 import 'package:lepton_school/view/home/student_home/graph_std/assignment_project_std.dart';
 import 'package:lepton_school/view/home/student_home/graph_std/attendance_std_g.dart';
@@ -146,6 +147,13 @@ class GraphShowingPartStdHomework extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    final StudentHomeWorkGraphController homewrkCntrltoStd = Get.put(StudentHomeWorkGraphController());
+
+    return Obx(() {
+      final completed = homewrkCntrltoStd.completedHomeWorkCount.value;
+      final total = homewrkCntrltoStd.totalHomeWorkCount.value;
+      final pending = total - completed;
     return Container(
       height: 190.h,
       decoration: const BoxDecoration(boxShadow: [
@@ -194,7 +202,7 @@ class GraphShowingPartStdHomework extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 05, left: 25),
                   child: Text(
-                    '200/300',
+                  '$completed/$total',
                     style:
                         TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
                   ),
@@ -202,12 +210,13 @@ class GraphShowingPartStdHomework extends StatelessWidget {
               ],
             ),
           ),
-          const Expanded(
+           Expanded(
             flex: 1,
             child: Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: HomeWorkGraphOfStd(  pending: 5,
-        completed: 15,
+              padding: const EdgeInsets.only(top: 10),
+              child: HomeWorkGraphOfStd(    
+                pending: pending,
+                  completed: completed,
         //total: 21,
         ),
             ),
@@ -215,6 +224,7 @@ class GraphShowingPartStdHomework extends StatelessWidget {
         ],
       ),
     );
+      }); //
   }
 }
 

@@ -335,15 +335,15 @@ class AttendanceController extends GetxController {
               .collection('AttendenceList')
               .get()
               .then((value) async {
-            totalStudent = value.docs.length;
-            for (var i = 0; i < value.docs.length; i++) {
+              totalStudent = value.docs.length;
+              for (var i = 0; i < value.docs.length; i++) {
               if (value.docs[i].data()['present'] == true) {
                 presentStudents = presentStudents + 1;
-              } else {
+                } else {
                 absentStudents = absentStudents + 1;
               }
-            }
-            await server
+             }
+             await server
                 .collection(UserCredentialsController.batchId!)
                 .doc(UserCredentialsController.batchId)
                 .collection('TodayActiveClasses')

@@ -20,8 +20,8 @@ class CarouselSliderStd extends StatelessWidget {
         height: 200.w,
         enlargeCenterPage: true,
         autoPlay: true,
-        autoPlayInterval: const Duration(seconds: 2),
-        autoPlayAnimationDuration: const Duration(milliseconds: 800),
+        autoPlayInterval: const Duration(seconds: 4),
+        autoPlayAnimationDuration: const Duration(seconds: 2),
         autoPlayCurve: Curves.fastOutSlowIn,
       ),);
   }

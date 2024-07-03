@@ -1,14 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lepton_school/controllers/graph_controller/attendance_Graph/attendence_grphStatus.dart';
 import 'package:lepton_school/controllers/graph_controller/exam_graph/prnt_examresult_graph.dart';
-import 'package:lepton_school/controllers/graph_controller/students_Graph/attendence_grphStatus.dart';
+import 'package:lepton_school/controllers/graph_controller/parent_Graphs/home_work_graph.dart';
 import 'package:lepton_school/view/colors/colors.dart';
-import 'package:lepton_school/view/home/parent_home/graph_std/attendance_std_prnt.dart';
-import 'package:lepton_school/view/home/parent_home/graph_std/exm_std_prnt.dart';
-import 'package:lepton_school/view/home/parent_home/graph_std/homework_std_g.dart';
-import 'package:lepton_school/view/home/parent_home/graph_std/pie%20chart/pie_chart.dart';
-import 'package:lepton_school/view/home/parent_home/graph_std/project_assignmnt_chart.dart';
+import 'package:lepton_school/view/home/parent_home/graph_prnt/attendance_std_prnt.dart';
+import 'package:lepton_school/view/home/parent_home/graph_prnt/exm_std_prnt.dart';
+import 'package:lepton_school/view/home/parent_home/graph_prnt/homework_prnt_graph.dart';
+import 'package:lepton_school/view/home/parent_home/graph_prnt/pie%20chart/pie_chart.dart';
+import 'package:lepton_school/view/home/parent_home/graph_prnt/project_assignmnt_chart.dart';
 import 'package:lepton_school/view/widgets/fonts/google_poppins.dart';
 
 class ParentCaroselWidget extends StatelessWidget {
@@ -68,16 +69,24 @@ class CarouselSliderWidget extends StatelessWidget {
 
     final parentExamResultGraphController =  Get.put(ParentExamResultGraphController());
     parentExamResultGraphController.getStudentExamStatus();
+
+     final studentHomeWorkGraphController = Get.put(StudentHomeWorkGraphController());
     // ignore: avoid_unnecessary_containers
     return CarouselSlider(
       items: [
-        CaroselmageWidget(
-          sliderWidget: graphList[0],
-          slidertext: 'Homework',
-          slidersecondtext: 'Average',
-          count: '100/200',
-          clicktext: '',
-        ),
+       Obx(() {
+          final completed = studentHomeWorkGraphController.completedHomeWorkCount.value;
+          final total = studentHomeWorkGraphController.totalHomeWorkCount.value;
+          final count = '$completed/$total';
+
+          return CaroselmageWidget(
+            sliderWidget: graphList[0],
+            slidertext: 'Homework',
+            slidersecondtext: 'Average',
+            count: count,
+            clicktext: '',
+          );
+        }),
         FutureBuilder(
           future: parentExamResultGraphController.examgraphData(),
                     builder: (context, snapshotTotalExam) {
@@ -146,7 +155,7 @@ class CarouselSliderWidget extends StatelessWidget {
         height: 220,
         enlargeCenterPage: true,
         autoPlay: true,
-        autoPlayInterval: const Duration(seconds: 2),
+        autoPlayInterval: const Duration(seconds: 4),
         autoPlayAnimationDuration: const Duration(seconds: 2),
         autoPlayCurve: Curves.fastOutSlowIn,
       ),
@@ -226,7 +235,7 @@ class CaroselmageWidget extends StatelessWidget {
 }
 
 final List<Widget> graphList = [
-  const HomeWorkGraph(),
+  const HomeWorkGraphPrnt(),
   const ExamResultGraphPrnt(),
   const AttendanceGraphOfStudentPrnt(),
   const StdProjectAndAssignmnetGraph()

@@ -1,25 +1,26 @@
+import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lepton_school/controllers/graph_controller/parent_Graphs/home_work_graph.dart';
 import 'package:lepton_school/view/colors/colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class HomeWorkGraphOfStd extends StatefulWidget {
-  const HomeWorkGraphOfStd({
-    super.key,
-    required this.completed,
-    required this.pending,
-    // required this.total
-  });
+class HomeWorkGraphOfPrnt extends StatefulWidget {
+  const HomeWorkGraphOfPrnt(
+      {super.key,
+      required this.completed,
+      required this.pending,
+      required this.total});
 
   final int completed;
   final int pending;
-  //final int total;
+  final int total;
 
   @override
-  State<HomeWorkGraphOfStd> createState() => _HomeWorkGraphOfStdState();
+  State<HomeWorkGraphOfPrnt> createState() => _HomeWorkGraphOfPrntState();
 }
-class _HomeWorkGraphOfStdState extends State<HomeWorkGraphOfStd> {
+
+class _HomeWorkGraphOfPrntState extends State<HomeWorkGraphOfPrnt> {
   final StudentHomeWorkGraphController homewrokController = Get.put(StudentHomeWorkGraphController());
 
   @override
@@ -29,7 +30,6 @@ class _HomeWorkGraphOfStdState extends State<HomeWorkGraphOfStd> {
   }
   @override
   Widget build(BuildContext context) {
-   // double totalhomeworks = homewrokController.fetchingTotalHomeworkCount();
      return Obx(() {
       final completed = homewrokController.completedHomeWorkCount.value;
       final total = homewrokController.totalHomeWorkCount.value;
@@ -40,22 +40,10 @@ class _HomeWorkGraphOfStdState extends State<HomeWorkGraphOfStd> {
         ChartData('Pending', pending.toDouble(), const Color.fromARGB(255, 255, 0, 0)),
       ];
 
-    // final List<ChartData> chartData = [
-    //   ChartData('completed', widget.completed.toDouble(),
-    //       const Color.fromARGB(255, 65, 125, 252)),
-    //   ChartData('pending', widget.pending.toDouble(),
-    //       const Color.fromARGB(255, 255, 0, 0)),
-    //   // ChartData('Pending', widget.pending.toDouble(),
-    //   //     const Color.fromARGB(255, 255, 251, 0))
-
-    //   // ChartData('Jack', 34, const Color.fromRGBO(228, 0, 124, 1)),
-    //   // ChartData('Others', 52, const Color.fromRGBO(255, 189, 57, 1))
-    // ];
     return SfCircularChart(
       annotations: <CircularChartAnnotation>[
         CircularChartAnnotation(
-            height:
-                '100%', // Setting height and width for the circular chart annotation
+            height:'100%', // Setting height and width for the circular chart annotation
             width: '100%',
             widget: PhysicalModel(
                 shape: BoxShape.circle,
@@ -63,16 +51,21 @@ class _HomeWorkGraphOfStdState extends State<HomeWorkGraphOfStd> {
                 shadowColor: Colors.black,
                 color: const Color.fromRGBO(230, 230, 230, 1),
                 child: Container())),
+
         CircularChartAnnotation(
             widget: Text(total.toString(),
-                style: const TextStyle(color: Colors.black, fontSize: 23)))
+                style: const TextStyle(color: Colors.black, fontSize: 23))),
+
+                
       ],
       series: <DoughnutSeries<ChartData, String>>[
         DoughnutSeries<ChartData, String>(
-          innerRadius: '50%',
+          innerRadius: '40%',
           dataSource: chartData,
           animationDuration: 1,
-          dataLabelSettings: const DataLabelSettings(isVisible: true),
+          dataLabelSettings:   DataLabelSettings(
+            textStyle:  TextStyle(fontSize: 15.sp,fontWeight: FontWeight.w500),
+            isVisible: true),
           xValueMapper: (ChartData data, _) => data.x,
           yValueMapper: (ChartData data, _) => data.y,
           pointColorMapper: (data, index) => data.color,
@@ -90,10 +83,10 @@ class ChartData {
   final Color color;
 }
 
-class HomeWorkGraph extends StatelessWidget {
-  const HomeWorkGraph({super.key});
+class HomeWorkGraphPrnt extends StatelessWidget {
+  const HomeWorkGraphPrnt({super.key});
 
-   @override
+  @override
   Widget build(BuildContext context) {
     final StudentHomeWorkGraphController homewrkCntrl = Get.put(StudentHomeWorkGraphController());
 
@@ -103,15 +96,15 @@ class HomeWorkGraph extends StatelessWidget {
       final pending = total - completed;
 
       return Container(
-        height: 200,
-        width: 200,
+        height: 250,
+        width: 250,
         color: cWhite,
-        child: HomeWorkGraphOfStd(
-          pending: pending,
-          completed: completed,
-        ),
-      );
-    });
+        child: HomeWorkGraphOfPrnt(
+        pending: pending,
+        completed: completed,
+        total: total,
+      ),
+    );
+     });
   }
 }
-
