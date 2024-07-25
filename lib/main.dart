@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,7 +24,6 @@ import 'package:lepton_school/view/pages/login/dujo_login_screen.dart';
 import 'package:lepton_school/view/pages/splash_screen/splash_screen.dart';
 // import 'package:play_video/play_video.dart';
 import 'package:provider/provider.dart';
-
 import 'controllers/bloc/user_phone_otp/auth_cubit.dart';
 import 'helper/shared_pref_helper.dart';
 import 'local_database/parent_login_database.dart';
