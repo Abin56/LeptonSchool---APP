@@ -1,6 +1,6 @@
 import 'dart:developer';
-
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/utils/utils.dart';
 
@@ -11,6 +11,7 @@ class HomeWorkListController extends GetxController {
   updateCompleteStatus(
       {required String homeworkID, required String docID}) async {
     try {
+      String? formattedDate = status.value ? DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now()) : null;
       await server
           .collection(UserCredentialsController.batchId!)
           .doc(UserCredentialsController.batchId)
@@ -22,6 +23,7 @@ class HomeWorkListController extends GetxController {
           .doc(docID)
           .update({
         'Status': status.value,
+        'submittedDate': formattedDate,
         'downloadUrl': '',
       }).then(
         (value) => log('update completed'),
@@ -37,6 +39,7 @@ class HomeWorkListController extends GetxController {
       required String homeworkID,
       required String studentName}) async {
     try {
+      String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
       await server
           .collection(UserCredentialsController.batchId!)
           .doc(UserCredentialsController.batchId)
@@ -50,6 +53,7 @@ class HomeWorkListController extends GetxController {
         'Status': true,
         'homeWorkName': homeWorkName,
         'homeworkID': homeworkID,
+        'submittedDate': formattedDate,
         'downloadUrl': '',
         'docid': studentid,
         'uploadedBy': studentName

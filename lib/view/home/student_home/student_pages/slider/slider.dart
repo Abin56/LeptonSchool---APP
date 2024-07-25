@@ -10,18 +10,18 @@ class CarouselSliderStd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
-      items:  const [
+      items:   [
       GraphShowingPartStdAttendance(),
       GraphShowingPartStdExamResult(),
       GraphShowingPartStdHomework(),
-      GraphShowingPartStdAssignProject()
+    // GraphShowingPartStdAssignProject()
     ],
      options: CarouselOptions(
         height: 200.w,
         enlargeCenterPage: true,
         autoPlay: true,
-        autoPlayInterval: const Duration(seconds: 2),
-        autoPlayAnimationDuration: const Duration(milliseconds: 800),
+        autoPlayInterval: const Duration(seconds: 4),
+        autoPlayAnimationDuration: const Duration(seconds: 2),
         autoPlayCurve: Curves.fastOutSlowIn,
       ),);
   }

@@ -3,7 +3,7 @@ import 'package:lepton_school/controllers/userCredentials/user_credentials.dart'
 import 'package:lepton_school/model/exam_list_model/examresult_model.dart';
 import 'package:lepton_school/utils/utils.dart';
 
-class StudentExamResultGraphController extends GetxController {
+class ParentExamResultGraphController extends GetxController {
   final totalExamsCount = 0.obs;
   final passedExamsCount = 0.obs;
   Future<int> fetchExamResult(String exam) async {
@@ -16,7 +16,7 @@ class StudentExamResultGraphController extends GetxController {
         .collection('classes')
         .doc(UserCredentialsController.classId)
         .collection('Students')
-        .doc(UserCredentialsController.studentModel?.docid)
+        .doc(UserCredentialsController.parentModel?.studentID)
         .collection('Exam Results')
         .doc(exam)
         .collection('Marks')
@@ -53,7 +53,7 @@ class StudentExamResultGraphController extends GetxController {
           .collection('classes')
           .doc(UserCredentialsController.classId)
           .collection('Students')
-          .doc(UserCredentialsController.studentModel?.docid)
+          .doc(UserCredentialsController.parentModel?.studentID)
           .collection('Exam Results')
           .doc(examList[i])
           .collection('Marks')
@@ -100,7 +100,7 @@ class StudentExamResultGraphController extends GetxController {
         .collection('classes')
         .doc(UserCredentialsController.classId)
         .collection('Students')
-        .doc(UserCredentialsController.studentModel?.docid)
+        .doc(UserCredentialsController.parentModel?.studentID)
         .collection('Exam Results')
         .get()
         .then((value) {

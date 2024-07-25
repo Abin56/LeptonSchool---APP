@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lepton_school/controllers/graph_controller/students_Graph/attendence_grphStatus.dart';
+import 'package:lepton_school/controllers/graph_controller/attendance_Graph/attendence_grphStatus.dart';
 import 'package:lepton_school/view/colors/colors.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 

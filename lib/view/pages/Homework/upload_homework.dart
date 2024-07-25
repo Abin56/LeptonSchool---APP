@@ -155,7 +155,25 @@ class UploadHomework extends StatelessWidget {
                               ),
                             ),
                           )
-                        : const SizedBox()
+                        : const SizedBox(),
+                        Row(
+  children: [
+    Text(
+      "Submitted Date : ",
+      style: TextStyle(
+        fontSize: 20.h,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    Text(snapshot.data!['submittedDate'] ?? "Not Submitted",
+      style: TextStyle(
+        fontSize: 20.h,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  ],
+),
+
                   ],
                 );
               }

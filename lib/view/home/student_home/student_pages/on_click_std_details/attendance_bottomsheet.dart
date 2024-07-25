@@ -2,7 +2,7 @@ import 'package:adaptive_ui_layout/flutter_responsive_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:lepton_school/controllers/graph_controller/students_Graph/attendence_grphStatus.dart';
+import 'package:lepton_school/controllers/graph_controller/attendance_Graph/attendence_grphStatus.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/utils/utils.dart';
 import 'package:lepton_school/view/colors/colors.dart';
@@ -20,7 +20,7 @@ attendanceOnClickDetailsShowing() {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          return Center(child: Text('Error: '));
         } else if (snapshot.hasData) {
           final presentDays = snapshot.data!;
          
@@ -170,6 +170,7 @@ attendanceOnClickDetailsShowing() {
                       .collection('Students')
                       .doc(UserCredentialsController.studentModel?.docid)
                       .collection('MyAttendenceList')
+                      .where('present', isEqualTo: false)
                       .snapshots(),
                     builder: (context, dayssnaps) {
                      

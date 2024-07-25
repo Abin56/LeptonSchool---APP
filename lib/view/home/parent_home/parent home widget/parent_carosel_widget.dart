@@ -1,15 +1,15 @@
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lepton_school/controllers/graph_controller/students_Graph/attendence_grphStatus.dart';
+import 'package:lepton_school/controllers/graph_controller/attendance_Graph/attendence_grphStatus.dart';
+import 'package:lepton_school/controllers/graph_controller/exam_graph/prnt_examresult_graph.dart';
+import 'package:lepton_school/controllers/graph_controller/parent_Graphs/home_work_graph.dart';
 import 'package:lepton_school/view/colors/colors.dart';
-import 'package:lepton_school/view/home/parent_home/graph_std/attendance_std_prnt.dart';
-import 'package:lepton_school/view/home/parent_home/graph_std/exm_std.dart';
-import 'package:lepton_school/view/home/parent_home/graph_std/homework_std_g.dart';
-import 'package:lepton_school/view/home/parent_home/graph_std/pie%20chart/pie_chart.dart';
-import 'package:lepton_school/view/home/parent_home/graph_std/project_assignmnt_chart.dart';
+import 'package:lepton_school/view/home/parent_home/graph_prnt/attendance_std_prnt.dart';
+import 'package:lepton_school/view/home/parent_home/graph_prnt/exm_std_prnt.dart';
+import 'package:lepton_school/view/home/parent_home/graph_prnt/homework_prnt_graph.dart';
+import 'package:lepton_school/view/home/parent_home/graph_prnt/pie%20chart/pie_chart.dart';
+import 'package:lepton_school/view/home/parent_home/graph_prnt/project_assignmnt_chart.dart';
 import 'package:lepton_school/view/widgets/fonts/google_poppins.dart';
 
 class ParentCaroselWidget extends StatelessWidget {
@@ -64,25 +64,50 @@ class CarouselSliderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final studentAttendenceGrpghStatus =
-        Get.put(StudentAttendenceGrpghStatus());
+     final studentAttendenceGrpghStatus =Get.put(StudentAttendenceGrpghStatus());
     studentAttendenceGrpghStatus.fetchStudentAttendenceToParent();
+
+    final parentExamResultGraphController =  Get.put(ParentExamResultGraphController());
+    parentExamResultGraphController.getStudentExamStatus();
+
+     final studentHomeWorkGraphController = Get.put(StudentHomeWorkGraphController());
     // ignore: avoid_unnecessary_containers
     return CarouselSlider(
       items: [
-        CaroselmageWidget(
-          sliderWidget: graphList[0],
-          slidertext: 'Homework',
-          slidersecondtext: 'Average',
-          count: '100/200',
-          clicktext: '',
-        ),
-        CaroselmageWidget(
-          sliderWidget: graphList[1],
-          slidertext: 'Exam Result',
-          slidersecondtext: 'Average',
-          count: '100/200',
-          clicktext: '',
+       Obx(() {
+          final completed = studentHomeWorkGraphController.completedHomeWorkCount.value;
+          final total = studentHomeWorkGraphController.totalHomeWorkCount.value;
+          final count = '$completed/$total';
+
+          return CaroselmageWidget(
+            sliderWidget: graphList[0],
+            slidertext: 'Homework',
+            slidersecondtext: 'Average',
+            count: count,
+            clicktext: '',
+          );
+        }),
+        FutureBuilder(
+          future: parentExamResultGraphController.examgraphData(),
+                    builder: (context, snapshotTotalExam) {
+                      if (snapshotTotalExam.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshotTotalExam.hasError) {
+                        return const Center(child: Text('Error:'));
+                      }
+               final examData = snapshotTotalExam.data ?? {'studentExamPassTotalCount': 0, 'totalExamCount': 0};
+              final passCount = examData['studentExamPassTotalCount']!;
+              final totalExams = examData['totalExamCount']!;
+                     
+            return CaroselmageWidget(
+              sliderWidget: graphList[1],
+              slidertext: 'Exam Result',
+              slidersecondtext: 'Average',
+              count: '$passCount/$totalExams',
+              clicktext: '',
+            );
+          }
         ),
         GestureDetector(
           onTap: () {
@@ -111,8 +136,6 @@ class CarouselSliderWidget extends StatelessWidget {
                       }
 
                       final totalDays = snapshotTotalDays.data ?? 0;
-                      log('Present Days: $presentDays');
-                      log('Total Days: $totalDays');
                       return CaroselmageWidget(
                         sliderWidget: graphList[2],
                         slidertext: 'Attendance',
@@ -132,8 +155,8 @@ class CarouselSliderWidget extends StatelessWidget {
         height: 220,
         enlargeCenterPage: true,
         autoPlay: true,
-        autoPlayInterval: const Duration(seconds: 2),
-        autoPlayAnimationDuration: const Duration(milliseconds: 800),
+        autoPlayInterval: const Duration(seconds: 4),
+        autoPlayAnimationDuration: const Duration(seconds: 2),
         autoPlayCurve: Curves.fastOutSlowIn,
       ),
     );
@@ -212,8 +235,8 @@ class CaroselmageWidget extends StatelessWidget {
 }
 
 final List<Widget> graphList = [
-  const HomeWorkGraph(),
-  const ExamResultGraph(),
+  const HomeWorkGraphPrnt(),
+  const ExamResultGraphPrnt(),
   const AttendanceGraphOfStudentPrnt(),
   const StdProjectAndAssignmnetGraph()
 ];

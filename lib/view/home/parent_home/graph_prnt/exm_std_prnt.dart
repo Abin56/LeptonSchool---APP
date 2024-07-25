@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lepton_school/controllers/graph_controller/exam_graph/std_exam_graph.dart';
+import 'package:lepton_school/controllers/graph_controller/exam_graph/prnt_examresult_graph.dart';
+import 'package:lepton_school/view/colors/colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class ExamGraphOfStd extends StatelessWidget {
-  ExamGraphOfStd({super.key});
+class ExamGraphOfPrnt extends StatelessWidget {
+  final ParentExamResultGraphController controller = Get.put(ParentExamResultGraphController());
+  ExamGraphOfPrnt({super.key});
 
-  final StudentExamResultGraphController controller =
-      Get.put(StudentExamResultGraphController());
 
   @override
   Widget build(BuildContext context) {
@@ -103,16 +103,12 @@ class ChartData {
   final double y2; // Failed exams
 }
 
-class ExamResultGraph extends StatelessWidget {
-  const ExamResultGraph({super.key});
+class ExamResultGraphPrnt extends StatelessWidget {
+  const ExamResultGraphPrnt({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400, // Adjust height as needed
-      width: double.infinity,
-      color: Colors.white,
-      child: ExamGraphOfStd(),
-    );
+        height: 200, width: 200, color: cWhite, child:  ExamGraphOfPrnt());
   }
 }

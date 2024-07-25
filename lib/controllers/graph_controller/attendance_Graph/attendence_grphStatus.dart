@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:lepton_school/controllers/userCredentials/user_credentials.dart';
 import 'package:lepton_school/utils/utils.dart';
@@ -24,7 +22,7 @@ class StudentAttendenceGrpghStatus extends GetxController {
             }
           }
        
-          log(studentAttendanceTotalCount.toString());
+        //  log(studentAttendanceTotalCount.toString());
         });
         return studentAttendanceTotalCount;
   }
@@ -60,7 +58,7 @@ class StudentAttendenceGrpghStatus extends GetxController {
             }
           }
        
-          log(studentTotalAttendanceCount.toString());
+        //  log(studentTotalAttendanceCount.toString());
         });
         return studentTotalAttendanceCount;
   }
